@@ -3,11 +3,6 @@ import T from "prop-types"
 
 const Lines = ({stroke}) => (
   <g className="lines" style={{stroke}}>
-    <g className="outline">
-      <path className="line" 
-        d="M10,5 L80,5 L85,125 L5,125z"
-      />
-    </g>
     <g className="ingoal">
       <path className="line"
         d="M9.58,15 L80.42,15z"

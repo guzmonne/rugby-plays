@@ -8,9 +8,13 @@
   "dependencies": {
     "glamor": "^2.20.25",
     "glamorous": "^3.14.0",
+    "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -37,14 +37,16 @@ const Player = ({neckFill, bodyFill, headFill, bodyStroke, x, y}) => (
   </g>
 )
 
-Player.propTypes = {
+export const IPlayer = {
   neckFill: T.string,
   bodyFill: T.string,
   headFill: T.string,
   bodyStroke: T.string,
-  x: T.number,
-  y: T.number,
+  x: T.oneOfType([T.string, T.number]),
+  y: T.oneOfType([T.string, T.number]),
 }
+
+Player.propTypes = IPlayer
 
 Player.defaultProps = {
   neckFill: '#7200ff',
