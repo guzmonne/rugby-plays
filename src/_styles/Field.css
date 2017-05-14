@@ -1,0 +1,24 @@
+.Field {
+  height: 100vh;
+  width: calc(100vh * 90 / 130);
+  background-color: #7bb756;
+}
+
+.Field .line {
+  fill: transparent;
+  stroke: white;
+  stroke-width: 0.3;
+}
+
+.Field .dashed-line {
+  fill: transparent;
+  stroke: white;
+  stroke-width: 0.3;
+  stroke-dasharray: 0.2em;
+}
+
+.Field .posts {
+  stroke: grey;
+  stroke-width: 0.2;
+  fill: white;
+}

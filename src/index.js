@@ -1,7 +1,9 @@
+import './_styles/normalizr.css';
+import './_styles/index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App.js';
-import './_styles/index.css';
+import App from './containers/App.js';
 
 ReactDOM.render(
   <App />,
@@ -9,8 +11,8 @@ ReactDOM.render(
 );
 
 if (module.hot) {
-  module.hot.accept('./components/App.js', () => {
-    var NextApp = require('./components/App.js').default;
+  module.hot.accept('./containers/App.js', () => {
+    var NextApp = require('./containers/App.js').default;
     ReactDOM.render(
       <NextApp />,
       document.getElementById('root')

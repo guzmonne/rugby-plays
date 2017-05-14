@@ -6,6 +6,9 @@
     "react-scripts": "0.9.5"
   },
   "dependencies": {
+    "glamor": "^2.20.25",
+    "glamorous": "^3.14.0",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
