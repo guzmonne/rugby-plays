@@ -36,8 +36,13 @@ class Field extends React.Component {
       />
       <Lines />
       <Posts />
-      <g className="players">
-      {this.props.players.map(player => (
+      <g className="aPlayers">
+      {this.props.aPlayers.map(player => (
+        <Player key={uniqueId('player')} {...player} />
+      ))}
+      </g>
+      <g className="bPlayers">
+      {this.props.bPlayers.map(player => (
         <Player key={uniqueId('player')} {...player} />
       ))}
       </g>
@@ -46,11 +51,13 @@ class Field extends React.Component {
 }
 
 Field.propTypes = {
-  players: T.arrayOf(T.shape(IPlayer)),
+  aPlayers: T.arrayOf(T.shape(IPlayer)),
+  bPlayers: T.arrayOf(T.shape(IPlayer)),
 }
 
 Field.defaultProps = {
-  players: [],
+  aPlayers: [],
+  bPlayers: [],
 }
 
 export default Field

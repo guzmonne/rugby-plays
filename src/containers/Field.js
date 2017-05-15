@@ -22,7 +22,8 @@ class Field extends React.Component {
 
 export default connect(
   (state) => ({
-    players: state.players.list,
+    aPlayers: state.players.a,
+    bPlayers: state.players.b,
     isAddingPlayers: state.flags.isAddingPlayers,
   }), {
     addPlayer,

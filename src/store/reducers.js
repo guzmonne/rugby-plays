@@ -2,14 +2,23 @@ import {combineReducers} from 'redux'
 import * as ActionTypes from './actions.js'
 
 const players = (state={
-  list: [],
+  a: [],
+  b: [],
+  team: 'a',
 }, action) => {
   switch (action.type) {
-    case ActionTypes.ADD_PLAYER: 
-      if (state.list.length === 15) return state
+    case ActionTypes.TOGGLE_TEAM:
       return {
         ...state,
-        list: state.list.concat(action.player),
+        team: state.team === 'a' ? 'b' : 'a',
+      }
+    case ActionTypes.ADD_PLAYER: 
+      if (!action.team || state[action.team].length === 15 ) {
+        return state
+      }
+      return {
+        ...state,
+        [action.team]: state[action.team].concat(action.player),
       }
     default: return state
   }

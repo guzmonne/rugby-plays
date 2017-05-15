@@ -1,14 +1,21 @@
 import React from "react"
 import T from "prop-types"
 
-const Player = ({neckFill, bodyFill, headFill, bodyStroke, x, y}) => (
+const Player = ({neckFill, bodyFill, headFill, bodyStroke, x, y, team}) => (
   <g className="player"
-     transform={`translate(${x}, ${y}) scale(0.03)`}
+     transform={`translate(${
+       x
+      }, ${
+        y
+      }) rotate(${
+        team === 'a' ? 0 : 180
+      }) scale(0.03)`}
   >
-    <svg 
+    <svg
       width="100%"
       height="100%"
-      viewBox="0 0 147 92"
+      viewBox="0 0 32 32"
+      version="1.1"
       style={{
         fillRule: 'evenodd',
         clipRule: 'evenodd',
@@ -16,22 +23,24 @@ const Player = ({neckFill, bodyFill, headFill, bodyStroke, x, y}) => (
         strokeLinejoint: 'round',
         strokeMilterLimit: 1.5,
       }}>
-      <path 
-        d="M113.207,78.66l6.2,0l0,-45.136l27.048,0l0,47.754l-8.599,10.093l-126.659,0l-10.697,-10.093l0,-47.754l27.047,0l0,45.136l6.201,0l0,-30.574l39.729,0l39.73,0l0,30.574Z" 
-        style={{
-          fill: bodyFill,
-          stroke: bodyStroke,
-          strokeWidth: '1px',
-        }}
-      />
       <g>
         <path 
-          d="M89.686,52.527c0,-7.466 -6.062,-13.527 -13.527,-13.527l-5.363,0c-7.466,0 -13.527,6.061 -13.527,13.527l0,6.47c0,7.466 6.061,13.527 13.527,13.527l5.363,0c7.465,0 13.527,-6.061 13.527,-13.527l0,-6.47Z" style={{fill: neckFill}}
+          d="M24.426,22.021l1.315,0l0,-9.61l5.736,0l0,10.167l-1.823,2.149l-26.859,0l-2.268,-2.149l0,-10.167l5.735,0l0,9.61l1.315,0l0,-6.51l8.425,0l8.424,0l0,6.51Z"
+          style={{
+            fill: bodyFill,
+            stroke: bodyStroke,
+            strokeWidth: '1px',
+          }}
         />
-        <path 
-          d="M99.411,21.643c0,-11.945 -9.698,-21.643 -21.644,-21.643l-8.58,0c-11.945,0 -21.643,9.698 -21.643,21.643l0,23.762c0,11.945 9.698,21.644 21.643,21.644l8.58,0c11.946,0 21.644,-9.699 21.644,-21.644l0,-23.762Z"
-          style={{fill: headFill}}
-        />
+        <g>
+          <path 
+            d="M19.439,16.445c0,-1.583 -1.286,-2.868 -2.869,-2.868l-1.137,0c-1.583,0 -2.868,1.285 -2.868,2.868l0,1.401c0,1.583 1.285,2.868 2.868,2.868l1.137,0c1.583,0 2.869,-1.285 2.869,-2.868l0,-1.401Z" style={{fill: neckFill}}
+          />
+          <path 
+            d="M21.501,9.862c0,-2.533 -2.056,-4.589 -4.589,-4.589l-1.82,0c-2.533,0 -4.59,2.056 -4.59,4.589l0,5.097c0,2.533 2.057,4.59 4.59,4.59l1.82,0c2.533,0 4.589,-2.057 4.589,-4.59l0,-5.097Z"
+            style={{fill: headFill}}
+          />
+        </g>
       </g>
     </svg>
   </g>
@@ -44,6 +53,7 @@ export const IPlayer = {
   bodyStroke: T.string,
   x: T.oneOfType([T.string, T.number]),
   y: T.oneOfType([T.string, T.number]),
+  team: T.string,
 }
 
 Player.propTypes = IPlayer
@@ -55,6 +65,7 @@ Player.defaultProps = {
   bodyStroke: '#000',
   x: 0,
   y: 0,
+  team: 'a',
 }
 
 export default Player

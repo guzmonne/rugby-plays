@@ -1,6 +1,6 @@
 .Field {
   height: 100vh;
-  width: calc(100vh * 90 / 130);
+  min-width: calc(100vh * 90 / 130);
   background-color: #7bb756;
 }
 

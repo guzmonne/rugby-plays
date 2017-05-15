@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Component from '../components/LeftBar.js'
-import {toggleFlag} from '../store/actions.js'
+import {toggleFlag, toggleTeam} from '../store/actions.js'
 
 class LeftBar extends React.Component {
   render = () => (
@@ -10,7 +10,9 @@ class LeftBar extends React.Component {
 }
 
 export default connect((state) => ({
+  team: state.players.team,
   isAddingPlayers: state.flags.isAddingPlayers,
 }), {
+  toggleTeam,
   toggleAddingPlayers: () => toggleFlag('isAddingPlayers'),
 })(LeftBar)
