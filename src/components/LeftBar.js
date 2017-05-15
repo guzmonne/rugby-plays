@@ -15,6 +15,7 @@ const LeftBar = ({
   toggleRemovingPlayers,
 }) => (
   <div className="LeftBar">
+    <h1>Rugby Play</h1>
     <SelectTeamRow team={team} onClick={toggleTeam}/>
     <Row className="PlayersRow" 
       justifyContent="space-between" 
