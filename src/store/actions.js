@@ -35,6 +35,22 @@ export const toggleFlag = (flag) => ({
   type: TOGGLE_FLAG,
   flag,
 })
+
+export const switchFlag = (flagA, flagB) => (dispatch, getState) => {
+  const state = getState()
+
+  dispatch({
+    type: TOGGLE_FLAG,
+    flag: flagA,
+  })
+
+  if (state.flags[flagB] === true) {
+    dispatch({
+      type: TOGGLE_FLAG,
+      flag: flagB,
+    })
+  }
+}
 /**
  * TOGGLE TEAM
  */

@@ -6,20 +6,42 @@
   padding: 0.5em;
   outline: none;
   color: white;
-  background-color: #27ae60;
+  background-color: grey;
   border: none;
   border-radius: 0.4em;
   box-shadow: 0 0.3em #95a5a6;
 }
 
+.btn.success {
+  background-color: #27ae60;
+}
+
+.btn.danger {
+  background-color: #bd3232;
+}
+
 .btn.active,
 .btn:active {
-  background-color: #0da94f;
   box-shadow: 0 0.1em #95a5a6;
   transform: translateY(0.2em);
 }
 
-.btn.active:hover,
-.btn:hover{
+.btn.success.active,
+.btn.success:active {
+  background-color: #0da94f;
+}
+
+.btn.success.active:hover,
+.btn.success:hover{
   background-color: #2ecc71;
+}
+
+.btn.danger.active,
+.btn.danger:active {
+  background-color: #922727;
+}
+
+.btn.danger.active:hover,
+.btn.danger:hover{
+  background-color: #ef3d3d;
 }

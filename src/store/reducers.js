@@ -26,6 +26,7 @@ const players = (state={
 
 const flags = (state={
   isAddingPlayers: false,
+  isRemovingPlayers: false,
 }, action) => {
   if (
     action.type !== ActionTypes.TOGGLE_FLAG ||

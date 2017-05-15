@@ -1,10 +1,11 @@
 import '../../_styles/Icon.css'
 import React from 'react'
 import T from 'prop-types'
-import {Plus} from './Icons.js'
+import {Plus, Cross} from './Icons.js'
 
 const icons = {
-  'plus': <Plus />
+  'plus': <Plus />,
+  'cross': <Cross />,
 }
 
 const icon= (type) => {

@@ -10,3 +10,13 @@ export const Plus = () => (
     </g>
   </svg>
 )
+
+export const Cross = () => (
+  <svg className="Icon" width="32" height="32" viewBox="0 0 32 32">
+    <g id="cross" aria-labelledby="t-cross d-cross">
+      <title id="t-cross">Cross</title>
+      <desc id="d-cross">Two lines crossed diagonally</desc>
+      <path d="M13.172 16L.586 3.414c-.78-.78-.78-2.047 0-2.828.78-.78 2.048-.78 2.828 0L16 13.172 28.586.586c.78-.78 2.047-.78 2.828 0 .78.78.78 2.047 0 2.828L18.828 16l12.586 12.586c.78.78.78 2.047 0 2.828-.78.78-2.048.78-2.828 0L16 18.828 3.414 31.414c-.78.78-2.047.78-2.828 0-.78-.78-.78-2.047 0-2.828L13.172 16z"/>
+    </g>
+  </svg>
+)
