@@ -5,10 +5,12 @@ const players = (state={
   list: [],
 }, action) => {
   switch (action.type) {
-    case ActionTypes.ADD_PLAYER: return {
-      ...state,
-      list: state.list.concat(action.player),
-    }
+    case ActionTypes.ADD_PLAYER: 
+      if (state.list.length === 15) return state
+      return {
+        ...state,
+        list: state.list.concat(action.player),
+      }
     default: return state
   }
 }
