@@ -1,17 +1,8 @@
 import React from "react"
 import T from "prop-types"
 
-const Player = ({neckFill, bodyFill, headFill, bodyStroke, x, y, team}) => (
-  <g className="player"
-     transform={`translate(${
-       x
-      }, ${
-        y
-      }) rotate(${
-        team === 'a' ? 0 : 180
-      }) scale(0.03)`}
-  >
-    <svg
+const Player = ({neckFill, bodyFill, headFill, bodyStroke}) => (
+  <svg
       width="100%"
       height="100%"
       viewBox="0 0 32 32"
@@ -43,7 +34,6 @@ const Player = ({neckFill, bodyFill, headFill, bodyStroke, x, y, team}) => (
         </g>
       </g>
     </svg>
-  </g>
 )
 
 export const IPlayer = {
@@ -51,9 +41,6 @@ export const IPlayer = {
   bodyFill: T.string,
   headFill: T.string,
   bodyStroke: T.string,
-  x: T.oneOfType([T.string, T.number]),
-  y: T.oneOfType([T.string, T.number]),
-  team: T.string,
 }
 
 Player.propTypes = IPlayer
@@ -63,9 +50,6 @@ Player.defaultProps = {
   bodyFill: '#fff',
   headFill: '#000',
   bodyStroke: '#000',
-  x: 0,
-  y: 0,
-  team: 'a',
 }
 
 export default Player

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addPlayer} from '../store/actions.js'
-import Component from '../components/Field.js'
+import Component from '../components/Field/index.js'
 
 class Field extends React.Component {
   onAddPlayer = (e, svg, pt) => {

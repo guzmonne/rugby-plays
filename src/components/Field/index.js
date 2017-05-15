@@ -1,12 +1,14 @@
-import '../_styles/Field.css'
+import '../../_styles/Field.css'
 import React from 'react'
 import T from 'prop-types'
 import uniqueId from 'lodash/uniqueId.js'
-import Player, {IPlayer} from './Player.js'
+import {IPlayer} from '../common/Player.js'
 import Posts from './Posts.js'
 import Stripes from './Stripes.js'
 import Lines from './Lines.js'
 import Outline from './Outline.js'
+import TeamAPlayer from './TeamAPlayer.js'
+import TeamBPlayer from './TeamBPlayer.js'
 
 class Field extends React.Component {
   state = {
@@ -38,7 +40,7 @@ class Field extends React.Component {
       <Posts />
       <g className="aPlayers">
       {this.props.aPlayers.map(player => (
-        <Player key={uniqueId('player')} 
+        <TeamAPlayer key={uniqueId('player')} 
           bodyFill={this.props.teamAColor} 
           {...player}
         />
@@ -46,7 +48,7 @@ class Field extends React.Component {
       </g>
       <g className="bPlayers">
       {this.props.bPlayers.map(player => (
-        <Player key={uniqueId('player')}
+        <TeamBPlayer key={uniqueId('player')}
           bodyFill={this.props.teamBColor}
           {...player}
         />

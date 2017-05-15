@@ -3,17 +3,6 @@
  */
 export const ADD_PLAYER = 'ADD_PLAYER'
 
-const playerOffset = {
-  a: {
-    x: 1.35,
-    y: 1.5,
-  },
-  b: {
-    x: -2,
-    y: -2,
-  }
-}
-
 export const addPlayer = (x, y) => (dispatch, getState) => {
   const team = getState().players.team
   dispatch({
@@ -21,8 +10,8 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
     team,
     player: {
       team,
-      x: x ? x - playerOffset[team].x : 0,
-      y: y ? y - playerOffset[team].y : 0,
+      x: x || 0,
+      y: y || 0,
     },
   })
 }
