@@ -1,7 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Component from '../components/LeftBar.js'
-import {switchFlag, toggleTeam} from '../store/actions.js'
+import {
+  toggleFlag,
+  switchFlag,
+  toggleTeam,
+  changeTeamColor
+} from '../store/actions.js'
 
 class LeftBar extends React.Component {
   render = () => (
@@ -10,15 +15,30 @@ class LeftBar extends React.Component {
 }
 
 export default connect((state) => ({
-  team: state.players.team,
+  selectTeamRowState: {
+    team: state.players.team,
+    teamAColor: state.players.teamAColor,
+    teamBColor: state.players.teamBColor,
+    isOpenTeamAColorPicker: state.flags.isOpenTeamAColorPicker,
+    isOpenTeamBColorPicker: state.flags.isOpenTeamBColorPicker,
+  },
   isAddingPlayers: state.flags.isAddingPlayers,
   isRemovingPlayers: state.flags.isRemovingPlayers,
-}), {
-  toggleTeam,
+}), (dispatch) => ({
+  selectTeamRowActions: {
+    onClick: (...args) => dispatch(toggleTeam(...args)),
+    onChangeColor: (...args) => dispatch(changeTeamColor(...args)),
+    toggleTeamAColorPicker: () => (
+      dispatch(toggleFlag('isOpenTeamAColorPicker'))
+    ),
+    toggleTeamBColorPicker: () => (
+      dispatch(toggleFlag('isOpenTeamBColorPicker'))
+    ),
+  },
   toggleAddingPlayers: () => (
-    switchFlag('isAddingPlayers', 'isRemovingPlayers')
+    dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
   ),
   toggleRemovingPlayers: () => (
-    switchFlag('isRemovingPlayers', 'isAddingPlayers')
+    dispatch(switchFlag('isRemovingPlayers', 'isAddingPlayers'))
   )
-})(LeftBar)
+}))(LeftBar)

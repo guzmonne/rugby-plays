@@ -5,8 +5,15 @@ const players = (state={
   a: [],
   b: [],
   team: 'a',
+  teamAColor: '#fff',
+  teamBColor: '#999',
 }, action) => {
   switch (action.type) {
+    case ActionTypes.CHANGE_TEAM_COLOR:
+      return {
+        ...state,
+        [`team${(action.team || 'a').toUpperCase()}Color`]: action.color,
+      }
     case ActionTypes.TOGGLE_TEAM:
       return {
         ...state,
@@ -27,6 +34,8 @@ const players = (state={
 const flags = (state={
   isAddingPlayers: false,
   isRemovingPlayers: false,
+  isOpenTeamAColorPicker: false,
+  isOpenTeamBColorPicker: false,
 }, action) => {
   if (
     action.type !== ActionTypes.TOGGLE_FLAG ||

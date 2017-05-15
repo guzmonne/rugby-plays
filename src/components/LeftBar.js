@@ -4,10 +4,14 @@ import T from 'prop-types'
 import Row from './common/Row.js'
 import Button from './common/ButtonDark.js'
 import Icon from './common/Icon.js'
-import SelectTeamRow from './SelectTeamRow.js'
+import SelectTeamRow, {
+  ISelectTeamRowState,
+  ISelectTeamRowActions
+} from './SelectTeamRow.js'
 
 const LeftBar = ({
-  team,
+  selectTeamRowState,
+  selectTeamRowActions,
   isAddingPlayers,
   isRemovingPlayers,
   toggleTeam,
@@ -16,7 +20,7 @@ const LeftBar = ({
 }) => (
   <div className="LeftBar">
     <h1>Rugby Play</h1>
-    <SelectTeamRow team={team} onClick={toggleTeam}/>
+    <SelectTeamRow {...selectTeamRowState} {...selectTeamRowActions}/>
     <Row className="PlayersRow" 
       justifyContent="space-between" 
       alignItems="center">
@@ -38,10 +42,10 @@ const LeftBar = ({
 )
 
 LeftBar.propTypes = {
-  team: T.string.isRequired,
+  selectTeamRowState: T.shape(ISelectTeamRowState),
+  selectTeamRowActions: T.shape(ISelectTeamRowActions),
   isAddingPlayers: T.bool.isRequired,
   isRemovingPlayers: T.bool.isRequired,
-  toggleTeam: T.func.isRequired,
   toggleAddingPlayers: T.func.isRequired,
   toggleRemovingPlayers: T.func.isRequired,
 }

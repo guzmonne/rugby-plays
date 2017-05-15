@@ -52,10 +52,18 @@ export const switchFlag = (flagA, flagB) => (dispatch, getState) => {
   }
 }
 /**
- * TOGGLE TEAM
+ * Toggle Team
  */
 export const TOGGLE_TEAM = 'TOGGLE_TEAM'
 
 export const toggleTeam = () => ({
   type: TOGGLE_TEAM,
+})
+/** Change Team Color */
+export const CHANGE_TEAM_COLOR = 'CHANGE_TEAM_COLOR'
+
+export const changeTeamColor = (team, color) => ({
+  type: CHANGE_TEAM_COLOR,
+  team,
+  color,
 })
