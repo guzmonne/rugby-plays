@@ -33,7 +33,6 @@ const players = (state={
 
 const flags = (state={
   isAddingPlayers: false,
-  isRemovingPlayers: false,
   isOpenTeamAColorPicker: false,
   isOpenTeamBColorPicker: false,
 }, action) => {

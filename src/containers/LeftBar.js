@@ -23,7 +23,6 @@ export default connect((state) => ({
     isOpenTeamBColorPicker: state.flags.isOpenTeamBColorPicker,
   },
   isAddingPlayers: state.flags.isAddingPlayers,
-  isRemovingPlayers: state.flags.isRemovingPlayers,
 }), (dispatch) => ({
   selectTeamRowActions: {
     onClick: (...args) => dispatch(toggleTeam(...args)),
@@ -38,7 +37,4 @@ export default connect((state) => ({
   toggleAddingPlayers: () => (
     dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
   ),
-  toggleRemovingPlayers: () => (
-    dispatch(switchFlag('isRemovingPlayers', 'isAddingPlayers'))
-  )
 }))(LeftBar)

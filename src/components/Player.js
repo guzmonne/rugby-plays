@@ -59,7 +59,7 @@ export const IPlayer = {
 Player.propTypes = IPlayer
 
 Player.defaultProps = {
-  neckFill: '#7200ff',
+  neckFill: '#000',
   bodyFill: '#fff',
   headFill: '#000',
   bodyStroke: '#000',

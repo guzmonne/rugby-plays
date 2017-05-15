@@ -34,3 +34,10 @@
 .Button.success .Icon {
   fill: #27ae60;
 }
+
+.Button.disabled {
+  opacity: 0.8;
+  cursor: default;
+  box-shadow: 0 1px #484c50;
+  background: linear-gradient(to bottom,#232930,#3c4249);
+}

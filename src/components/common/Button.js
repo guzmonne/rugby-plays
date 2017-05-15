@@ -3,18 +3,33 @@ import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
 
-const Button = ({className, children, active, type, ...props}) => (
+const Button = ({
+  className,
+  children,
+  active,
+  disabled,
+  type,
+  onClick,
+  ...props
+}) => (
   <button className={cn('btn', className, {
     success: type === 'success',
     danger: type === 'danger',
     active: active === true,
-  })} {...props}>
+    disabled: disabled === true,
+  })} {...props} onClick={(...args) => {
+    if (disabled === true) return
+    onClick(...args)
+  }}>
     {children}
   </button>
 )
 
 Button.propTypes = {
+  className: T.string,
+  disabled: T.bool,
   active: T.bool,
+  onClick: T.func,
   type: T.oneOf(['success', 'danger']),
 }
 

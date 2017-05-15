@@ -31,9 +31,7 @@ const LeftBar = ({
           onClick={toggleAddingPlayers}>
           <Icon type="plus" />
         </Button>
-        <Button type="danger" 
-          active={isRemovingPlayers} 
-          onClick={toggleRemovingPlayers}>
+        <Button type="danger" disabled={true}>
           <Icon type="cross"/>
         </Button>
       </span>
@@ -45,9 +43,7 @@ LeftBar.propTypes = {
   selectTeamRowState: T.shape(ISelectTeamRowState),
   selectTeamRowActions: T.shape(ISelectTeamRowActions),
   isAddingPlayers: T.bool.isRequired,
-  isRemovingPlayers: T.bool.isRequired,
   toggleAddingPlayers: T.func.isRequired,
-  toggleRemovingPlayers: T.func.isRequired,
 }
 
 export default LeftBar

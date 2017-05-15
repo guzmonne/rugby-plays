@@ -38,12 +38,18 @@ class Field extends React.Component {
       <Posts />
       <g className="aPlayers">
       {this.props.aPlayers.map(player => (
-        <Player key={uniqueId('player')} {...player} />
+        <Player key={uniqueId('player')} 
+          bodyFill={this.props.teamAColor} 
+          {...player}
+        />
       ))}
       </g>
       <g className="bPlayers">
       {this.props.bPlayers.map(player => (
-        <Player key={uniqueId('player')} {...player} />
+        <Player key={uniqueId('player')}
+          bodyFill={this.props.teamBColor}
+          {...player}
+        />
       ))}
       </g>
     </svg>
@@ -51,6 +57,8 @@ class Field extends React.Component {
 }
 
 Field.propTypes = {
+  teamAColor: T.string,
+  teamBColor: T.string,
   aPlayers: T.arrayOf(T.shape(IPlayer)),
   bPlayers: T.arrayOf(T.shape(IPlayer)),
 }

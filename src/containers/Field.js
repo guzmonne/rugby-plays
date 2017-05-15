@@ -24,6 +24,8 @@ export default connect(
   (state) => ({
     aPlayers: state.players.a,
     bPlayers: state.players.b,
+    teamAColor: state.players.teamAColor,
+    teamBColor: state.players.teamBColor,
     isAddingPlayers: state.flags.isAddingPlayers,
   }), {
     addPlayer,
