@@ -1,3 +1,6 @@
+/**
+ * Add Player
+ */
 export const ADD_PLAYER = 'ADD_PLAYER'
 
 const playerOffset = {
@@ -11,4 +14,13 @@ export const addPlayer = (x, y) => ({
     x: x ? x - playerOffset.x : 0,
     y: y ? y - playerOffset.y : 0,
   },
+})
+/**
+ * Toggle Flag
+ */
+export const TOGGLE_FLAG = 'TOGGLE_FLAG'
+
+export const toggleFlag = (flag) => ({
+  type: TOGGLE_FLAG,
+  flag,
 })

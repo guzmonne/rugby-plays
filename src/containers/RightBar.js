@@ -1,9 +1,9 @@
 import React from 'react'
-import Component from '../components/LeftBar.js'
+import Component from '../components/RightBar.js'
 
 class RightBar extends React.Component {
   render = () => (
-    <div className="RightBar"></div>
+    <Component />
   )
 }
 

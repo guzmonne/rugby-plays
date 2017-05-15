@@ -1,0 +1,14 @@
+.IconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.IconContainer span {
+  margin-bottom: -0.125em;
+}
+
+.Icon {
+  transform: scale(0.5);
+  fill: white;
+}

@@ -1,0 +1,4 @@
+.LeftBar {
+  height: 100vh;
+  width: calc(100vh - 100vh * 90 / 130);
+}

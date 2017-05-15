@@ -6,6 +6,7 @@
     "react-scripts": "0.9.5"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "glamor": "^2.20.25",
     "glamorous": "^3.14.0",
     "lodash": "^4.17.4",
