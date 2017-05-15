@@ -1,0 +1,36 @@
+.Button{
+  outline: none;
+  color: #0f1214;
+  text-shadow:0 1px 0 #484f58;
+  border:1px solid #202124;
+  box-shadow: 0 1px 0 #616a74 inset,0 1px 5px #212528;
+  background: linear-gradient(to bottom,#474d54,#2f363d);
+  border-radius: 0.7em;
+  cursor: pointer;
+}
+
+.Button:hover {
+  background: linear-gradient(to bottom,#5b6167,#30373e);
+}
+
+.Button.active,
+.Button:active {
+  box-shadow: 0 1px #484c50;
+  background: linear-gradient(to bottom,#232930,#3c4249);	
+}
+
+.Button.danger {
+  color: #bd3232;
+}
+
+.Button.danger .Icon {
+  fill: #bd3232;
+}
+
+.Button.success {
+  color: #27ae60;
+}
+
+.Button.success .Icon {
+  fill: #27ae60;
+}

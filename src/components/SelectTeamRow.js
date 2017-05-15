@@ -4,7 +4,7 @@ import Slider from './common/Slider.js'
 import Row from './common/Row.js'
 
 const SelectTeamRow = ({team, onClick}) => (
-  <Row justifyContent="space-around" alignItems="center">
+  <Row justifyContent="space-between" alignItems="center">
     <span>Equipo A</span>
     <Slider checked={team === 'b'} onChange={onClick}/>
     <span>Equipo B</span>

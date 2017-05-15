@@ -1,9 +1,10 @@
 import '../../_styles/Row.css'
 import React from 'react'
 import T from 'prop-types'
+import cn from 'classnames'
 
 const Row = ({className, children, alignItems, justifyContent, ...props}) => (
-  <div className={className}
+  <div className={cn('row', className)}
     style={{
       ...(justifyContent ? {justifyContent} : {}),
       ...(alignItems ? {alignItems} : {}),
@@ -14,13 +15,8 @@ const Row = ({className, children, alignItems, justifyContent, ...props}) => (
 )
 
 Row.propTypes = {
-  className: T.string,
   alignItems: T.string,
   justifyContent: T.string,
-}
-
-Row.defaultProps = {
-  className: 'row',
 }
 
 export default Row
