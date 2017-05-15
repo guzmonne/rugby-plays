@@ -19,7 +19,7 @@ const LeftBar = ({
   toggleRemovingPlayers,
 }) => (
   <div className="LeftBar">
-    <h1>Rugby Play</h1>
+    <h1>#RugbyPlay</h1>
     <SelectTeamRow {...selectTeamRowState} {...selectTeamRowActions}/>
     <Row className="PlayersRow" 
       justifyContent="space-between" 

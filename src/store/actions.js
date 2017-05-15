@@ -1,3 +1,4 @@
+import uniqueId from 'lodash/uniqueId.js'
 /**
  * Add Player
  */
@@ -9,6 +10,7 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
     type: ADD_PLAYER,
     team,
     player: {
+      id: uniqueId(`team${team}player`),
       team,
       x: x || 0,
       y: y || 0,
@@ -55,4 +57,25 @@ export const changeTeamColor = (team, color) => ({
   type: CHANGE_TEAM_COLOR,
   team,
   color,
+})
+/**
+ * Select/Deselect Player
+ */
+export const SELECT_PLAYER = 'SELECT_PLAYER'
+export const DESELECT_PLAYER = 'DESELECT_PLAYER'
+
+export const selectPlayer = (playerId) => (dispatch, getState) =>  {
+  const state = getState()
+
+  if (state.flags.isAddingPlayers === true) return
+
+  const currentPlayerId = state.players.selected
+  dispatch({
+    type: SELECT_PLAYER,
+    playerId: playerId === currentPlayerId ? undefined : playerId,
+  })
+}
+
+export const deselectPlayer = () => ({
+  type: DESELECT_PLAYER,
 })

@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addPlayer} from '../store/actions.js'
+import {addPlayer, selectPlayer} from '../store/actions.js'
 import Component from '../components/Field/index.js'
 
 class Field extends React.Component {
@@ -22,12 +22,14 @@ class Field extends React.Component {
 
 export default connect(
   (state) => ({
+    selectedPlayer: state.players.selected,
     aPlayers: state.players.a,
     bPlayers: state.players.b,
     teamAColor: state.players.teamAColor,
     teamBColor: state.players.teamBColor,
     isAddingPlayers: state.flags.isAddingPlayers,
-  }), {
-    addPlayer,
-  }
+  }), (dispatch) => ({
+    addPlayer: (...args) =>  dispatch(addPlayer(...args)),
+    selectPlayer: (...args) => dispatch(selectPlayer(...args)),
+  })
 )(Field)

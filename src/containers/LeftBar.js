@@ -5,7 +5,8 @@ import {
   toggleFlag,
   switchFlag,
   toggleTeam,
-  changeTeamColor
+  changeTeamColor,
+  deselectPlayer,
 } from '../store/actions.js'
 
 class LeftBar extends React.Component {
@@ -34,7 +35,8 @@ export default connect((state) => ({
       dispatch(toggleFlag('isOpenTeamBColorPicker'))
     ),
   },
-  toggleAddingPlayers: () => (
+  toggleAddingPlayers: () => {
+    dispatch(deselectPlayer())
     dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
-  ),
+  },
 }))(LeftBar)

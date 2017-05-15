@@ -2,13 +2,29 @@ import {combineReducers} from 'redux'
 import * as ActionTypes from './actions.js'
 
 const players = (state={
-  a: [],
+  selected: undefined,
+  a: [{
+    id: "teamaplayer3",
+    team: "a",
+    x: 38.604312896728516,
+    y: 74.5626220703125,
+  }],
   b: [],
   team: 'a',
   teamAColor: '#fff',
   teamBColor: '#999',
 }, action) => {
   switch (action.type) {
+    case ActionTypes.DESELECT_PLAYER:
+      return {
+        ...state,
+        selected: undefined,
+      }
+    case ActionTypes.SELECT_PLAYER:
+      return {
+        ...state,
+        selected: action.playerId,
+      }
     case ActionTypes.CHANGE_TEAM_COLOR:
       return {
         ...state,

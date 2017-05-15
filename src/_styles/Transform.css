@@ -1,0 +1,12 @@
+.Transform .tools rect {
+  stroke: steelblue;
+  fill: transparent;
+  stroke-width: 0.1;
+  stroke-dasharray: 0.2, 0.2;
+}
+
+.Transform .tools circle {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 0.2;
+}

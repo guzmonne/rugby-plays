@@ -41,7 +41,9 @@ class Field extends React.Component {
       <g className="aPlayers">
       {this.props.aPlayers.map(player => (
         <TeamAPlayer key={uniqueId('player')} 
-          bodyFill={this.props.teamAColor} 
+          bodyFill={this.props.teamAColor}
+          onClick={() => this.props.selectPlayer(player.id)}
+          selected={this.props.selectedPlayer === player.id}
           {...player}
         />
       ))}
@@ -50,6 +52,8 @@ class Field extends React.Component {
       {this.props.bPlayers.map(player => (
         <TeamBPlayer key={uniqueId('player')}
           bodyFill={this.props.teamBColor}
+          onClick={() => this.props.selectPlayer(player.id)}
+          selected={this.props.selectedPlayer === player.id}
           {...player}
         />
       ))}
