@@ -56,6 +56,7 @@ const flags = (state={
   isAddingPlayers: false,
   isOpenTeamAColorPicker: false,
   isOpenTeamBColorPicker: false,
+  isPlayerDraggable: false,
 }, action) => {
   if (
     action.type !== ActionTypes.TOGGLE_FLAG ||

@@ -27,11 +27,17 @@ class Field extends React.Component {
 
   render = () => {
     const {svg, pt} = this.state
+    const {
+      onDragPlayer,
+      selectedPlayer,
+      deselectPlayer,
+    } = this.props
     return (
       <svg className="Field" 
         viewBox="0 0 90 130" 
         preserveAspectRatio="none"
         ref={(svg) => this.svg = svg}
+        onClick={deselectPlayer}
       >
         <Stripes />
         <Outline onClick={(e) => (
@@ -42,10 +48,12 @@ class Field extends React.Component {
         <Posts />
         <g className="aPlayers">
         {this.props.aPlayers.map(player => (
-          <TeamAPlayer key={uniqueId('player')} 
+          <TeamAPlayer key={uniqueId('player')}
             bodyFill={this.props.teamAColor}
+            draggable={selectedPlayer === player.id}
+            onDrag={(e) => onDragPlayer(e, svg, pt, player.id, 'a')}
             onClick={() => this.props.selectPlayer(player.id)}
-            selected={this.props.selectedPlayer === player.id}
+            selected={selectedPlayer === player.id}
             {...player}
           />
         ))}
@@ -54,6 +62,8 @@ class Field extends React.Component {
         {this.props.bPlayers.map(player => (
           <TeamBPlayer key={uniqueId('player')}
             bodyFill={this.props.teamBColor}
+            draggable={selectedPlayer === player.id}
+            onDrag={(e) => onDragPlayer(e, svg, pt, player.id, 'b')}
             onClick={() => this.props.selectPlayer(player.id)}
             selected={this.props.selectedPlayer === player.id}
             {...player}
@@ -70,7 +80,7 @@ Field.propTypes = {
   teamBColor: T.string,
   aPlayers: T.arrayOf(T.shape(IPlayer)),
   bPlayers: T.arrayOf(T.shape(IPlayer)),
-  onUpdatePlayer: T.func,
+  onDragPlayer: T.func,
   selectPlayer: T.func,
 }
 
