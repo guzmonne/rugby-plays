@@ -79,3 +79,21 @@ export const selectPlayer = (playerId) => (dispatch, getState) =>  {
 export const deselectPlayer = () => ({
   type: DESELECT_PLAYER,
 })
+/**
+ * Update Player
+ */
+export const UPDATE_PLAYER = 'UPDATE_PLAYER'
+
+export const updatePlayer = (id, team, update) => (dispatch, getState) => {
+  const state = getState()
+  if (state.players.selected !== id) {
+    dispatch(selectPlayer(id))
+  }
+  dispatch({
+    type: UPDATE_PLAYER,
+    team,
+    updatedTeam: state.players[team].map(player => (
+      player.id === id ? {...player, ...update} : player
+    )),
+  })
+} 

@@ -15,6 +15,11 @@ const players = (state={
   teamBColor: '#999',
 }, action) => {
   switch (action.type) {
+    case ActionTypes.UPDATE_PLAYER:
+      return {
+        ...state,
+        [action.team]: action.updatedTeam,
+      }
     case ActionTypes.DESELECT_PLAYER:
       return {
         ...state,

@@ -25,41 +25,44 @@ class Field extends React.Component {
     })
   }
 
-  render = () => (
-    <svg className="Field" 
-      viewBox="0 0 90 130" 
-      preserveAspectRatio="none"
-      ref={(svg) => this.svg = svg}
-    >
-      <Stripes />
-      <Outline onClick={(e) => (
-        this.props.onAddPlayer(e, this.state.svg, this.state.pt)
-      )}
-      />
-      <Lines />
-      <Posts />
-      <g className="aPlayers">
-      {this.props.aPlayers.map(player => (
-        <TeamAPlayer key={uniqueId('player')} 
-          bodyFill={this.props.teamAColor}
-          onClick={() => this.props.selectPlayer(player.id)}
-          selected={this.props.selectedPlayer === player.id}
-          {...player}
+  render = () => {
+    const {svg, pt} = this.state
+    return (
+      <svg className="Field" 
+        viewBox="0 0 90 130" 
+        preserveAspectRatio="none"
+        ref={(svg) => this.svg = svg}
+      >
+        <Stripes />
+        <Outline onClick={(e) => (
+          this.props.onAddPlayer(e, svg, pt)
+        )}
         />
-      ))}
-      </g>
-      <g className="bPlayers">
-      {this.props.bPlayers.map(player => (
-        <TeamBPlayer key={uniqueId('player')}
-          bodyFill={this.props.teamBColor}
-          onClick={() => this.props.selectPlayer(player.id)}
-          selected={this.props.selectedPlayer === player.id}
-          {...player}
-        />
-      ))}
-      </g>
-    </svg>
-  )
+        <Lines />
+        <Posts />
+        <g className="aPlayers">
+        {this.props.aPlayers.map(player => (
+          <TeamAPlayer key={uniqueId('player')} 
+            bodyFill={this.props.teamAColor}
+            onClick={() => this.props.selectPlayer(player.id)}
+            selected={this.props.selectedPlayer === player.id}
+            {...player}
+          />
+        ))}
+        </g>
+        <g className="bPlayers">
+        {this.props.bPlayers.map(player => (
+          <TeamBPlayer key={uniqueId('player')}
+            bodyFill={this.props.teamBColor}
+            onClick={() => this.props.selectPlayer(player.id)}
+            selected={this.props.selectedPlayer === player.id}
+            {...player}
+          />
+        ))}
+        </g>
+      </svg>
+    )
+  }
 }
 
 Field.propTypes = {
@@ -67,6 +70,8 @@ Field.propTypes = {
   teamBColor: T.string,
   aPlayers: T.arrayOf(T.shape(IPlayer)),
   bPlayers: T.arrayOf(T.shape(IPlayer)),
+  onUpdatePlayer: T.func,
+  selectPlayer: T.func,
 }
 
 Field.defaultProps = {

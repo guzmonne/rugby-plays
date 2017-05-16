@@ -2,42 +2,25 @@ import '../../_styles/Transform.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
-
-const OFFSET = 1
+//import throttle from 'lodash/throttle.js'
 
 class Transform extends React.Component {
   state = {
-    ready: false
+    ready: false,
   }
 
   componentDidMount = () => {
     this.setState({ready: true})
   }
 
-  boundingBox = () => {
-    if (!this.svg) return
+  getBoundingBox = () => {
     const {scale} = this.props
     const bbox = this.svg.getBBox()
     const x = bbox.x * scale
     const y = bbox.y * scale
     const width = bbox.width * scale
     const height = bbox.height * scale
-    return (
-      <g className={'tools'}>
-        <rect
-          x={x - OFFSET}
-          y={y - OFFSET}
-          width={width + 2 * OFFSET}
-          height={height + 2 * OFFSET}
-        />
-        <g>
-          <circle cx={x - OFFSET} cy={y - OFFSET} r={0.5}/>
-          <circle cx={x - OFFSET} cy={y + height + OFFSET} r={0.5}/>
-          <circle cx={x + width + OFFSET} cy={y + height + OFFSET} r={0.5}/>
-          <circle cx={x + width + OFFSET} cy={y - OFFSET} r={0.5}/>
-        </g>
-      </g>
-    )
+    return {x, y, width, height}
   }
 
   render = () => {
@@ -48,9 +31,7 @@ class Transform extends React.Component {
       <g
         onClick={this.props.onClick}
         className={cn('Transform', className)}
-        transform={`translate(${x}, ${y}) rotate(${rotate})`}
-        onMouseEnter={this.toggleHovering}
-        onMouseLeave={this.toggleHovering}>
+        transform={`translate(${x}, ${y}) rotate(${rotate})`}>
         {ready && selected && this.boundingBox()}
         <g ref={svg => this.svg = svg}
           className="children" 
