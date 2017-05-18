@@ -1,6 +1,5 @@
 import React from 'react'
 import T from 'prop-types'
-import throttle from 'lodash/throttle.js'
 import {onlyUpdateForPropTypes} from 'recompose'
 
 const LEFT_BUTTON = 0
@@ -23,15 +22,13 @@ class Draggable extends React.Component {
     this.removeEvents()
   }
 
-  throttledOnMouseMove = throttle(this.onMouseMove, 10)
-
   addEvents = () => {
-    document.addEventListener('mousemove', this.throttledOnMouseMove)
+    document.addEventListener('mousemove', this.onMouseMove)
     document.addEventListener('mouseup', this.onMouseUp)
   }
 
   removeEvents = () => {
-    document.removeEventListener('mousemove', this.throttledOnMouseMove)
+    document.removeEventListener('mousemove', this.onMouseMove)
     document.removeEventListener('mouseup', this.onMouseUp)
   }
 

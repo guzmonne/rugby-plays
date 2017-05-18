@@ -1,17 +1,16 @@
-import '../../_styles/Slider.css'
+import '../../_styles/Sliders.css'
 import React from 'react'
 import T from 'prop-types'
 import uniqueId from 'lodash/uniqueId.js'
+import {pure} from 'recompose'
 
 const Slider = ({checked, ...props}) => {
   const id = uniqueId('Slider')
 
   return (
-    <span className="SliderContainer">
-      <div className="Slider">  
-        <input type="checkbox" checked={checked} {...props} id={id}/>
-        <label htmlFor={id}></label>
-      </div>
+    <span className="Slider">  
+      <input type="checkbox" checked={checked} {...props} id={id}/>
+      <label htmlFor={id}></label>
     </span>
   )
 }
@@ -24,4 +23,4 @@ Slider.defaultProps = {
   checked: T.bool,
 }
 
-export default Slider
+export default pure(Slider)

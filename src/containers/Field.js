@@ -31,7 +31,7 @@ class Field extends React.Component {
     this.props.updatePlayer(id, team, {x, y})
   }
 
-  onDragPlayer = throttle(this._onDragPlayer, 200)
+  onDragPlayer = throttle(this._onDragPlayer, 100)
 
   render = () => (
     <Component {...this.props} {...this} />

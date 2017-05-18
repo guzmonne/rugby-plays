@@ -1,6 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
-import Slider from './common/Slider.js'
+import Slider from './common/SliderThin.js'
 import Row from './common/Row.js'
 import ColorPicker from './common/ColorPicker.js'
 
