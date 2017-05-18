@@ -7,7 +7,7 @@ const Outline = ({onClick}) => (
     onClick={onClick}
   >
     <path className="line" 
-      d="M10,5 L80,5 L85,125 L5,125z"
+      d="M5,5 L85,5 L85,125 L5,125z"
     />
   </g>
 )

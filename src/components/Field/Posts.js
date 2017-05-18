@@ -4,8 +4,8 @@ import {onlyUpdateForKeys} from 'recompose'
 
 const Posts = () => (
   <g className="posts">
-    <Post x={41.2} y={1.5} />
-    <Post x={41.2} y={99.5} />
+    <Post x={40.7} y={1.5} />
+    <Post x={40.7} y={101.5} />
   </g>
 )
 

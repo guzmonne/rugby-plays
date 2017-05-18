@@ -14,7 +14,7 @@
   fill: transparent;
   stroke: white;
   stroke-width: 0.3;
-  stroke-dasharray: 0.2em;
+  stroke-dasharray: 3;
 }
 
 .Field .posts {

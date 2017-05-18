@@ -6,43 +6,43 @@ const Lines = ({stroke}) => (
   <g className="lines" style={{stroke}}>
     <g className="ingoal">
       <path className="line"
-        d="M9.58,15 L80.42,15z"
+        d="M5,15 L85,15z"
       />
       <path className="line"
-        d="M5.292,113 L84.292,113z"
+        d="M5,115 L85,115z"
       />
     </g>
     <g className="twenty-two">
       <path className="line"
-        d="M8.66,32 L81.33,32z"
+        d="M5,37 L85,37z"
       />
       <path className="line"
-        d="M6.16,94 L83.83,94"
+        d="M5,93 L85,93"
       />
     </g>
     <g className="middle-lines">
       <path className="dashed-line"
-        d="M7.92,50 L82.08,50z"
+        d="M5,55 L85,55z"
       />
       <path className="line"
-        d="M7.5,60 L82.5,60z"
+        d="M5,65 L85,65z"
       />
       <path className="dashed-line"
-        d="M7.08,70.5 L82.92,70.5z"
+        d="M5,75 L85,75z"
       />
     </g>
     <g className="five-meters">
       <path className="dashed-line"
-        d="M9.17,20 L80.83,20z"
+        d="M5,20 L85,20z"
       />
       <path className="dashed-line"
-        d="M15,15 L11.392,113z"
+        d="M10,15 L10,115z"
       />
       <path className="dashed-line"
-        d="M75,15 L78.592,113z"
+        d="M80,15 L80,115z"
       />
       <path className="dashed-line"
-        d="M5.541,107 L84.458,107z"
+        d="M5,110 L85,110z"
       />
     </g>
   </g>
