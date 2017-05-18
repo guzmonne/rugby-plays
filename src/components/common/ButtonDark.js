@@ -2,6 +2,7 @@ import '../../_styles/ButtonDark.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const ButtonDark = ({
   className,
@@ -41,4 +42,4 @@ ButtonDark.defaultTypes = {
   type: 'success',
 }
 
-export default ButtonDark
+export default onlyUpdateForPropTypes(ButtonDark)

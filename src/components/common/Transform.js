@@ -2,7 +2,7 @@ import '../../_styles/Transform.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
-//import throttle from 'lodash/throttle.js'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const OFFSET = 1
 
@@ -88,4 +88,4 @@ Transform.defaultProps = {
   selected: false,
 }
 
-export default Transform
+export default onlyUpdateForPropTypes(Transform)

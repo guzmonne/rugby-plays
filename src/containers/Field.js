@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import throttle from 'lodash/throttle.js'
 import {
   addPlayer,
   selectPlayer,
@@ -21,7 +22,7 @@ class Field extends React.Component {
     this.props.addPlayer(x, y)
   }
 
-  onDragPlayer = (e, svg, pt, id, team) => {
+  _onDragPlayer = (e, svg, pt, id, team) => {
     let {x, y} = mouseToSvgCoordinates(e, svg, pt)
     if (x < 0)      {x = 0}
     if (x > WIDTH)  {x = WIDTH}
@@ -29,6 +30,8 @@ class Field extends React.Component {
     if (y > HEIGHT) {y = HEIGHT}
     this.props.updatePlayer(id, team, {x, y})
   }
+
+  onDragPlayer = throttle(this._onDragPlayer, 200)
 
   render = () => (
     <Component {...this.props} {...this} />

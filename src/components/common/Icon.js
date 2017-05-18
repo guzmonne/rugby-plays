@@ -2,6 +2,7 @@ import '../../_styles/Icon.css'
 import React from 'react'
 import T from 'prop-types'
 import {Plus, Cross} from './Icons.js'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const icons = {
   'plus': <Plus />,
@@ -27,4 +28,4 @@ Icon.defaultProps = {
   type: 'plus'
 }
 
-export default Icon
+export default onlyUpdateForPropTypes(Icon)

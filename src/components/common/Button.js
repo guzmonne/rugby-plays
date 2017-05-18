@@ -2,6 +2,7 @@ import '../../_styles/Button.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const Button = ({
   className,
@@ -37,4 +38,4 @@ Button.defaultTypes = {
   type: 'success',
 }
 
-export default Button
+export default onlyUpdateForPropTypes(Button)

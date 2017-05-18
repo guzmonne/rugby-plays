@@ -1,5 +1,6 @@
 import React from "react"
 import T from "prop-types"
+import {onlyUpdateForKeys} from 'recompose'
 
 const Stripes = ({fill}) => (
   <g className="stripes">
@@ -21,4 +22,4 @@ Stripes.defaultProps = {
   fill: '#71ab41',
 }
 
-export default Stripes
+export default onlyUpdateForKeys(['fill'])(Stripes)

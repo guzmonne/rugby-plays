@@ -1,6 +1,7 @@
 import React from 'react'
 import T from 'prop-types'
 import throttle from 'lodash/throttle.js'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const LEFT_BUTTON = 0
 
@@ -59,4 +60,4 @@ Draggable.defaultProps = {
   draggable: false,
 }
 
-export default Draggable
+export default onlyUpdateForPropTypes(Draggable)

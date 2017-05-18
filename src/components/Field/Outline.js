@@ -1,5 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
+import {onlyUpdateForKeys} from 'recompose'
 
 const Outline = ({onClick}) => (
   <g className="outline" 
@@ -19,4 +20,4 @@ Outline.defaultProps = {
   onClick: () => {},
 }
 
-export default Outline
+export default onlyUpdateForKeys(['onClick'])(Outline)

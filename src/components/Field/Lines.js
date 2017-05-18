@@ -1,5 +1,6 @@
 import React from "react"
 import T from "prop-types"
+import {onlyUpdateForKeys} from 'recompose'
 
 const Lines = ({stroke}) => (
   <g className="lines" style={{stroke}}>
@@ -55,4 +56,4 @@ Lines.defaultProps = {
   stroke: '#fff',
 }
 
-export default Lines
+export default onlyUpdateForKeys(['stroke'])(Lines)

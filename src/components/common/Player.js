@@ -1,5 +1,6 @@
 import React from "react"
 import T from "prop-types"
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const Player = ({neckFill, bodyFill, headFill, bodyStroke}) => (
   <svg
@@ -52,4 +53,4 @@ Player.defaultProps = {
   bodyStroke: '#000',
 }
 
-export default Player
+export default onlyUpdateForPropTypes(Player)

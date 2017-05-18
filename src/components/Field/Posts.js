@@ -1,5 +1,6 @@
 import React from "react"
 import Post from './Post.js'
+import {onlyUpdateForKeys} from 'recompose'
 
 const Posts = () => (
   <g className="posts">
@@ -8,4 +9,4 @@ const Posts = () => (
   </g>
 )
 
-export default Posts
+export default onlyUpdateForKeys([])(Posts)

@@ -1,6 +1,7 @@
 import '../../_styles/Field.css'
 import React from 'react'
 import T from 'prop-types'
+import {onlyUpdateForPropTypes} from 'recompose'
 import uniqueId from 'lodash/uniqueId.js'
 import {IPlayer} from '../common/Player.js'
 import Posts from './Posts.js'
@@ -78,10 +79,12 @@ class Field extends React.Component {
 Field.propTypes = {
   teamAColor: T.string,
   teamBColor: T.string,
+  selectedPlayer: T.string,
   aPlayers: T.arrayOf(T.shape(IPlayer)),
   bPlayers: T.arrayOf(T.shape(IPlayer)),
   onDragPlayer: T.func,
   selectPlayer: T.func,
+  deselectPlayer: T.func,
 }
 
 Field.defaultProps = {
@@ -89,4 +92,4 @@ Field.defaultProps = {
   bPlayers: [],
 }
 
-export default Field
+export default onlyUpdateForPropTypes(Field)
