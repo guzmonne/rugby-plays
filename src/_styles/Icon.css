@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 1em;
 }
 
 .IconContainer span {
@@ -9,6 +10,6 @@
 }
 
 .Icon {
-  transform: scale(0.5);
+  transform: scale(0.3);
   fill: white;
 }

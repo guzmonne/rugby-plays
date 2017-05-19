@@ -7,6 +7,7 @@
   background: linear-gradient(to bottom,#474d54,#2f363d);
   border-radius: 0.5em;
   cursor: pointer;
+  height: 2em;
 }
 
 .Button:hover {
