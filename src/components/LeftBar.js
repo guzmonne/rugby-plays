@@ -8,6 +8,7 @@ import SelectTeamRow, {
   ISelectTeamRowState,
   ISelectTeamRowActions
 } from './SelectTeamRow.js'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const LeftBar = ({
   selectTeamRowState,
@@ -48,4 +49,4 @@ LeftBar.propTypes = {
   toggleAddingPlayers: T.func.isRequired,
 }
 
-export default LeftBar
+export default onlyUpdateForPropTypes(LeftBar)

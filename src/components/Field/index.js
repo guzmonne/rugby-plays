@@ -9,6 +9,7 @@ import Lines from './Lines.js'
 import Outline from './Outline.js'
 import TeamAPlayer from './TeamAPlayer.js'
 import TeamBPlayer from './TeamBPlayer.js'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 class Field extends React.Component {
   state = {
@@ -93,4 +94,4 @@ Field.defaultProps = {
   bPlayers: [],
 }
 
-export default Field
+export default onlyUpdateForPropTypes(Field)

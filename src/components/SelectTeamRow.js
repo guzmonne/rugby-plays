@@ -3,6 +3,7 @@ import T from 'prop-types'
 import Slider from './common/SliderThin.js'
 import Row from './common/Row.js'
 import ColorPicker from './common/ColorPicker.js'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const SelectTeamRow = ({
   team,
@@ -66,4 +67,4 @@ SelectTeamRow.defaultProps = {
   team: 'a',
 }
 
-export default SelectTeamRow
+export default onlyUpdateForPropTypes(SelectTeamRow)
