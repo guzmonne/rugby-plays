@@ -39,6 +39,8 @@ const LeftBar = ({
   </div> 
 )
 
+LeftBar.displayName = 'LeftBar'
+
 LeftBar.propTypes = {
   selectTeamRowState: T.shape(ISelectTeamRowState),
   selectTeamRowActions: T.shape(ISelectTeamRowActions),

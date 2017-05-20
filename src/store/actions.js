@@ -84,16 +84,46 @@ export const deselectPlayer = () => ({
  */
 export const UPDATE_PLAYER = 'UPDATE_PLAYER'
 
-export const updatePlayer = (id, team, update) => (dispatch, getState) => {
-  const state = getState()
-  if (state.players.selected !== id) {
-    dispatch(selectPlayer(id))
-  }
+export const updatePlayer = (index, team, update) => (dispatch, getState) => {
   dispatch({
     type: UPDATE_PLAYER,
+    index,
     team,
-    updatedTeam: state.players[team].map(player => (
-      player.id === id ? {...player, ...update} : player
-    )),
+    update,
   })
 } 
+/**
+ * Helpers
+ */
+const wrapDispatch = (actions) => (dispatch) => (
+  actions.reduce((acc, action) => ({
+    ...acc,
+    [action.name]: (...args) => dispatch(action(...args)),
+  }), {})
+)
+/**
+ * Container actions
+ */
+export const fieldActions = wrapDispatch([
+  addPlayer,
+  selectPlayer,
+  updatePlayer,
+  deselectPlayer,
+])
+
+export const leftBarActions = (dispatch) => ({
+  selectTeamRowActions: {
+    onClick: (...args) => dispatch(toggleTeam(...args)),
+    onChangeColor: (...args) => dispatch(changeTeamColor(...args)),
+    toggleTeamAColorPicker: () => (
+      dispatch(toggleFlag('isOpenTeamAColorPicker'))
+    ),
+    toggleTeamBColorPicker: () => (
+      dispatch(toggleFlag('isOpenTeamBColorPicker'))
+    ),
+  },
+  toggleAddingPlayers: () => {
+    dispatch(deselectPlayer())
+    dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
+  },
+})

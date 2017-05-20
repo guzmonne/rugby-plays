@@ -5,6 +5,8 @@ const RightBar = () => (
   <div className="RightBar"></div>
 )
 
+RightBar.displayName = 'RightBar'
+
 RightBar.propTypes = {
   
 }

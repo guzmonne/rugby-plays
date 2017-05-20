@@ -1,63 +1,58 @@
-import {combineReducers} from 'redux'
+import {combineReducers} from 'redux-immutable'
+import {Map as map, List as list} from 'immutable'
 import * as ActionTypes from './actions.js'
 
-const players = (state={
+const playersDefaultState = map({
   selected: undefined,
-  a: [{
-    id: "teamaplayer3",
-    team: "a",
-    x: 38.604312896728516,
-    y: 74.5626220703125,
-  }],
-  b: [],
+  a: list([
+    map({
+      id: "teamaplayer3",
+      team: "a",
+      x: 38.604312896728516,
+      y: 74.5626220703125,
+    })
+  ]),
+  b: list(),
   team: 'a',
   teamAColor: '#fff',
-  teamBColor: '#999',
-}, action) => {
+  teamBColor: '#989',
+})
+
+const players = (state=playersDefaultState, action) => {
   switch (action.type) {
     case ActionTypes.UPDATE_PLAYER:
-      return {
-        ...state,
-        [action.team]: action.updatedTeam,
-      }
+      return state.updateIn([action.team], list => (
+        list.set(action.item, (
+          list.get(action.item).merge(map(action.update))
+        ))
+      ))
     case ActionTypes.DESELECT_PLAYER:
-      return {
-        ...state,
-        selected: undefined,
-      }
+      return state.set('selected', undefined)
     case ActionTypes.SELECT_PLAYER:
-      return {
-        ...state,
-        selected: action.playerId,
-      }
+      return state.set('selected', action.playerId)
     case ActionTypes.CHANGE_TEAM_COLOR:
-      return {
-        ...state,
-        [`team${(action.team || 'a').toUpperCase()}Color`]: action.color,
-      }
+      return state.set(`team${action.team.toUpperCase()}`, action.color)
     case ActionTypes.TOGGLE_TEAM:
-      return {
-        ...state,
-        team: state.team === 'a' ? 'b' : 'a',
-      }
-    case ActionTypes.ADD_PLAYER: 
+      return state.set('team', state.get('team') === 'a' ? 'b' : 'a')
+    case ActionTypes.ADD_PLAYER:
       if (!action.team || state[action.team].length === 15 ) {
         return state
       }
-      return {
-        ...state,
-        [action.team]: state[action.team].concat(action.player),
-      }
+      return state.updateIn([action.team], list => (
+        list.push(map(action.player))
+      ))
     default: return state
   }
 }
 
-const flags = (state={
+const defaultFlagsState = map({
   isAddingPlayers: false,
   isOpenTeamAColorPicker: false,
   isOpenTeamBColorPicker: false,
   isPlayerDraggable: false,
-}, action) => {
+})
+
+const flags = (state=defaultFlagsState, action) => {
   if (
     action.type !== ActionTypes.TOGGLE_FLAG ||
     !action.flag || 
@@ -65,10 +60,7 @@ const flags = (state={
   ) {
     return state
   }
-  return {
-    ...state,
-    [action.flag]: !state[action.flag],
-  }
+  return state.set(action.flag, !state.get(action.flag))
 }
 
 /**
@@ -77,4 +69,26 @@ const flags = (state={
 export default combineReducers({
 	players,
   flags,
+})
+/**
+ * Export mapStateToProps functions
+ */
+export const fieldProps = (state) => ({
+  selectedPlayer: state.getIn(['players', 'selected']),
+  aPlayers: state.getIn(['players', 'a']),
+  bPlayers: state.getIn(['players', 'b']),
+  teamAColor: state.getIn(['players', 'teamAColor']),
+  teamBColor: state.getIn(['players', 'teamBColor']),
+  isAddingPlayers: state.getIn(['flags', 'isAddingPlayers']),
+})
+
+export const leftBarProps = (state) => ({
+  selectTeamRowState: {
+    team: state.getIn(['players', 'team']),
+    teamAColor: state.getIn(['players', 'teamAColor']),
+    teamBColor: state.getIn(['players', 'teamBColor']),
+    isOpenTeamAColorPicker: state.getIn(['flags', 'isOpenTeamAColorPicker']),
+    isOpenTeamBColorPicker: state.getIn(['flags', 'isOpenTeamBColorPicker']),
+  },
+  isAddingPlayers: state.getIn(['flags', 'isAddingPlayers']),
 })

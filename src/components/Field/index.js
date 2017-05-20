@@ -1,7 +1,6 @@
 import '../../_styles/Field.css'
 import React from 'react'
 import T from 'prop-types'
-import {onlyUpdateForPropTypes} from 'recompose'
 import uniqueId from 'lodash/uniqueId.js'
 import {IPlayer} from '../common/Player.js'
 import Posts from './Posts.js'
@@ -48,11 +47,11 @@ class Field extends React.Component {
         <Lines />
         <Posts />
         <g className="aPlayers">
-        {this.props.aPlayers.map(player => (
+        {this.props.aPlayers.map((player, index) => (
           <TeamAPlayer key={uniqueId('player')}
             bodyFill={this.props.teamAColor}
             draggable={selectedPlayer === player.id}
-            onDrag={(e) => onDragPlayer(e, svg, pt, player.id, 'a')}
+            onDrag={(e) => onDragPlayer(e, svg, pt, index, 'a')}
             onClick={() => this.props.selectPlayer(player.id)}
             selected={selectedPlayer === player.id}
             {...player}
@@ -60,11 +59,11 @@ class Field extends React.Component {
         ))}
         </g>
         <g className="bPlayers">
-        {this.props.bPlayers.map(player => (
+        {this.props.bPlayers.map((player, index) => (
           <TeamBPlayer key={uniqueId('player')}
             bodyFill={this.props.teamBColor}
             draggable={selectedPlayer === player.id}
-            onDrag={(e) => onDragPlayer(e, svg, pt, player.id, 'b')}
+            onDrag={(e) => onDragPlayer(e, svg, pt, index, 'b')}
             onClick={() => this.props.selectPlayer(player.id)}
             selected={this.props.selectedPlayer === player.id}
             {...player}
@@ -75,6 +74,8 @@ class Field extends React.Component {
     )
   }
 }
+
+Field.displayName = 'Field'
 
 Field.propTypes = {
   teamAColor: T.string,
@@ -92,4 +93,4 @@ Field.defaultProps = {
   bPlayers: [],
 }
 
-export default onlyUpdateForPropTypes(Field)
+export default Field

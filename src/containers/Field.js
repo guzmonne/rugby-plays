@@ -22,13 +22,13 @@ class Field extends React.Component {
     this.props.addPlayer(x, y)
   }
 
-  _onDragPlayer = (e, svg, pt, id, team) => {
+  _onDragPlayer = (e, svg, pt, index, team) => {
     let {x, y} = mouseToSvgCoordinates(e, svg, pt)
     if (x < 0)      {x = 0}
     if (x > WIDTH)  {x = WIDTH}
     if (y < 0)      {y = 0}
     if (y > HEIGHT) {y = HEIGHT}
-    this.props.updatePlayer(id, team, {x, y})
+    this.props.updatePlayer(index, team, {x, y})
   }
 
   onDragPlayer = throttle(this._onDragPlayer, 100)
@@ -38,14 +38,16 @@ class Field extends React.Component {
   )
 }
 
+Field.displayName = 'Something'
+
 export default connect(
   (state) => ({
-    selectedPlayer: state.players.selected,
-    aPlayers: state.players.a,
-    bPlayers: state.players.b,
-    teamAColor: state.players.teamAColor,
-    teamBColor: state.players.teamBColor,
-    isAddingPlayers: state.flags.isAddingPlayers,
+    selectedPlayer: state.get(['player', 'selected']),
+    aPlayers: state.get(['player', 'a']),
+    bPlayers: state.get(['player', 'b']),
+    teamAColor: state.get(['player', 'teamAColor']),
+    teamBColor: state.get(['player', 'teamBColor']),
+    isAddingPlayers: state.get(['flag', 'isAddingPlayers']),
   }), (dispatch) => ({
     addPlayer: (...args) =>  dispatch(addPlayer(...args)),
     selectPlayer: (...args) => dispatch(selectPlayer(...args)),
