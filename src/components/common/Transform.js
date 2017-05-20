@@ -3,8 +3,7 @@ import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
 import {onlyUpdateForPropTypes} from 'recompose'
-
-const OFFSET = 1
+import getBoundingBox from '../../utils/getBoundingBox.js'
 
 class Transform extends React.Component {
   state = {
@@ -13,42 +12,15 @@ class Transform extends React.Component {
 
   componentDidMount = () => {
     this.setState({ready: true})
-  }
-  
-  getBoundingBox = () => {
-    const {scale} = this.props
-    const bbox = this.svg.getBBox()
-    const x = bbox.x * scale - OFFSET
-    const y = bbox.y * scale - OFFSET
-    const width = bbox.width * scale + 2 * OFFSET
-    const height = bbox.height * scale + 2 * OFFSET
-    return {x, y, width, height}
-  }
-
-  renderBoundingBox = () => {
-    if (!this.svg) return
-    const {x, y, width, height} = this.getBoundingBox()
-    return (
-      <g className="translate-box">
-        <rect
-          x={x}
-          y={y}
-          width={width}
-          height={height}
-        />
-        <g>
-          <circle cx={x} cy={y} r={0.5}/>
-          <circle cx={x} cy={y + height} r={0.5}/>
-          <circle cx={x + width} cy={y + height} r={0.5}/>
-          <circle cx={x + width} cy={y} r={0.5}/>
-        </g>
-      </g>
-    )
+    if (this.props.getSVG){
+      this.props.getSVG(this.svg)
+    }
   }
 
   renderRotateHandler = () => {
     if (!this.svg) return
-    const {x, y, width, height} = this.getBoundingBox()
+    const {scale} = this.props
+    const {x, y, width, height} = getBoundingBox(this.svg, scale, 1)
     const x0 = x + width/2
     const y0 = y + height/2
     const y1 = y - height
@@ -73,7 +45,6 @@ class Transform extends React.Component {
         }}
         className={cn('Transform', className)}
         transform={`translate(${x}, ${y}) rotate(${rotate})`}>
-        {ready && selected && this.renderBoundingBox()}
         {ready && selected && this.renderRotateHandler()}
         <g ref={svg => this.svg = svg}
           className="children" 
@@ -89,6 +60,7 @@ Transform.propTypes = {
   className: T.string,
   selected: T.bool,
   onClick: T.func,
+  getSVG: T.func,
   x: T.oneOfType([T.string, T.number]),
   y: T.oneOfType([T.string, T.number]),
   scale: T.oneOfType([T.string, T.number]),

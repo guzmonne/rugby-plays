@@ -8,13 +8,13 @@ const teamPlayer = (offsetX, offsetY) => {
     const x = player.get('x')
     const y = player.get('y')
     const angle = player.get('angle')
+    props.scale = 0.03
+    props.x = x - offsetX
+    props.y = y - offsetY
+    props.rotate = angle
     return (
       <Draggable {...props}>
-        <Transform {...props}
-          x={x - offsetX} 
-          y={y - offsetY} 
-          rotate={angle} 
-          scale={0.03}>
+        <Transform {...props}>
           <Player 
             neckFill={player.get('neckFill')}
             bodyFill={bodyFill}

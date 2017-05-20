@@ -1,13 +1,11 @@
-.Transform .rotate-handler path,
-.Transform .translate-box rect {
+.Transform .rotate-handler path {
   stroke: steelblue;
   fill: transparent;
   stroke-width: 0.1;
   stroke-dasharray: 0.2, 0.2;
 }
 
-.Transform .rotate-handler circle,
-.Transform .translate-box circle {
+.Transform .rotate-handler circle {
   fill: white;
   stroke: steelblue;
   stroke-width: 0.2;
