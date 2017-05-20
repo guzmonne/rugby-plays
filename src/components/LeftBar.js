@@ -14,10 +14,11 @@ const LeftBar = ({
   selectTeamRowState,
   selectTeamRowActions,
   isAddingPlayers,
-  isRemovingPlayers,
+  canRemovePlayers,
   toggleTeam,
   toggleAddingPlayers,
   toggleRemovingPlayers,
+  removeSelectedPlayer,
 }) => (
   <div className="LeftBar">
     <h1>#RugbyPlay</h1>
@@ -32,7 +33,9 @@ const LeftBar = ({
           onClick={toggleAddingPlayers}>
           <Icon type="plus" />
         </Button>
-        <Button type="danger" disabled={true}>
+        <Button type="danger" 
+          disabled={!canRemovePlayers}
+          onClick={removeSelectedPlayer}>
           <Icon type="cross"/>
         </Button>
       </span>

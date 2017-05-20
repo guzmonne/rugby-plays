@@ -39,6 +39,14 @@ const players = (state=playersDefaultState, action) => {
       return state.updateIn([action.team], list => (
         list.push(map(action.player))
       ))
+    case ActionTypes.REMOVE_SELECTED_PLAYER:
+      return (
+        state
+        .updateIn([action.team], list => (
+          list.delete(action.index)
+        ))
+        .set('selected', undefined)
+      )
     default: return state
   }
 }
@@ -89,4 +97,5 @@ export const leftBarProps = (state) => ({
     isOpenTeamBColorPicker: state.getIn(['flags', 'isOpenTeamBColorPicker']),
   },
   isAddingPlayers: state.getIn(['flags', 'isAddingPlayers']),
+  canRemovePlayers: state.getIn(['players', 'selected']) !== undefined,
 })

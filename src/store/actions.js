@@ -91,25 +91,44 @@ export const updatePlayer = (index, team, update) => (dispatch) => {
     team,
     update,
   })
-} 
+}
+/**
+ * Remove Player
+ */
+export const REMOVE_SELECTED_PLAYER = 'REMOVE_PLAYER'
+
+export const removeSelectedPlayer = () => (dispatch, getState) => {
+  const state = getState()
+  const players = state.get('players')
+  const id = players.get('selected')
+  const team = players.get('team')
+  const index = players.get(team).findIndex(player => player.get('id') === id)
+  
+  dispatch({
+    type: REMOVE_SELECTED_PLAYER,
+    team,
+    index,
+  })
+}
 /**
  * Helpers
- */
+ * 
 const wrapDispatch = (actions) => (dispatch) => (
   actions.reduce((acc, action) => ({
     ...acc,
     [action.name]: (...args) => dispatch(action(...args)),
   }), {})
 )
+*/
 /**
  * Container actions
  */
-export const fieldActions = wrapDispatch([
-  addPlayer,
-  selectPlayer,
-  updatePlayer,
-  deselectPlayer,
-])
+export const fieldActions = (dispatch) => ({
+  addPlayer:(...args) => dispatch(addPlayer(...args)),
+  updatePlayer:(...args) => dispatch(updatePlayer(...args)),
+  deselectPlayer:(...args) => dispatch(deselectPlayer(...args)),
+  selectPlayer: (...args) => dispatch(selectPlayer(...args)),
+})
 
 export const leftBarActions = (dispatch) => ({
   selectTeamRowActions: {
@@ -126,4 +145,5 @@ export const leftBarActions = (dispatch) => ({
     dispatch(deselectPlayer())
     dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
   },
+  removeSelectedPlayer: (...args) => dispatch(removeSelectedPlayer(...args)),
 })
