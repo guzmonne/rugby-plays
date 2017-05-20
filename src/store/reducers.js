@@ -33,9 +33,6 @@ const players = (state=playersDefaultState, action) => {
     case ActionTypes.TOGGLE_TEAM:
       return state.set('team', state.get('team') === 'a' ? 'b' : 'a')
     case ActionTypes.ADD_PLAYER:
-      if (!action.team || state.get(action.team).size === 15 ) {
-        return state
-      }
       return state.updateIn([action.team], list => (
         list.push(map(action.player))
       ))

@@ -5,13 +5,19 @@ import uniqueId from 'lodash/uniqueId.js'
 export const ADD_PLAYER = 'ADD_PLAYER'
 
 export const addPlayer = (x, y) => (dispatch, getState) => {
-  const team = getState().getIn(['players', 'team'])
+  const state = getState().get('players')
+  const team = state.get('team')
+  const list = state.get(team)
+  // If we already have 15 players we return nothing.
+  if (list.size === 15) return
+  const angle = team === 'a' ? 0 : 180 
   dispatch({
     type: ADD_PLAYER,
     team,
     player: {
       id: uniqueId(`team${team}player`),
       team,
+      angle,
       x: x || 0,
       y: y || 0,
     },

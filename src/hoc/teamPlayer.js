@@ -3,16 +3,17 @@ import Draggable from '../components/common/Draggable.js'
 import Transform from '../components/common/Transform.js'
 import Player from '../components/common/Player.js'
 
-const teamPlayer = (offsetX, offsetY, rotate=0) => {
+const teamPlayer = (offsetX, offsetY) => {
   const TeamPlayer = ({player, bodyFill, ...props}) => {
     const x = player.get('x')
     const y = player.get('y')
+    const angle = player.get('angle')
     return (
       <Draggable {...props}>
         <Transform {...props}
           x={x - offsetX} 
           y={y - offsetY} 
-          rotate={rotate} 
+          rotate={angle} 
           scale={0.03}>
           <Player 
             neckFill={player.get('neckFill')}
