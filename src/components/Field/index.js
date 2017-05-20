@@ -2,7 +2,6 @@ import '../../_styles/Field.css'
 import React from 'react'
 import T from 'prop-types'
 import uniqueId from 'lodash/uniqueId.js'
-import {IPlayer} from '../common/Player.js'
 import Posts from './Posts.js'
 import Stripes from './Stripes.js'
 import Lines from './Lines.js'
@@ -29,8 +28,11 @@ class Field extends React.Component {
   render = () => {
     const {svg, pt} = this.state
     const {
+      teamAColor,
+      teamBColor,
       onDragPlayer,
       selectedPlayer,
+      selectPlayer,
       deselectPlayer,
     } = this.props
     return (
@@ -50,24 +52,24 @@ class Field extends React.Component {
         <g className="aPlayers">
         {this.props.aPlayers.map((player, index) => (
           <TeamAPlayer key={uniqueId('player')}
-            bodyFill={this.props.teamAColor}
-            draggable={selectedPlayer === player.id}
+            bodyFill={teamAColor}
+            draggable={selectedPlayer === player.get('id')}
             onDrag={(e) => onDragPlayer(e, svg, pt, index, 'a')}
-            onClick={() => this.props.selectPlayer(player.id)}
-            selected={selectedPlayer === player.id}
-            {...player}
+            onClick={() => selectPlayer(player.get('id'))}
+            selected={selectedPlayer === player.get('id')}
+            player={player}
           />
         ))}
         </g>
         <g className="bPlayers">
         {this.props.bPlayers.map((player, index) => (
           <TeamBPlayer key={uniqueId('player')}
-            bodyFill={this.props.teamBColor}
-            draggable={selectedPlayer === player.id}
+            bodyFill={teamBColor}
+            draggable={selectedPlayer === player.get('id')}
             onDrag={(e) => onDragPlayer(e, svg, pt, index, 'b')}
-            onClick={() => this.props.selectPlayer(player.id)}
-            selected={this.props.selectedPlayer === player.id}
-            {...player}
+            onClick={() => selectPlayer(player.get('id'))}
+            selected={selectedPlayer === player.get('id')}
+            player={player}
           />
         ))}
         </g>
@@ -82,8 +84,8 @@ Field.propTypes = {
   teamAColor: T.string,
   teamBColor: T.string,
   selectedPlayer: T.string,
-  aPlayers: T.arrayOf(T.shape(IPlayer)),
-  bPlayers: T.arrayOf(T.shape(IPlayer)),
+  aPlayers: T.object,
+  bPlayers: T.object,
   onDragPlayer: T.func,
   selectPlayer: T.func,
   deselectPlayer: T.func,

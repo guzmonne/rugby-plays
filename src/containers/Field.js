@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import throttle from 'lodash/throttle.js'
-import toJS from '../hoc/toJS.js'
 import {fieldProps} from '../store/reducers.js'
 import {fieldActions} from '../store/actions.js'
 import Component from '../components/Field/index.js'
@@ -35,4 +34,4 @@ class Field extends React.Component {
   )
 }
 
-export default connect(fieldProps, fieldActions)(toJS(Field))
+export default connect(fieldProps, fieldActions)(Field)
