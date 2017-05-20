@@ -1,12 +1,24 @@
-.Transform .tools rect {
+.Transform .rotate-handler path,
+.Transform .translate-box rect {
   stroke: steelblue;
   fill: transparent;
   stroke-width: 0.1;
   stroke-dasharray: 0.2, 0.2;
 }
 
-.Transform .tools circle {
+.Transform .rotate-handler circle,
+.Transform .translate-box circle {
   fill: white;
   stroke: steelblue;
   stroke-width: 0.2;
+}
+
+.Transform .rotate-handler circle.transparent:hover,
+.Transform .rotate-handler circle:hover {
+  cursor: url(./_images/redo.svg), auto;
+}
+
+.Transform .rotate-handler circle.transparent {
+  fill: transparent;
+  stroke: transparent;
 }

@@ -29,7 +29,7 @@ class Transform extends React.Component {
     if (!this.svg) return
     const {x, y, width, height} = this.getBoundingBox()
     return (
-      <g className={'tools'}>
+      <g className="translate-box">
         <rect
           x={x}
           y={y}
@@ -42,6 +42,21 @@ class Transform extends React.Component {
           <circle cx={x + width} cy={y + height} r={0.5}/>
           <circle cx={x + width} cy={y} r={0.5}/>
         </g>
+      </g>
+    )
+  }
+
+  renderRotateHandler = () => {
+    if (!this.svg) return
+    const {x, y, width, height} = this.getBoundingBox()
+    const x0 = x + width/2
+    const y0 = y + height/2
+    const y1 = y - height
+    return (
+      <g className="rotate-handler">
+        <path d={`M${x0},${y0} ${x0},${y1}Z`} />
+        <circle cx={x0} cy={y1} r={0.5}/>
+        <circle className="transparent" cx={x0} cy={y1} r={1.5}/>
       </g>
     )
   }
@@ -59,6 +74,7 @@ class Transform extends React.Component {
         className={cn('Transform', className)}
         transform={`translate(${x}, ${y}) rotate(${rotate})`}>
         {ready && selected && this.renderBoundingBox()}
+        {ready && selected && this.renderRotateHandler()}
         <g ref={svg => this.svg = svg}
           className="children" 
           transform={`scale(${scale})`}>
