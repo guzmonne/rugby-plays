@@ -1,15 +1,18 @@
 import React from 'react'
 import {Iterable} from 'immutable'
 
-export default (immutableProps) => (Component) => (props) => {
-  const jsProps = immutableProps.reduce((acc, prop) => ({
-    ...acc,
-    [prop]: (
-      Iterable.isIterable(props[prop])
-      ? props[prop].toJS()
-      : props[prop]
-    )
-  }), {})
+export default (Component) => (props) => {
+  const jsProps = (
+    Object.keys(props)
+    .reduce((acc, prop) => ({
+      ...acc,
+      [prop]: (
+        Iterable.isIterable(props[prop])
+        ? props[prop].toJS()
+        : props[prop]
+      )
+    }), {})
+  )
 
   return (
     <Component {...jsProps} />

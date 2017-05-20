@@ -1,12 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import throttle from 'lodash/throttle.js'
-import {
-  addPlayer,
-  selectPlayer,
-  updatePlayer,
-  deselectPlayer,
-} from '../store/actions.js'
+import toJS from '../hoc/toJS.js'
+import {fieldProps} from '../store/reducers.js'
+import {fieldActions} from '../store/actions.js'
 import Component from '../components/Field/index.js'
 import mouseToSvgCoordinates from '../utils/mouseToSvgCoordinates.js'
 
@@ -38,20 +35,4 @@ class Field extends React.Component {
   )
 }
 
-Field.displayName = 'Something'
-
-export default connect(
-  (state) => ({
-    selectedPlayer: state.get(['player', 'selected']),
-    aPlayers: state.get(['player', 'a']),
-    bPlayers: state.get(['player', 'b']),
-    teamAColor: state.get(['player', 'teamAColor']),
-    teamBColor: state.get(['player', 'teamBColor']),
-    isAddingPlayers: state.get(['flag', 'isAddingPlayers']),
-  }), (dispatch) => ({
-    addPlayer: (...args) =>  dispatch(addPlayer(...args)),
-    selectPlayer: (...args) => dispatch(selectPlayer(...args)),
-    updatePlayer: (...args) => dispatch(updatePlayer(...args)),
-    deselectPlayer: (...args) => dispatch(deselectPlayer(...args)),
-  })
-)(Field)
+export default connect(fieldProps, fieldActions)(toJS(Field))

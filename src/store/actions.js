@@ -5,7 +5,7 @@ import uniqueId from 'lodash/uniqueId.js'
 export const ADD_PLAYER = 'ADD_PLAYER'
 
 export const addPlayer = (x, y) => (dispatch, getState) => {
-  const team = getState().players.team
+  const team = getState().getIn(['players', 'team'])
   dispatch({
     type: ADD_PLAYER,
     team,
@@ -35,7 +35,7 @@ export const switchFlag = (flagA, flagB) => (dispatch, getState) => {
     flag: flagA,
   })
 
-  if (state.flags[flagB] === true) {
+  if (state.getIn(['flags', flagB]) === true) {
     dispatch({
       type: TOGGLE_FLAG,
       flag: flagB,
@@ -67,9 +67,9 @@ export const DESELECT_PLAYER = 'DESELECT_PLAYER'
 export const selectPlayer = (playerId) => (dispatch, getState) =>  {
   const state = getState()
 
-  if (state.flags.isAddingPlayers === true) return
+  if (state.getIn(['flags', 'isAddingPlayers']) === true) return
 
-  const currentPlayerId = state.players.selected
+  const currentPlayerId = state.getIn(['players', 'selected'])
   dispatch({
     type: SELECT_PLAYER,
     playerId: playerId === currentPlayerId ? undefined : playerId,
@@ -84,7 +84,7 @@ export const deselectPlayer = () => ({
  */
 export const UPDATE_PLAYER = 'UPDATE_PLAYER'
 
-export const updatePlayer = (index, team, update) => (dispatch, getState) => {
+export const updatePlayer = (index, team, update) => (dispatch) => {
   dispatch({
     type: UPDATE_PLAYER,
     index,
