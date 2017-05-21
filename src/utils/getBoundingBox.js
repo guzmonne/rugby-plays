@@ -1,4 +1,4 @@
-export default (svg, scale, offset) => {
+export default (svg, scale, offset=0) => {
   const bbox = svg.getBBox()
   const x = bbox.x * scale - offset
   const y = bbox.y * scale - offset

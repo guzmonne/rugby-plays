@@ -17,40 +17,33 @@ class Transform extends React.Component {
     }
   }
 
-  renderRotateHandler = () => {
-    if (!this.svg) return
-    const {scale} = this.props
-    const {x, y, width, height} = getBoundingBox(this.svg, scale, 1)
-    const x0 = x + width/2
-    const y0 = y + height/2
-    const y1 = y - height
-    return (
-      <g className="rotate-handler">
-        <path d={`M${x0},${y0} ${x0},${y1}Z`} />
-        <circle cx={x0} cy={y1} r={0.5}/>
-        <circle className="transparent" cx={x0} cy={y1} r={1.5}/>
-      </g>
-    )
-  }
-
   render = () => {
-    const {ready} = this.state
-    const {className, x, y, rotate, scale, selected, children} = this.props
+    const {className, x, y, rotate:r, scale, onMouseDown, children} = this.props
+
+    let x0 = 0
+    let y0 = 0
+
+    if (this.svg) {
+      const box = getBoundingBox(this.svg, scale)
+      x0 = box.x + box.width / 2
+      y0 = box.y + box.height / 2 
+    }
     
     return (
-      <g
+      <g className={cn('Transform', className)}
+        ref={svg => this.svg = svg}
+        onMouseDown={e => {
+          e.stopPropagation()
+          onMouseDown(e)
+        }}
         onClick={(e) => {
           e.stopPropagation()
           this.props.onClick(e)
         }}
-        className={cn('Transform', className)}
-        transform={`translate(${x}, ${y}) rotate(${rotate})`}>
-        {ready && selected && this.renderRotateHandler()}
-        <g ref={svg => this.svg = svg}
-          className="children" 
-          transform={`scale(${scale})`}>
-          {children}
-        </g>
+        transform={
+          `translate(${x}, ${y}) rotate(${r}, ${x0}, ${y0}) scale(${scale})`
+        }>
+        {children}
       </g>
     )
   }
@@ -60,6 +53,7 @@ Transform.propTypes = {
   className: T.string,
   selected: T.bool,
   onClick: T.func,
+  onMouseDown: T.func,
   getSVG: T.func,
   x: T.oneOfType([T.string, T.number]),
   y: T.oneOfType([T.string, T.number]),
@@ -69,6 +63,7 @@ Transform.propTypes = {
 
 Transform.defaultProps = {
   onClick: () => {},
+  onMouseDown: () => {},
   x: 0,
   y: 0,
   rotate: 0,

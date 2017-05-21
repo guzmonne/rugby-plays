@@ -31,6 +31,7 @@ class Field extends React.Component {
       teamAColor,
       teamBColor,
       onDragPlayer,
+      onRotatePlayer,
       selectedPlayer,
       selectPlayer,
       deselectPlayer,
@@ -54,6 +55,8 @@ class Field extends React.Component {
           <TeamAPlayer key={uniqueId('player')}
             bodyFill={teamAColor}
             draggable={selectedPlayer === player.get('id')}
+            rotatable={selectedPlayer === player.get('id')}
+            onRotate={(e) => onRotatePlayer(e, svg, pt, index, player)}
             onDrag={(e) => onDragPlayer(e, svg, pt, index, 'a')}
             onClick={() => selectPlayer(player.get('id'))}
             selected={selectedPlayer === player.get('id')}
@@ -66,6 +69,8 @@ class Field extends React.Component {
           <TeamBPlayer key={uniqueId('player')}
             bodyFill={teamBColor}
             draggable={selectedPlayer === player.get('id')}
+            rotatable={selectedPlayer === player.get('id')}
+            onRotate={(e) => onRotatePlayer(e, svg, pt, index, player)}
             onDrag={(e) => onDragPlayer(e, svg, pt, index, 'b')}
             onClick={() => selectPlayer(player.get('id'))}
             selected={selectedPlayer === player.get('id')}
@@ -87,6 +92,7 @@ Field.propTypes = {
   aPlayers: T.object,
   bPlayers: T.object,
   onDragPlayer: T.func,
+  onRotatePlayer: T.func,
   selectPlayer: T.func,
   deselectPlayer: T.func,
 }

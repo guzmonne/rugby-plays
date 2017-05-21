@@ -6,13 +6,22 @@ const playersDefaultState = map({
   selected: undefined,
   a: list([
     map({
-      id: "teamaplayer3",
+      angle: 0,
+      id: "a1",
       team: "a",
       x: 38.604312896728516,
       y: 74.5626220703125,
     })
   ]),
-  b: list(),
+  b: list([
+    map({
+      angle: 180,
+      id: "b2",
+      team: "b",
+      x: 18.604312896728516,
+      y: 24.5626220703125,
+    })
+  ]),
   team: 'a',
   teamAColor: '#fff',
   teamBColor: '#989',

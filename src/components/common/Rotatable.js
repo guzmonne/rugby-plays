@@ -1,14 +1,12 @@
-import '../../_styles/Draggable.css'
+import '../../_styles/Rotatable.css'
 import React from 'react'
 import T from 'prop-types'
 import {onlyUpdateForPropTypes} from 'recompose'
 import getBoundingBox from '../../utils/getBoundingBox.js'
-import BoundingBox from './BoundingBox.js'
 
 const LEFT_BUTTON = 0
-const OFFSET = 1
 
-class Draggable extends React.Component {
+class Rotatable extends React.Component {
   state = {
     svg: undefined,
   }
@@ -26,18 +24,18 @@ class Draggable extends React.Component {
 
   onMouseDown = (e) => {
     if (e.button !== LEFT_BUTTON) return
-    this.props.onDragStart()
+    this.props.onRotateStart()
     this.addEvents()
   }
 
   onMouseMove = (e) => {
-    if (this.props.draggable) {
-      this.props.onDrag(e)
+    if (this.props.rotatable) {
+      this.props.onRotate(e)
     }
   }
 
   onMouseUp = () => {
-    this.props.onDragStop()
+    this.props.onRotateStop()
     this.removeEvents()
   }
 
@@ -51,32 +49,28 @@ class Draggable extends React.Component {
     document.removeEventListener('mouseup', this.onMouseUp)
   }
 
-  renderBoundingBox = (children, props) => {
+  renderRotateHandler = (children, props) => {
     if (!this.state.svg) return
-    const {rotate, scale, x, y} = this.props
-    const box = getBoundingBox(this.state.svg, scale, OFFSET)
-    box.x = x + box.x
-    box.y = y + box.y
-    props.onMouseDown = this.onMouseDown
+    const {scale, rotate, x, y} = this.props
+    const box = getBoundingBox(this.state.svg, scale, 1)
+    const x0 = x + box.x + box.width/2
+    const y0 = y + box.y + box.height/2
+    const y1 = y + box.y - box.height
     return (
-      <g className="Draggable">
-        <BoundingBox {...box} 
-          onMouseDown={this.onMouseDown}
-          transform={`rotate(${
-            rotate
-          }, ${
-            box.x + box.width/2
-          }, ${
-            box.y + box.height/2
-          })`}
-        />
+      <g className="Rotatable" onMouseDown={this.onMouseDown}>
+        <g className="handler"
+          transform={`rotate(${rotate}, ${x0}, ${y0})`}>
+          <path d={`M${x0},${y0} ${x0},${y1}Z`} />
+          <circle cx={x0} cy={y1} r={0.5}/>
+          <circle className="transparent" cx={x0} cy={y1} r={1.5}/>
+        </g>
         {React.cloneElement(children, props)}
       </g>
     )
   }
 
   render = () => {
-    const {children, draggable, ...props} = this.props
+    const {children, rotatable, ...props} = this.props
     
     if (!this.state.svg) {
       props.getSVG = svg => {
@@ -85,29 +79,29 @@ class Draggable extends React.Component {
       }
     }
 
-    if (this.state.svg && draggable) {
-      return this.renderBoundingBox(children, props)
+    if (this.state.svg && rotatable) {
+      return this.renderRotateHandler(children, props)
     }
 
     return (
-      <g className="Draggable">
+      <g className="Rotatable">
         {React.cloneElement(children, props)}
       </g>
     )
   }
 }
 
-Draggable.propTypes = {
-  onDragStart: T.func,
-  onDragStop: T.func,
-  onDrag: T.func,
-  draggable: T.bool,
+Rotatable.propTypes = {
+  onRotateStart: T.func,
+  onRotateStop: T.func,
+  onRotate: T.func,
+  rotatable: T.bool,
 }
 
-Draggable.defaultProps = {
-  onDragStart: () => {},
-  onDragStop: () => {},
-  onDrag: () => {},
+Rotatable.defaultProps = {
+  onRotateStart: () => {},
+  onRotateStop: () => {},
+  onRotate: () => {},
 }
 
-export default onlyUpdateForPropTypes(Draggable)
+export default onlyUpdateForPropTypes(Rotatable)

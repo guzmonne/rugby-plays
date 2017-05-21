@@ -1,8 +1,8 @@
 import React from 'react'
 import T from 'prop-types'
 
-const BoundingBox = ({x, y, width, height, onMouseDown, children}) => (
-  <g className="translate-box" onMouseDown={onMouseDown}>
+const BoundingBox = ({x, y, width, height, onMouseDown, transform, children}) => (
+  <g className="translate-box" onMouseDown={onMouseDown} transform={transform}>
     <rect
       x={x}
       y={y}
@@ -25,6 +25,7 @@ BoundingBox.propTypes = {
   width: T.number,
   height: T.number,
   onMouseDown: T.func,
+  transform: T.string,
 }
 
 BoundingBox.defaultProps = {
