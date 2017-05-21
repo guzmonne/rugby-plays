@@ -57,7 +57,7 @@ class Field extends React.Component {
             draggable={selectedPlayer === player.get('id')}
             rotatable={selectedPlayer === player.get('id')}
             onRotate={(e) => onRotatePlayer(e, svg, pt, index, player)}
-            onDrag={(e) => onDragPlayer(e, svg, pt, index, 'a')}
+            onDrag={(e) => onDragPlayer(e, svg, pt, index, player)}
             onClick={() => selectPlayer(player.get('id'))}
             selected={selectedPlayer === player.get('id')}
             player={player}
@@ -71,7 +71,7 @@ class Field extends React.Component {
             draggable={selectedPlayer === player.get('id')}
             rotatable={selectedPlayer === player.get('id')}
             onRotate={(e) => onRotatePlayer(e, svg, pt, index, player)}
-            onDrag={(e) => onDragPlayer(e, svg, pt, index, 'b')}
+            onDrag={(e) => onDragPlayer(e, svg, pt, index, player)}
             onClick={() => selectPlayer(player.get('id'))}
             selected={selectedPlayer === player.get('id')}
             player={player}

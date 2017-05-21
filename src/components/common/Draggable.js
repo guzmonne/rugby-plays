@@ -26,6 +26,7 @@ class Draggable extends React.Component {
 
   onMouseDown = (e) => {
     if (e.button !== LEFT_BUTTON) return
+    e.stopPropagation()
     this.props.onDragStart()
     this.addEvents()
   }
