@@ -56,8 +56,8 @@ class Field extends React.Component {
             bodyFill={teamAColor}
             draggable={selectedPlayer === player.get('id')}
             rotatable={selectedPlayer === player.get('id')}
-            onRotate={(e) => onRotatePlayer(e, svg, pt, index, player)}
-            onDrag={(e) => onDragPlayer(e, svg, pt, index, player)}
+            onRotate={(e) => onRotatePlayer(e, svg, pt, player)}
+            onDrag={(e) => onDragPlayer(e, svg, pt, player)}
             onClick={() => selectPlayer(player.get('id'))}
             selected={selectedPlayer === player.get('id')}
             player={player}
@@ -70,8 +70,8 @@ class Field extends React.Component {
             bodyFill={teamBColor}
             draggable={selectedPlayer === player.get('id')}
             rotatable={selectedPlayer === player.get('id')}
-            onRotate={(e) => onRotatePlayer(e, svg, pt, index, player)}
-            onDrag={(e) => onDragPlayer(e, svg, pt, index, player)}
+            onRotate={(e) => onRotatePlayer(e, svg, pt, player)}
+            onDrag={(e) => onDragPlayer(e, svg, pt, player)}
             onClick={() => selectPlayer(player.get('id'))}
             selected={selectedPlayer === player.get('id')}
             player={player}

@@ -1,4 +1,5 @@
 import uniqueId from 'lodash/uniqueId.js'
+import {Player} from './records.js'
 /**
  * Add Player
  */
@@ -14,16 +15,8 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
   const id = uniqueId(`team${team}player`)
   dispatch({
     type: ADD_PLAYER,
-    team,
-    id,
     entity: 'players',
-    model: {
-      id,
-      team,
-      angle,
-      x: x || 0,
-      y: y || 0,
-    },
+    model: new Player({id, team, angle, x, y}),
   })
 }
 /**
@@ -93,14 +86,12 @@ export const deselectPlayer = () => ({
  */
 export const UPDATE_PLAYER = 'UPDATE_PLAYER'
 
-export const updatePlayer = (index, team, update) => (dispatch) => {
-  dispatch({
-    type: UPDATE_PLAYER,
-    index,
-    team,
-    update,
-  })
-}
+export const updatePlayer = (id, update) => ({
+  type: UPDATE_PLAYER,
+  entity: 'players',
+  id,
+  update,
+})
 /**
  * Remove Player
  */
@@ -132,9 +123,9 @@ const wrapDispatch = (actions) => (dispatch) => (
  * Container actions
  */
 export const fieldActions = (dispatch) => ({
-  addPlayer:(...args) => dispatch(addPlayer(...args)),
-  updatePlayer:(...args) => dispatch(updatePlayer(...args)),
-  deselectPlayer:(...args) => dispatch(deselectPlayer(...args)),
+  addPlayer: (...args) => dispatch(addPlayer(...args)),
+  updatePlayer: (...args) => dispatch(updatePlayer(...args)),
+  deselectPlayer: (...args) => dispatch(deselectPlayer(...args)),
   selectPlayer: (...args) => dispatch(selectPlayer(...args)),
 })
 

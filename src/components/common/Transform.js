@@ -2,12 +2,15 @@ import '../../_styles/Transform.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
-import {onlyUpdateForPropTypes} from 'recompose'
 import getBoundingBox from '../../utils/getBoundingBox.js'
 
 class Transform extends React.Component {
   state = {
     ready: false,
+  }
+
+  shouldComponentUpdate(newProps) {
+    return newProps === this.props
   }
 
   componentDidMount = () => {
@@ -71,4 +74,4 @@ Transform.defaultProps = {
   selected: false,
 }
 
-export default onlyUpdateForPropTypes(Transform)
+export default Transform

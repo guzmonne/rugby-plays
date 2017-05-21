@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import throttle from 'lodash/throttle.js'
-import {fieldProps} from '../store/reducers.js'
+import {fieldSelector} from '../store/reducers.js'
 import {fieldActions} from '../store/actions.js'
 import Component from '../components/Field/index.js'
 import mouseToSvgCoordinates from '../utils/mouseToSvgCoordinates.js'
@@ -18,10 +18,9 @@ class Field extends React.Component {
     this.props.addPlayer(x, y)
   }
 
-  _onRotatePlayer = (e, svg, pt, index, player) => {
+  _onRotatePlayer = (e, svg, pt, player) => {
     let {x:mX, y:mY} = mouseToSvgCoordinates(e, svg, pt)
     let angle = player.get('angle')
-    const team = player.get('team')
     const x = player.get('x')
     const y = player.get('y')
     const a = Math.abs(y - mY)
@@ -36,10 +35,10 @@ class Field extends React.Component {
     } else if (mX > x) {
       angle = mY < y ? 90 - alpha : alpha + 90
     }
-    this.props.updatePlayer(index, team, {angle})
+    this.props.updatePlayer(player.get('id'), {angle})
   }
 
-  _onDragPlayer = (e, svg, pt, index, player) => {
+  _onDragPlayer = (e, svg, pt, player) => {
     let {x:mX, y:mY} = mouseToSvgCoordinates(e, svg, pt)
     const x = player.get('x')
     const y = player.get('y')
@@ -61,7 +60,7 @@ class Field extends React.Component {
     if (mY < 0)      {mY = 0}
     if (mY > HEIGHT) {mY = HEIGHT}
     // Update
-    this.props.updatePlayer(index, player.get('team'), {x: mX, y: mY})
+    this.props.updatePlayer(player.get('id'), {x: mX, y: mY})
   }
 
   onDragPlayer = throttle(this._onDragPlayer, 100)
@@ -73,4 +72,4 @@ class Field extends React.Component {
   )
 }
 
-export default connect(fieldProps, fieldActions)(Field)
+export default connect(fieldSelector, fieldActions)(Field)

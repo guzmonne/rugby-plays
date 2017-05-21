@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {leftBarProps} from '../store/reducers.js'
+import {leftBarSelector} from '../store/reducers.js'
 import {leftBarActions} from '../store/actions.js'
 import Component from '../components/LeftBar.js'
 
@@ -10,6 +10,6 @@ class LeftBar extends React.Component {
   )
 }
 
-const ConnectedLeftBar = connect(leftBarProps, leftBarActions)(LeftBar)
+const ConnectedLeftBar = connect(leftBarSelector, leftBarActions)(LeftBar)
 
 export default ConnectedLeftBar 
