@@ -10,12 +10,15 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
   const list = state.get(team)
   // If we already have 15 players we return nothing.
   if (list.size === 15) return
-  const angle = team === 'a' ? 0 : 180 
+  const angle = team === 'a' ? 0 : 180
+  const id = uniqueId(`team${team}player`)
   dispatch({
     type: ADD_PLAYER,
     team,
-    player: {
-      id: uniqueId(`team${team}player`),
+    id,
+    entity: 'players',
+    model: {
+      id,
       team,
       angle,
       x: x || 0,
@@ -105,15 +108,14 @@ export const REMOVE_SELECTED_PLAYER = 'REMOVE_PLAYER'
 
 export const removeSelectedPlayer = () => (dispatch, getState) => {
   const state = getState()
-  const players = state.get('players')
-  const id = players.get('selected')
-  const team = players.get('team')
-  const index = players.get(team).findIndex(player => player.get('id') === id)
-  
+  const id = state.getIn(['players', 'selected'])
+  const model = state.getIn(['entities', 'players']).find(player => (
+    player.id === id
+  ))
   dispatch({
     type: REMOVE_SELECTED_PLAYER,
-    team,
-    index,
+    entity: 'players',
+    model,
   })
 }
 /**

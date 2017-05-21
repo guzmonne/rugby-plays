@@ -10,8 +10,8 @@ const teamPlayer = (offsetX, offsetY) => {
     const y = player.get('y')
     const angle = player.get('angle')
     props.scale = 0.08
-    props.x = x
-    props.y = y
+    props.x = x - offsetX
+    props.y = y - offsetY
     props.rotate = angle
     return (
       <Rotatable {...props}>

@@ -1,38 +1,38 @@
 import {combineReducers} from 'redux-immutable'
-import {Map as map, List as list} from 'immutable'
+import {
+  Players,
+  Flags,
+  Entities,
+} from './records.js'
 import * as ActionTypes from './actions.js'
 
-const playersDefaultState = map({
-  selected: undefined,
-  a: list([
-    map({
-      angle: 0,
-      id: "a1",
-      team: "a",
-      x: 38.604312896728516,
-      y: 74.5626220703125,
-    })
-  ]),
-  b: list([
-    map({
-      angle: 180,
-      id: "b2",
-      team: "b",
-      x: 18.604312896728516,
-      y: 24.5626220703125,
-    })
-  ]),
-  team: 'a',
-  teamAColor: '#fff',
-  teamBColor: '#989',
-})
+const entities = (state=new Entities(), action) => {
+  if (action.type.match(/$ADD_/) === true && action.model && action.entity) {
+    state.get(action.entity).push(action.model)
+  }
 
-const players = (state=playersDefaultState, action) => {
+  if (action.type.match(/$REMOVE_/) === true && action.entity && action.model) {
+    state.updateIn([action.entity], list => (
+      list.delete(list.findIndex(model => model === action.model))
+    ))
+  }
+
+  return state
+}
+
+const players = (state=new Players(), action) => {
   switch (action.type) {
     case ActionTypes.UPDATE_PLAYER:
-      return state.updateIn([action.team], list => (
-        list.set(action.index, list.get(action.index).merge(map(action.update)))
-      ))
+      return (
+        state.updateIn([action.team], list => (
+          list.set(
+            action.index,
+            Object.keys(action.update).reduce((acc, key) => (
+              acc.set(key, action.update[key])
+            ), list.get(action.index))
+          )
+        ))
+      )
     case ActionTypes.DESELECT_PLAYER:
       return state.set('selected', undefined)
     case ActionTypes.SELECT_PLAYER:
@@ -42,14 +42,11 @@ const players = (state=playersDefaultState, action) => {
     case ActionTypes.TOGGLE_TEAM:
       return state.set('team', state.get('team') === 'a' ? 'b' : 'a')
     case ActionTypes.ADD_PLAYER:
-      return state.updateIn([action.team], list => (
-        list.push(map(action.player))
-      ))
-    case ActionTypes.REMOVE_SELECTED_PLAYER:
+      return state.updateIn([action.team], (list) => list.push(action.id))
+    case ActionTypes.REMOVE_PLAYER:
       return (
-        state
-        .updateIn([action.team], list => (
-          list.delete(action.index)
+        state.updateIn([action.model.team], list => (
+          list.delete(list.findIndex(id => action.model.id))
         ))
         .set('selected', undefined)
       )
@@ -57,14 +54,7 @@ const players = (state=playersDefaultState, action) => {
   }
 }
 
-const defaultFlagsState = map({
-  isAddingPlayers: false,
-  isOpenTeamAColorPicker: false,
-  isOpenTeamBColorPicker: false,
-  isPlayerDraggable: false,
-})
-
-const flags = (state=defaultFlagsState, action) => {
+const flags = (state=new Flags(), action) => {
   if (
     action.type !== ActionTypes.TOGGLE_FLAG ||
     !action.flag || 
@@ -79,6 +69,7 @@ const flags = (state=defaultFlagsState, action) => {
  * Export main reducer.
  */
 export default combineReducers({
+  entities,
 	players,
   flags,
 })
