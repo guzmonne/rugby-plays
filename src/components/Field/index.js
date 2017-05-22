@@ -6,7 +6,8 @@ import Posts from './Posts.js'
 import Stripes from './Stripes.js'
 import Lines from './Lines.js'
 import Outline from './Outline.js'
-import TeamAPlayer from './TeamAPlayer.js'
+import TeamPlayers from './TeamPlayers.js'
+//import TeamAPlayer from './TeamAPlayer.js'
 import TeamBPlayer from './TeamBPlayer.js'
 import {onlyUpdateForPropTypes} from 'recompose'
 
@@ -50,34 +51,22 @@ class Field extends React.Component {
         />
         <Lines />
         <Posts />
-        <g className="aPlayers">
-        {this.props.aPlayers.map((player, index) => (
-          <TeamAPlayer key={uniqueId('player')}
-            bodyFill={teamAColor}
-            draggable={selectedPlayer === player.get('id')}
-            rotatable={selectedPlayer === player.get('id')}
-            onRotate={(e) => onRotatePlayer(e, svg, pt, player)}
-            onDrag={(e) => onDragPlayer(e, svg, pt, player)}
-            onClick={() => selectPlayer(player.get('id'))}
-            selected={selectedPlayer === player.get('id')}
-            player={player}
-          />
-        ))}
-        </g>
-        <g className="bPlayers">
-        {this.props.bPlayers.map((player, index) => (
-          <TeamBPlayer key={uniqueId('player')}
-            bodyFill={teamBColor}
-            draggable={selectedPlayer === player.get('id')}
-            rotatable={selectedPlayer === player.get('id')}
-            onRotate={(e) => onRotatePlayer(e, svg, pt, player)}
-            onDrag={(e) => onDragPlayer(e, svg, pt, player)}
-            onClick={() => selectPlayer(player.get('id'))}
-            selected={selectedPlayer === player.get('id')}
-            player={player}
-          />
-        ))}
-        </g>
+        <TeamPlayers className="TeamA"
+          selectedPlayer={selectedPlayer}
+          players={this.props.aPlayers}
+          bodyFill={teamAColor}
+          onSelectPlayer={(e, player) => selectPlayer(player.id)}
+          onDragPlayer={(e, player) => onDragPlayer(e, svg, pt, player)}
+          onRotatePlayer={(e, player) => onRotatePlayer(e, svg, pt, player)}
+        />
+        <TeamPlayers className="TeamB"
+          selectedPlayer={selectedPlayer}
+          players={this.props.bPlayers}
+          bodyFill={teamBColor}
+          onSelectPlayer={(e, player) => selectPlayer(player.id)}
+          onDragPlayer={(e, player) => onDragPlayer(e, svg, pt, player)}
+          onRotatePlayer={(e, player) => onRotatePlayer(e, svg, pt, player)}
+        />
       </svg>
     )
   }
@@ -103,3 +92,14 @@ Field.defaultProps = {
 }
 
 export default onlyUpdateForPropTypes(Field)
+
+
+/**
+<TeamAPlayer key={uniqueId('player')}
+  selected={selectedPlayer === player.id}
+  onRotate={(e) => onRotatePlayer(e, svg, pt, player)}
+  onDrag={(e) => onDragPlayer(e, svg, pt, player)}
+  onClick={() => selectPlayer(player.id)}
+  player={player}
+/>
+ */

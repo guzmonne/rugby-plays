@@ -90,11 +90,17 @@ export default combineReducers({
 const playersSelectedSelector = state => state.getIn(['players', 'selected'])
 const playersASelector = state => {
   const ids = state.getIn(['players', 'a'])
-  return ids.map(id => state.getIn(['entities', 'players', id]))
+  return (
+    ids
+    .map(id => state.getIn(['entities', 'players', id]))
+  )
 }
 const playersBSelector = state => {
   const ids = state.getIn(['players', 'b'])
-  return ids.map(id => state.getIn(['entities', 'players', id]))
+  return (
+    ids
+    .map(id => state.getIn(['entities', 'players', id]))
+  )
 }
 const playersTeamAColorSelector = state => (
   state.getIn(['players', 'teamAColor'])
@@ -131,9 +137,9 @@ export const leftBarSelector = createStructuredSelector({
 
 export const fieldSelector = createStructuredSelector({
   selectedPlayer: playersSelectedSelector,
-  aPlayers: playersASelector,
-  bPlayers: playersBSelector,
   teamAColor: playersTeamAColorSelector,
   teamBColor: playersTeamBColorSelector,
+  aPlayers: playersASelector,
+  bPlayers: playersBSelector,
   isAddingPlayers: flagsIsAddingPlayerSelector,
 })

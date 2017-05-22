@@ -3,7 +3,7 @@ import T from "prop-types"
 import {onlyUpdateForPropTypes} from 'recompose'
 
 const Player = ({neckFill, bodyFill, headFill, bodyStroke}) => (
-  <g>
+  <g className="Player">
     <path 
       d="M24.426,22.021l1.315,0l0,-9.61l5.736,0l0,10.167l-1.823,2.149l-26.859,0l-2.268,-2.149l0,-10.167l5.735,0l0,9.61l1.315,0l0,-6.51l8.425,0l8.424,0l0,6.51Z"
       style={{
@@ -12,7 +12,7 @@ const Player = ({neckFill, bodyFill, headFill, bodyStroke}) => (
         strokeWidth: '1px',
       }}
     />
-    <g>
+    <g className="body">
       <path 
         d="M19.439,16.445c0,-1.583 -1.286,-2.868 -2.869,-2.868l-1.137,0c-1.583,0 -2.868,1.285 -2.868,2.868l0,1.401c0,1.583 1.285,2.868 2.868,2.868l1.137,0c1.583,0 2.869,-1.285 2.869,-2.868l0,-1.401Z" style={{fill: neckFill}}
       />

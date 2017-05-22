@@ -1,5 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
+import {onlyUpdateForKeys} from 'recompose'
 
 const BoundingBox = ({x, y, width, height, onMouseDown, transform, children}) => (
   <g className="translate-box" onMouseDown={onMouseDown} transform={transform}>
@@ -24,8 +25,8 @@ BoundingBox.propTypes = {
   y: T.number,
   width: T.number,
   height: T.number,
-  onMouseDown: T.func,
   transform: T.string,
+  onMouseDown: T.func,
 }
 
 BoundingBox.defaultProps = {
@@ -36,4 +37,8 @@ BoundingBox.defaultProps = {
   onMouseDown: () => {},
 }
 
-export default BoundingBox
+const PureBoundingBox = (
+  onlyUpdateForKeys(['x', 'y', 'width', 'height', 'transform'])(BoundingBox)
+)
+
+export default PureBoundingBox

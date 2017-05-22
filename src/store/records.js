@@ -1,30 +1,31 @@
 import {Record, Map as ImmutableMap, List} from 'immutable'
+import range from 'lodash/range.js'
 
 export const Player = Record({
-  angle: 0,
   id: undefined,
+  angle: 0,
   team: "a",
   x: 0,
   y: 0,
 }, 'Player')
 
+const players = (team) => range(0, 12).reduce((acc, index) => (
+  acc.set(`${team}${index}`, new Player({
+    id: `${team}${index}`,
+    //angle: 0,
+    angle: Math.random() * 180 * (Math.random() > 0.5 ? 1 : -1),
+    team,
+    x: 5 + Math.random() * 80,
+    y: 5 + Math.random() * 120,
+  }))
+), ImmutableMap({}))
+
+const playersId = (team) => (
+  List(range(0, 12).map(index => `${team}${index}`))
+)
+
 export const Entities = Record({
-  players: ImmutableMap({
-    a1: new Player({
-      id: "a1",
-      angle: 0,
-      team: "a",
-      x: 38.604312896728516,
-      y: 74.5626220703125,
-    }),
-    b1: new Player({
-      id: "b1",
-      angle: 180,
-      team: "b",
-      x: 18.604312896728516,
-      y: 24.5626220703125,
-    })
-  }),
+  players: players('a').merge(players('b')),
 }, 'Entities')
 
 export const Flags = Record({
@@ -36,8 +37,8 @@ export const Flags = Record({
 
 export const Players = Record({
   selected: undefined,
-  a: List(['a1']),
-  b: List(['b1']),
+  a: playersId('a'),
+  b: playersId('b'),
   team: 'a',
   teamAColor: '#fff',
   teamBColor: '#989',

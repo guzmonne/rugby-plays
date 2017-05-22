@@ -1,14 +1,43 @@
 import '../../_styles/Rotatable.css'
 import React from 'react'
+import {Iterable} from 'immutable'
 import T from 'prop-types'
-import {onlyUpdateForPropTypes} from 'recompose'
 import getBoundingBox from '../../utils/getBoundingBox.js'
 
 const LEFT_BUTTON = 0
 
+const propTypes = [
+  'playerId',
+  'selected',
+  'scale',
+  'rotate',
+  'x',
+  'y',
+]
+
 class Rotatable extends React.Component {
   state = {
     svg: undefined,
+  }
+
+  shouldComponentUpdate = (newProps) => {
+    const check = propTypes.every((key) => {
+      if (key === 'selected' || key === 'playerId') {
+        console.log(newProps[key], this.props[key])
+      }
+      const result = (
+        Iterable.isIterable(newProps[key])
+        ? newProps[key].equals(this.props[key])
+        : newProps[key] === this.props[key]
+      )
+      return result
+    })
+    console.log('Rotatable', !check)
+    return !check
+  }
+
+  componentDidUpdate = () => {
+    console.log(`updated Rotatable`)
   }
 
   componentDidMount = () => {
@@ -17,8 +46,8 @@ class Rotatable extends React.Component {
   }
 
   callGetSVG = (svg) => {
-    if (this.props.getSVG){
-      this.props.getSVG(svg || this.state.svg)
+    if (this.props.onGetSVG){
+      this.props.onGetSVG(svg || this.state.svg)
     }
   }
 
@@ -29,7 +58,7 @@ class Rotatable extends React.Component {
   }
 
   onMouseMove = (e) => {
-    if (this.props.rotatable) {
+    if (this.props.selected) {
       this.props.onRotate(e)
     }
   }
@@ -70,16 +99,16 @@ class Rotatable extends React.Component {
   }
 
   render = () => {
-    const {children, rotatable, ...props} = this.props
+    const {children, selected, ...props} = this.props
     
     if (!this.state.svg) {
-      props.getSVG = svg => {
+      props.onGetSVG = svg => {
         this.setState({svg})
         this.callGetSVG(svg)
       }
     }
 
-    if (this.state.svg && rotatable) {
+    if (this.state.svg && selected) {
       return this.renderRotateHandler(children, props)
     }
 
@@ -95,7 +124,7 @@ Rotatable.propTypes = {
   onRotateStart: T.func,
   onRotateStop: T.func,
   onRotate: T.func,
-  rotatable: T.bool,
+  selected: T.oneOfType([T.string, T.bool]),
 }
 
 Rotatable.defaultProps = {
@@ -104,4 +133,4 @@ Rotatable.defaultProps = {
   onRotate: () => {},
 }
 
-export default onlyUpdateForPropTypes(Rotatable)
+export default Rotatable

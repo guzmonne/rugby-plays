@@ -3,20 +3,21 @@ import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
 import getBoundingBox from '../../utils/getBoundingBox.js'
+import {onlyUpdateForKeys} from 'recompose'
 
 class Transform extends React.Component {
   state = {
     ready: false,
   }
 
-  shouldComponentUpdate(newProps) {
-    return newProps === this.props
+  componentDidUpdate = () => {
+    //console.log(`updated Transform`)
   }
 
   componentDidMount = () => {
     this.setState({ready: true})
-    if (this.props.getSVG){
-      this.props.getSVG(this.svg)
+    if (this.props.onGetSVG){
+      this.props.onGetSVG(this.svg)
     }
   }
 
@@ -54,10 +55,10 @@ class Transform extends React.Component {
 
 Transform.propTypes = {
   className: T.string,
-  selected: T.bool,
+  selected: T.oneOfType([T.string, T.bool]),
   onClick: T.func,
   onMouseDown: T.func,
-  getSVG: T.func,
+  onGetSVG: T.func,
   x: T.oneOfType([T.string, T.number]),
   y: T.oneOfType([T.string, T.number]),
   scale: T.oneOfType([T.string, T.number]),
@@ -74,4 +75,13 @@ Transform.defaultProps = {
   selected: false,
 }
 
-export default Transform
+const PureTransform = onlyUpdateForKeys([
+  'className',
+  'selected',
+  'x',
+  'y',
+  'scale',
+  'rotate'
+])(Transform)
+
+export default PureTransform
