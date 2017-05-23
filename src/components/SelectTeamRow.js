@@ -1,9 +1,9 @@
 import React from 'react'
 import T from 'prop-types'
+import {onlyUpdateForKeys} from 'recompose'
 import Slider from './common/SliderThin.js'
 import Row from './common/Row.js'
 import ColorPicker from './common/ColorPicker.js'
-import {onlyUpdateForPropTypes} from 'recompose'
 
 const SelectTeamRow = ({
   team,
@@ -41,7 +41,7 @@ const SelectTeamRow = ({
   </Row>
 )
 
-export const ISelectTeamRowState = {
+export const ISelectTeamRowProps = {
   team: T.string,
   teamAColor: T.string,
   teamBColor: T.string,
@@ -57,7 +57,7 @@ export const ISelectTeamRowActions = {
 }
 
 export const ISelectTeamRow = {
-  ...ISelectTeamRowState,
+  ...ISelectTeamRowProps,
   ...ISelectTeamRowActions,
 }
 
@@ -67,4 +67,10 @@ SelectTeamRow.defaultProps = {
   team: 'a',
 }
 
-export default onlyUpdateForPropTypes(SelectTeamRow)
+const PureSelectTeamRow = onlyUpdateForKeys(
+  Object.keys(ISelectTeamRowProps)
+)(SelectTeamRow)
+
+PureSelectTeamRow.displayName = 'SelectTeamRow'
+
+export default PureSelectTeamRow

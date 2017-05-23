@@ -4,25 +4,18 @@ import T from 'prop-types'
 import Row from './common/Row.js'
 import Button from './common/ButtonDark.js'
 import Icon from './common/Icon.js'
-import SelectTeamRow, {
-  ISelectTeamRowState,
-  ISelectTeamRowActions
-} from './SelectTeamRow.js'
-import {onlyUpdateForPropTypes} from 'recompose'
+import {onlyUpdateForKeys} from 'recompose'
 
 const LeftBar = ({
-  selectTeamRowState,
-  selectTeamRowActions,
+  children,
   isAddingPlayers,
   canRemovePlayers,
-  toggleTeam,
   toggleAddingPlayers,
-  toggleRemovingPlayers,
   removeSelectedPlayer,
 }) => (
   <div className="LeftBar">
     <h1>#RugbyPlay</h1>
-    <SelectTeamRow {...selectTeamRowState} {...selectTeamRowActions}/>
+    {children}
     <Row className="PlayersRow" 
       justifyContent="space-between" 
       alignItems="center">
@@ -43,13 +36,27 @@ const LeftBar = ({
   </div> 
 )
 
-LeftBar.displayName = 'LeftBar'
-
-LeftBar.propTypes = {
-  selectTeamRowState: T.shape(ISelectTeamRowState),
-  selectTeamRowActions: T.shape(ISelectTeamRowActions),
+export const ILeftBarProps = {
   isAddingPlayers: T.bool.isRequired,
-  toggleAddingPlayers: T.func.isRequired,
+  canRemovePlayers: T.bool.isRequired,
 }
 
-export default onlyUpdateForPropTypes(LeftBar)
+export const ILeftBarActions = {
+  toggleAddingPlayers: T.func.isRequired,
+  removeSelectedPlayer: T.func.isRequired,
+}
+
+export const ILeftBar = {
+  ...ILeftBarProps,
+  ...ILeftBarActions
+}
+
+LeftBar.propTypes = ILeftBar
+
+const PureLeftBar = onlyUpdateForKeys(
+  Object.keys(ILeftBarProps)
+)(LeftBar)
+
+PureLeftBar.displayName = 'LeftBar'
+
+export default PureLeftBar

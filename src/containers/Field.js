@@ -17,6 +17,13 @@ class FieldContainer extends React.Component {
   svg = undefined
   pt = undefined
 
+  shouldComponentUpdate(newProps) {
+    return (
+      !newProps.aPlayers.equals(this.props.aPlayers) ||
+      !newProps.bPlayers.equals(this.props.bPlayers)
+    )
+  }
+
   getDOMNode = ({svg, pt}) => {
     this.svg = svg
     this.pt = pt
@@ -93,11 +100,14 @@ class FieldContainer extends React.Component {
 
 FieldContainer.propTypes = {
   aPlayers: T.instanceOf(List),
-  addPlayer: T.func,
   bPlayers: T.instanceOf(List),
+  addPlayer: T.func,
   deselectPlayer: T.func,
   isAddingPlayers: T.bool,
   updatePlayer: T.func,
 }
 
-export default connect(fieldSelector, fieldActions)(FieldContainer)
+export default connect(
+  fieldSelector,
+  fieldActions
+)(FieldContainer)

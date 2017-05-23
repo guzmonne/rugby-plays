@@ -166,14 +166,15 @@ const flagsCanRemovePlayers = state => (
   state.getIn(['players', 'selected']) !== undefined
 )
 
+export const selectTeamRowSelector = createStructuredSelector({
+  team: playersTeamSelector,
+  teamAColor: playersTeamAColorSelector,
+  teamBColor: playersTeamBColorSelector,
+  isOpenTeamAColorPicker: flagsIsOpenTeamAColorPicker,
+  isOpenTeamBColorPicker: flagsIsOpenTeamBColorPicker,
+})
+
 export const leftBarSelector = createStructuredSelector({
-  selectTeamRowState: createStructuredSelector({
-    team: playersTeamSelector,
-    teamAColor: playersTeamAColorSelector,
-    teamBColor: playersTeamBColorSelector,
-    isOpenTeamAColorPicker: flagsIsOpenTeamAColorPicker,
-    isOpenTeamBColorPicker: flagsIsOpenTeamBColorPicker,
-  }),
   isAddingPlayers: flagsIsAddingPlayers,
   canRemovePlayers: flagsCanRemovePlayers,
 })

@@ -130,16 +130,6 @@ export const fieldActions = (dispatch) => ({
 })
 
 export const leftBarActions = (dispatch) => ({
-  selectTeamRowActions: {
-    onClick: (...args) => dispatch(toggleTeam(...args)),
-    onChangeColor: (...args) => dispatch(changeTeamColor(...args)),
-    toggleTeamAColorPicker: () => (
-      dispatch(toggleFlag('isOpenTeamAColorPicker'))
-    ),
-    toggleTeamBColorPicker: () => (
-      dispatch(toggleFlag('isOpenTeamBColorPicker'))
-    ),
-  },
   toggleAddingPlayers: () => {
     dispatch(deselectPlayer())
     dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
@@ -149,4 +139,15 @@ export const leftBarActions = (dispatch) => ({
 
 export const teamActions = (dispatch) => ({
   selectPlayer: (...args) => dispatch(selectPlayer(...args)),  
+})
+
+export const selectTeamRowActions = (dispatch) => ({
+  onClick: (...args) => dispatch(toggleTeam(...args)),
+  onChangeColor: (...args) => dispatch(changeTeamColor(...args)),
+  toggleTeamAColorPicker: () => (
+    dispatch(toggleFlag('isOpenTeamAColorPicker'))
+  ),
+  toggleTeamBColorPicker: () => (
+    dispatch(toggleFlag('isOpenTeamBColorPicker'))
+  ),
 })
