@@ -96,7 +96,7 @@ export const updatePlayer = (id, update) => ({
 /**
  * Remove Player
  */
-export const REMOVE_SELECTED_PLAYER = 'REMOVE_PLAYER'
+export const REMOVE_PLAYER = 'REMOVE_PLAYER'
 
 export const removeSelectedPlayer = () => (dispatch, getState) => {
   const state = getState()
@@ -105,7 +105,7 @@ export const removeSelectedPlayer = () => (dispatch, getState) => {
     player.id === id
   ))
   dispatch({
-    type: REMOVE_SELECTED_PLAYER,
+    type: REMOVE_PLAYER,
     entity: 'players',
     model,
   })

@@ -19,12 +19,6 @@ const entities = (state=new Entities(), action) => {
     ))
   )
 
-  if (/^REMOVE_/.test(action.type) === true) return (
-    state.updateIn([action.entity], list => (
-      list.delete(list.findIndex(model => model === action.model))
-    ))
-  )
-
   if (/^UPDATE_/.test(action.type) === true) return (
     state.updateIn([action.entity], (entity) => (
       entity.set(action.id, (
@@ -57,9 +51,8 @@ const players = (state=new Players(), action) => {
     case ActionTypes.REMOVE_PLAYER:
       return (
         state.updateIn([action.model.team], list => (
-          list.delete(list.findIndex(id => action.model.id))
-        ))
-        .set('selected', undefined)
+          list.delete(list.findIndex(id => id === action.model.id))
+        )).set('selected', undefined)
       )
     default: return state
   }
