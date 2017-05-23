@@ -1,44 +1,52 @@
+import '../../_styles/BoundingBox.css'
 import React from 'react'
 import T from 'prop-types'
-import {onlyUpdateForKeys} from 'recompose'
 
-const BoundingBox = ({x, y, width, height, onMouseDown, transform, children}) => (
-  <g className="translate-box" onMouseDown={onMouseDown} transform={transform}>
-    <rect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-    />
-    <g>
-      <circle cx={x} cy={y} r={0.5}/>
-      <circle cx={x} cy={y + height} r={0.5}/>
-      <circle cx={x + width} cy={y + height} r={0.5}/>
-      <circle cx={x + width} cy={y} r={0.5}/>
-    </g>
-    {children}
-  </g>
-)
+class BoundingBox extends React.Component {
+  renderBoundingBox = () => {
+    if (!this.props.svg) return <none />
+    const {svg, offset} = this.props
+    let {x, y, width, height} = svg.getBBox()
+    x -= offset
+    y -= offset
+    width += 2 * offset
+    height += 2 * offset
+    return (
+      <g>
+        <rect className="BoundingBox__Rect"
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+        />
+        <g className="BoundingBox__Circles">
+          <circle cx={x} cy={y} r={0.5}/>
+          <circle cx={x} cy={y + height} r={0.5}/>
+          <circle cx={x + width} cy={y + height} r={0.5}/>
+          <circle cx={x + width} cy={y} r={0.5}/>
+        </g>
+      </g>
+    )
+  }
+
+  render = () => {
+    const {svg} = this.props 
+    
+    return (
+      <g className="BoundingBox" ref={svg => this.svg = svg}>
+        {svg && this.renderBoundingBox()}
+      </g>
+    )
+  }
+}
 
 BoundingBox.propTypes = {
-  x: T.number,
-  y: T.number,
-  width: T.number,
-  height: T.number,
-  transform: T.string,
-  onMouseDown: T.func,
+  svg: T.element,
+  offset: T.number,
 }
 
 BoundingBox.defaultProps = {
-  x: 0,
-  y: 0,
-  width: 32,
-  height: 32,
-  onMouseDown: () => {},
+  offset: 1,
 }
 
-const PureBoundingBox = (
-  onlyUpdateForKeys(['x', 'y', 'width', 'height', 'transform'])(BoundingBox)
-)
-
-export default PureBoundingBox
+export default BoundingBox

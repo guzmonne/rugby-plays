@@ -7,9 +7,13 @@ export const Player = Record({
   team: "a",
   x: 0,
   y: 0,
+  neckFill: '#000',
+  bodyFill: '#fff',
+  headFill: '#000',
+  bodyStroke: '#000',
 }, 'Player')
 
-const players = (team) => range(0, 12).reduce((acc, index) => (
+const players = (team, bodyFill) => range(0, 12).reduce((acc, index) => (
   acc.set(`${team}${index}`, new Player({
     id: `${team}${index}`,
     //angle: 0,
@@ -17,6 +21,7 @@ const players = (team) => range(0, 12).reduce((acc, index) => (
     team,
     x: 5 + Math.random() * 80,
     y: 5 + Math.random() * 120,
+    bodyFill,
   }))
 ), ImmutableMap({}))
 
@@ -25,7 +30,7 @@ const playersId = (team) => (
 )
 
 export const Entities = Record({
-  players: players('a').merge(players('b')),
+  players: players('a', '#B02F2F').merge(players('b', '#345AD2')),
 }, 'Entities')
 
 export const Flags = Record({
@@ -40,6 +45,6 @@ export const Players = Record({
   a: playersId('a'),
   b: playersId('b'),
   team: 'a',
-  teamAColor: '#fff',
-  teamBColor: '#989',
+  teamAColor: '#B02F2F',
+  teamBColor: '#345AD2',
 }, 'Players')

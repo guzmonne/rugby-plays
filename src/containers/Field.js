@@ -1,15 +1,27 @@
 import React from 'react'
+import T from 'prop-types'
+import {List} from 'immutable'
 import {connect} from 'react-redux'
 import throttle from 'lodash/throttle.js'
 import {fieldSelector} from '../store/reducers.js'
 import {fieldActions} from '../store/actions.js'
-import Component from '../components/Field/index.js'
+import Field from '../components/Field/index.js'
+import Team from './Team.js'
+import SelectedItems from './SelectedItems.js'
 import mouseToSvgCoordinates from '../utils/mouseToSvgCoordinates.js'
 
 const WIDTH = 90
 const HEIGHT = 130
 
-class Field extends React.Component {
+class FieldContainer extends React.Component {
+  svg = undefined
+  pt = undefined
+
+  getDOMNode = ({svg, pt}) => {
+    this.svg = svg
+    this.pt = pt
+  }
+
   onAddPlayer = (e, svg, pt) => {
     if (this.props.isAddingPlayers === false) {
       return
@@ -68,8 +80,24 @@ class Field extends React.Component {
   onRotatePlayer = throttle(this._onRotatePlayer, 100)
 
   render = () => (
-    <Component {...this.props} {...this} />
+    <Field
+      deselectPlayer={this.props.deselectPlayer}
+      onAddPlayer={this.onAddPlayer}
+      onGetDOMNode={this.getDOMNode}>
+      <Team className="TeamA" players={this.props.aPlayers}/>
+      <Team className="TeamB" players={this.props.bPlayers}/>
+      <SelectedItems />
+    </Field>
   )
 }
 
-export default connect(fieldSelector, fieldActions)(Field)
+FieldContainer.propTypes = {
+  aPlayers: T.instanceOf(List),
+  addPlayer: T.func,
+  bPlayers: T.instanceOf(List),
+  deselectPlayer: T.func,
+  isAddingPlayers: T.bool,
+  updatePlayer: T.func,
+}
+
+export default connect(fieldSelector, fieldActions)(FieldContainer)

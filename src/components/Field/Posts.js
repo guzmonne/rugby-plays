@@ -1,6 +1,6 @@
 import React from "react"
 import Post from './Post.js'
-import {onlyUpdateForKeys} from 'recompose'
+import {shouldUpdate} from 'recompose'
 
 const Posts = () => (
   <g className="posts">
@@ -9,4 +9,4 @@ const Posts = () => (
   </g>
 )
 
-export default onlyUpdateForKeys([])(Posts)
+export default shouldUpdate(() => true)(Posts)

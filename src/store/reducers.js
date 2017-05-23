@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux-immutable'
-import {createStructuredSelector} from 'reselect'
+import {createSelector, createStructuredSelector} from 'reselect'
 import {
   Players,
   Flags,
@@ -87,38 +87,81 @@ export default combineReducers({
 /**
  * Export mapStateToProps functions
  */
+const playersEntities = (state) => state.getIn(['entities', 'players'])
+
 const playersSelectedSelector = state => state.getIn(['players', 'selected'])
-const playersASelector = state => {
+
+const playersTeamAIdsSelector = state => state.getIn(['players', 'a'])
+
+const playersTeamBIdsSelector = state => state.getIn(['players', 'b'])
+
+const idsToPlayers = (selected, ids, players) => (
+  ids
+  .filter(id => id !== selected)
+  .map(id => players.get(id))
+)
+
+const playersASelector = createSelector([
+  playersSelectedSelector,
+  playersTeamAIdsSelector,
+  playersEntities,
+], idsToPlayers)
+
+const playersBSelector = createSelector([
+  playersSelectedSelector,
+  playersTeamBIdsSelector,
+  playersEntities,
+], idsToPlayers)
+
+const selectedPlayer = createSelector([
+  playersSelectedSelector,
+  playersEntities,
+], (selected, players) => players.get(selected))
+
+/*
+const playersASelectorOld = state => {
   const ids = state.getIn(['players', 'a'])
   return (
     ids
+    .filter(id => id === state.getIn(['players', 'selected']))
     .map(id => state.getIn(['entities', 'players', id]))
   )
 }
-const playersBSelector = state => {
+
+const playersBSelectorOld = state => {
   const ids = state.getIn(['players', 'b'])
   return (
     ids
+    .filter(id => id === state.getIn(['players', 'selected']))
     .map(id => state.getIn(['entities', 'players', id]))
   )
 }
+*/
+
 const playersTeamAColorSelector = state => (
   state.getIn(['players', 'teamAColor'])
 )
+
 const playersTeamBColorSelector = state => (
   state.getIn(['players', 'teamBColor'])
 )
+
 const playersTeamSelector = state => state.getIn(['players', 'team'])
+
 const flagsIsAddingPlayerSelector = state => (
   state.getIn(['flags', 'isAddingPlayers'])
 )
+
 const flagsIsOpenTeamAColorPicker = state => (
   state.getIn(['flags', 'isOpenTeamAColorPicker'])
 )
+
 const flagsIsOpenTeamBColorPicker = state => (
   state.getIn(['flags', 'isOpenTeamBColorPicker'])
 )
+
 const flagsIsAddingPlayers = state => state.getIn(['flags', 'isAddingPlayers'])
+
 const flagsCanRemovePlayers = state => (
   state.getIn(['players', 'selected']) !== undefined
 )
@@ -136,10 +179,11 @@ export const leftBarSelector = createStructuredSelector({
 })
 
 export const fieldSelector = createStructuredSelector({
-  selectedPlayer: playersSelectedSelector,
-  teamAColor: playersTeamAColorSelector,
-  teamBColor: playersTeamBColorSelector,
+  isAddingPlayers: flagsIsAddingPlayerSelector,
   aPlayers: playersASelector,
   bPlayers: playersBSelector,
-  isAddingPlayers: flagsIsAddingPlayerSelector,
+})
+
+export const selectedItemsSelector = createStructuredSelector({
+  player: selectedPlayer,
 })

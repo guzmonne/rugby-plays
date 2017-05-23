@@ -9,6 +9,7 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
   const state = getState().get('players')
   const team = state.get('team')
   const list = state.get(team)
+  const bodyFill = state.get('team' + team.toUpperCase() + 'Color')
   // If we already have 15 players we return nothing.
   if (list.size === 15) return
   const angle = team === 'a' ? 0 : 180
@@ -16,7 +17,7 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
   dispatch({
     type: ADD_PLAYER,
     entity: 'players',
-    model: new Player({id, team, angle, x, y}),
+    model: new Player({id, team, angle, x, y, bodyFill}),
   })
 }
 /**
@@ -126,7 +127,6 @@ export const fieldActions = (dispatch) => ({
   addPlayer: (...args) => dispatch(addPlayer(...args)),
   updatePlayer: (...args) => dispatch(updatePlayer(...args)),
   deselectPlayer: (...args) => dispatch(deselectPlayer(...args)),
-  selectPlayer: (...args) => dispatch(selectPlayer(...args)),
 })
 
 export const leftBarActions = (dispatch) => ({
@@ -145,4 +145,8 @@ export const leftBarActions = (dispatch) => ({
     dispatch(switchFlag('isAddingPlayers', 'isRemovingPlayers'))
   },
   removeSelectedPlayer: (...args) => dispatch(removeSelectedPlayer(...args)),
+})
+
+export const teamActions = (dispatch) => ({
+  selectPlayer: (...args) => dispatch(selectPlayer(...args)),  
 })
