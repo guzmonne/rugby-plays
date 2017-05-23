@@ -41,7 +41,7 @@ class BoundingBox extends React.Component {
 }
 
 BoundingBox.propTypes = {
-  svg: T.element,
+  svg: T.object,
   offset: T.number,
 }
 
