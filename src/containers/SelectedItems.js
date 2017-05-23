@@ -16,14 +16,23 @@ class SelectedItemsContainer extends React.Component {
   state = {
     x0: undefined,
     y0: undefined,
+    length: 0,
   }
 
   shouldComponentUpdate(newProps) {
     return (newProps.player !== this.props.player)
   }
 
+  setRotateCenter = (e, {x:cx, y:cy}) => {
+    this.setState({cx, cy})
+  }
+
+  resetRotateHandlerLength = (e) => {
+    console.log('resetRotateHandlerLength')
+    this.setState(() => ({length: 0}))
+  }
+
   setOffsetDragPoint = (e) => {
-    console.log('setOffsetDragPoint')
     const {x, y} = this.props.mouseToSvgCoordinates(e)
     const {player} = this.props
     this.setState({
@@ -32,11 +41,35 @@ class SelectedItemsContainer extends React.Component {
     })
   }
 
+  unthrottledOnRotatePlayer = (e) => {
+    const {player} = this.props
+    if (!player) return
+    let angle = player.angle
+    const {x, y} = this.props.mouseToSvgCoordinates(e)
+    const {cx, cy} = this.state
+    const a = Math.abs(cy - y) // Cateto opuesto
+    const b = Math.abs(cx - x) // Cateto adyacente
+    const alpha = Math.atan(a / b) * 180 / Math.PI // Angulo tangente
+    if (x === cx) {
+      angle = y < cy ? 0 : 180
+    } else if (y === cy) {
+      angle = x < cx ? -90 : 90
+    } else if (x < cx) {
+      angle = y < cy ? alpha - 90 : -alpha - 90
+    } else if (x > cx) {
+      angle = y < cy ? 90 - alpha : alpha + 90
+    }
+    this.setState({
+      length: Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)),
+    })
+    this.props.updatePlayer(player.id, {angle})
+  }
+
   unthrottledOnDragPlayer = (e) => {
     const {player} = this.props
+    if (!player) return
     let {x:mX, y:mY} = this.props.mouseToSvgCoordinates(e)
     const {x0, y0} = this.state
-    console.log(x0, y0)
     // Move new coordinates to main point
     mX += x0
     mY += y0
@@ -46,14 +79,20 @@ class SelectedItemsContainer extends React.Component {
     if (mY < 0)      {mY = 0}
     if (mY > HEIGHT) {mY = HEIGHT}
     // Update
-    this.props.updatePlayer(player.get('id'), {x: mX, y: mY})
+    this.props.updatePlayer(player.id, {x: mX, y: mY})
   }
+
+  onRotatePlayer = throttle(this.unthrottledOnRotatePlayer, 16)
 
   onDragPlayer = throttle(this.unthrottledOnDragPlayer, 16)
 
   render = () => (
     <SelectedItems 
       player={this.props.player}
+      length={this.state.length}
+      onRotatePlayerStart={this.setRotateCenter}
+      onRotatePlayer={this.onRotatePlayer}
+      onRotatePlayerStop={this.resetRotateHandlerLength}
       onDragPlayerStart={this.setOffsetDragPoint}
       onDragPlayer={this.onDragPlayer}
     />

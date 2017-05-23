@@ -3,8 +3,13 @@ import T from 'prop-types'
 import {onlyUpdateForKeys} from 'recompose'
 
 class Transform extends React.Component {
+  state = {
+    svg: null
+  }
+
   componentDidMount() {
     console.log('transform mounted')
+    this.setState({svg: this.svg})
   }
 
   componentDidUpdate() {
@@ -13,16 +18,27 @@ class Transform extends React.Component {
   
   transform = () => {
     const {x, y, angle, scale} = this.props
-    return [
+    const transformArray = [
       `translate(${x}, ${y})`,
-      `rotate(${angle})`,
       `scale(${scale})`
-    ].join(' ')
+    ]
+
+    if (this.svg) {
+      const box = this.svg.getBBox()
+      transformArray.push(
+        `rotate(${angle}${
+          box ? `, ${box.x + box.width / 2}, ${box.y + box.height / 2}`: ''
+        })`
+      )
+    }
+
+    return transformArray.join(' ')
   }
   
   render = () => (
     <g transform={this.transform()}
-      onClick={this.props.onClick}>
+      onClick={this.props.onClick}
+      ref={svg => this.svg = svg}>
       {this.props.children} 
     </g>
   )

@@ -4,9 +4,3 @@
   stroke-width: 0.1;
   stroke-dasharray: 0.2, 0.2;
 }
-
-.BoundingBox .BoundingBox__Circles {
-  fill: white;
-  stroke: steelblue;
-  stroke-width: 0.2;
-}

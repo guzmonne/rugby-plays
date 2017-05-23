@@ -19,12 +19,6 @@ class BoundingBox extends React.Component {
           width={width}
           height={height}
         />
-        <g className="BoundingBox__Circles">
-          <circle cx={x} cy={y} r={0.5}/>
-          <circle cx={x} cy={y + height} r={0.5}/>
-          <circle cx={x + width} cy={y + height} r={0.5}/>
-          <circle cx={x + width} cy={y} r={0.5}/>
-        </g>
       </g>
     )
   }

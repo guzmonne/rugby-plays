@@ -1,0 +1,22 @@
+.RotateHandler > path {
+  stroke: steelblue;
+  fill: transparent;
+  stroke-width: 0.1;
+  stroke-dasharray: 0.2, 0.2;
+}
+
+.RotateHandler circle {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 0.2;
+}
+
+.RotateHandler circle.transparent:hover,
+.RotateHandler circle:hover {
+  cursor: url(./_images/redo.svg), auto;
+}
+
+.RotateHandler circle.transparent {
+  fill: transparent;
+  stroke: transparent;
+}
