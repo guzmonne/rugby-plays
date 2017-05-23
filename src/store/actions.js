@@ -123,11 +123,11 @@ const wrapDispatch = (actions) => (dispatch) => (
 /**
  * Container actions
  */
-export const fieldActions = (dispatch) => ({
-  addPlayer: (...args) => dispatch(addPlayer(...args)),
-  updatePlayer: (...args) => dispatch(updatePlayer(...args)),
-  deselectPlayer: (...args) => dispatch(deselectPlayer(...args)),
-})
+export const fieldActions = {
+  addPlayer,
+  updatePlayer,
+  deselectPlayer,
+}
 
 export const leftBarActions = (dispatch) => ({
   toggleAddingPlayers: () => {
@@ -137,9 +137,9 @@ export const leftBarActions = (dispatch) => ({
   removeSelectedPlayer: (...args) => dispatch(removeSelectedPlayer(...args)),
 })
 
-export const teamActions = (dispatch) => ({
-  selectPlayer: (...args) => dispatch(selectPlayer(...args)),  
-})
+export const teamActions = {
+  selectPlayer
+}
 
 export const selectTeamRowActions = (dispatch) => ({
   onClick: (...args) => dispatch(toggleTeam(...args)),
@@ -151,3 +151,7 @@ export const selectTeamRowActions = (dispatch) => ({
     dispatch(toggleFlag('isOpenTeamBColorPicker'))
   ),
 })
+
+export const selectedItemsActions = {
+  updatePlayer,
+}

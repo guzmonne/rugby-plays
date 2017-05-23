@@ -24,6 +24,14 @@ class FieldContainer extends React.Component {
     )
   }
 
+  mouseToSvgCoordinates = (e) => {
+    if (!this.svg || !this.pt) {
+      return {x: e.clientX, y: e.clientY}
+    }
+
+    return mouseToSvgCoordinates(e, this.svg, this.pt)
+  }
+
   getDOMNode = ({svg, pt}) => {
     this.svg = svg
     this.pt = pt
@@ -93,7 +101,9 @@ class FieldContainer extends React.Component {
       onGetDOMNode={this.getDOMNode}>
       <Team className="TeamA" players={this.props.aPlayers}/>
       <Team className="TeamB" players={this.props.bPlayers}/>
-      <SelectedItems />
+    {this.svg && this.pt &&
+      <SelectedItems mouseToSvgCoordinates={this.mouseToSvgCoordinates}/>
+    }
     </Field>
   )
 }
