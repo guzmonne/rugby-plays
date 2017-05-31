@@ -28,7 +28,6 @@ class SelectedItemsContainer extends React.Component {
   }
 
   resetRotateHandlerLength = (e) => {
-    console.log('resetRotateHandlerLength')
     this.setState(() => ({length: 0}))
   }
 

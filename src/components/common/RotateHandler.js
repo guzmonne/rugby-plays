@@ -13,7 +13,7 @@ const RotateHandler = ({svg, angle, length}) => {
       transform={`rotate(${angle}, ${x0}, ${y0})`}>
       <path d={`M${x0},${y0} ${x0},${y1}Z`} />
       <circle cx={x0} cy={y1} r={0.5}/>
-      <circle className="transparent" cx={x0} cy={y1} r={5}/>
+      <circle className="transparent" cx={x0} cy={y1} r={3}/>
     </g>
   )
 }
@@ -25,7 +25,7 @@ RotateHandler.propTypes = {
 
 RotateHandler.defaultProps = {
   angle: 0,
-  length: 4,
+  length: 3,
 }
 
 export default RotateHandler
