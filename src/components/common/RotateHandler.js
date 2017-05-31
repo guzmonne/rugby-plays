@@ -8,7 +8,6 @@ const RotateHandler = ({svg, angle, length}) => {
   const x0 = x + width/2
   const y0 = y + height/2
   const y1 = y - (length === 0 ? 2 * height : length)
-  console.log(length)
   return (
     <g className="RotateHandler"
       transform={`rotate(${angle}, ${x0}, ${y0})`}>
