@@ -12,10 +12,6 @@ class Transform extends React.Component {
     this.setState({svg: this.svg})
   }
 
-  componentDidUpdate() {
-    console.log('transform updated')
-  }
-
   transform = () => {
     const {x, y, angle, scale} = this.props
     const transformArray = [
