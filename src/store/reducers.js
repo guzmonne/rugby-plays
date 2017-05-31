@@ -21,13 +21,7 @@ const entities = (state=new Entities(), action) => {
 
   if (/^UPDATE_/.test(action.type) === true) return (
     state.updateIn([action.entity], (entity) => (
-      entity.set(action.id, (
-        Object
-        .keys(action.update)
-        .reduce((acc, key) => (
-          acc.set(key, action.update[key])
-        ), entity.get(action.id)))
-      )
+      entity.merge(action.update)
     ))
   )
 
@@ -94,6 +88,14 @@ const idsToPlayers = (selected, ids, players) => (
   .map(id => players.get(id))
 )
 
+const playersTeamAColorSelector = state => (
+  state.getIn(['players', 'teamAColor'])
+)
+
+const playersTeamBColorSelector = state => (
+  state.getIn(['players', 'teamBColor'])
+)
+
 const playersASelector = createSelector([
   playersSelectedSelector,
   playersTeamAIdsSelector,
@@ -109,35 +111,7 @@ const playersBSelector = createSelector([
 const selectedPlayer = createSelector([
   playersSelectedSelector,
   playersEntities,
-], (selected, players) => players.get(selected))
-
-/*
-const playersASelectorOld = state => {
-  const ids = state.getIn(['players', 'a'])
-  return (
-    ids
-    .filter(id => id === state.getIn(['players', 'selected']))
-    .map(id => state.getIn(['entities', 'players', id]))
-  )
-}
-
-const playersBSelectorOld = state => {
-  const ids = state.getIn(['players', 'b'])
-  return (
-    ids
-    .filter(id => id === state.getIn(['players', 'selected']))
-    .map(id => state.getIn(['entities', 'players', id]))
-  )
-}
-*/
-
-const playersTeamAColorSelector = state => (
-  state.getIn(['players', 'teamAColor'])
-)
-
-const playersTeamBColorSelector = state => (
-  state.getIn(['players', 'teamBColor'])
-)
+], (selected, players, aColor, bColor) => players.get(selected))
 
 const playersTeamSelector = state => state.getIn(['players', 'team'])
 

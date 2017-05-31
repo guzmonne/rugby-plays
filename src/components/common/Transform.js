@@ -8,14 +8,14 @@ class Transform extends React.Component {
   }
 
   componentDidMount() {
-    console.log('transform mounted')
+  //console.log('transform mounted')
     this.setState({svg: this.svg})
   }
 
   componentDidUpdate() {
     console.log('transform updated')
   }
-  
+
   transform = () => {
     const {x, y, angle, scale} = this.props
     const transformArray = [
@@ -50,10 +50,17 @@ Transform.propTypes = {
   y: T.number,
   angle: T.number,
   scale: T.number,
+  forceUpdate: T.any,
 }
 
 Transform.defaultProps = {
   onClick: () => {},
 }
 
-export default onlyUpdateForKeys(['x', 'y', 'angle', 'scale'])(Transform)
+export default onlyUpdateForKeys([
+  'x',
+  'y',
+  'angle',
+  'scale',
+  'forceUpdate',
+])(Transform)

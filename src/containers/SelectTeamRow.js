@@ -27,13 +27,18 @@ class SelectTeamRowContainer extends React.Component {
 
 SelectTeamRowContainer.propTypes = ISelectTeamRow
 
-const ConnectedSelectTeamRowContiner = connect(
-  selectTeamRowSelector,
-  selectTeamRowActions
-)(onlyUpdateForKeys(
+const PureSelectTeamRowContainer = (
+  onlyUpdateForKeys(
     Object.keys(ISelectTeamRowProps)
   )(SelectTeamRowContainer)
 )
+
+PureSelectTeamRowContainer.displayName = 'PureSelectTeamRowContainer'
+
+const ConnectedSelectTeamRowContiner = connect(
+  selectTeamRowSelector,
+  selectTeamRowActions
+)(PureSelectTeamRowContainer)
 
 ConnectedSelectTeamRowContiner.displayName = 'SelectTeamRowContainer'
 

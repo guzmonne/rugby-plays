@@ -11,7 +11,8 @@ const PlayerTransform = ({player, onClick}) => (
     x={player.x}
     y={player.y}
     scale={0.08}
-    angle={player.angle}>
+    angle={player.angle}
+    forceUpdate={player}>
     <Player 
       bodyFill={player.bodyFill}
       neckFill={player.neckFill}

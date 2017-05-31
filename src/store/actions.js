@@ -1,3 +1,4 @@
+import {Map} from 'immutable'
 import uniqueId from 'lodash/uniqueId.js'
 import {Player} from './records.js'
 /**
@@ -53,14 +54,6 @@ export const TOGGLE_TEAM = 'TOGGLE_TEAM'
 export const toggleTeam = () => ({
   type: TOGGLE_TEAM,
 })
-/** Change Team Color */
-export const CHANGE_TEAM_COLOR = 'CHANGE_TEAM_COLOR'
-
-export const changeTeamColor = (team, color) => ({
-  type: CHANGE_TEAM_COLOR,
-  team,
-  color,
-})
 /**
  * Select/Deselect Player
  */
@@ -87,12 +80,19 @@ export const deselectPlayer = () => ({
  */
 export const UPDATE_PLAYER = 'UPDATE_PLAYER'
 
-export const updatePlayer = (id, update) => ({
-  type: UPDATE_PLAYER,
-  entity: 'players',
-  id,
-  update,
-})
+export const updatePlayer = (id, update) => (dispatch, getState) => {
+  const state = getState().getIn(['entities', 'players'])
+  const player = Object.keys(update).reduce((acc, key) => (
+    acc.set(key, update[key])
+  ), state.get(id))
+  dispatch({
+    type: UPDATE_PLAYER,
+    entity: 'players',
+    update: Map({
+      [id]: player,
+    })
+  })
+}
 /**
  * Remove Player
  */
@@ -108,6 +108,27 @@ export const removeSelectedPlayer = () => (dispatch, getState) => {
     type: REMOVE_PLAYER,
     entity: 'players',
     model,
+  })
+}
+/** Change Team Color */
+export const CHANGE_TEAM_COLOR = 'CHANGE_TEAM_COLOR'
+
+export const changeTeamColor = (team, color) => (dispatch, getState) => {
+  const state = getState().getIn(['entities', 'players'])
+  const update = state.reduce((acc, player, id) => (
+    player.team === team
+    ? acc.set(id, player.set('bodyFill', color))
+    : acc.set(id, player)
+  ), Map({}))
+  dispatch({
+    type: UPDATE_PLAYER,
+    entity: 'players',
+    update
+  })
+  dispatch({
+    type: CHANGE_TEAM_COLOR,
+    team,
+    color,
   })
 }
 /**
