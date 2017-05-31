@@ -71,8 +71,7 @@ class SelectedItems extends React.Component {
 
   notEmpty = () => (
     this.state.svg && 
-    this.props.player && 
-    this.props.player.angle
+    this.props.player
   )
 
   render = () => {
