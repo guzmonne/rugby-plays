@@ -18,4 +18,8 @@ SliderThin.propTypes = {
   checked: T.bool,
 }
 
-export default pure(SliderThin)
+const PureSliderThin = pure(SliderThin)
+
+PureSliderThin.displayName = 'PureSliderThin'
+
+export default PureSliderThin

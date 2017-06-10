@@ -53,10 +53,14 @@ Transform.defaultProps = {
   onClick: () => {},
 }
 
-export default onlyUpdateForKeys([
+const PureTransform = onlyUpdateForKeys([
   'x',
   'y',
   'angle',
   'scale',
   'forceUpdate',
 ])(Transform)
+
+PureTransform.displayName = 'PureTransform'
+
+export default PureTransform
