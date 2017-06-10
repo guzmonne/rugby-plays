@@ -1,23 +1,23 @@
+import '../_styles/App.css';
 import React from "react"
 import {Provider} from 'react-redux'
 import configureStore from '../store/configureStore.js'
-import App from '../components/App.js'
 import Field from './Field.js'
-import LeftBar from './LeftBar.js'
-import RightBar from './RightBar.js'
+import LeftBar from '../components/LeftBar/'
+import {RightBar} from '../components/RightBar/'
 
 const store = configureStore()
 
-class AppContainer extends React.Component {
+class App extends React.Component {
   render = () => (
     <Provider store={store}>
-      <App>
+      <div className="App">
         <LeftBar />
         <Field />
         <RightBar />
-      </App>
+      </div>
     </Provider>
   )
 }
 
-export default AppContainer
+export default App

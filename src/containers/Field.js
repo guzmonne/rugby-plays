@@ -6,8 +6,8 @@ import throttle from 'lodash/throttle.js'
 import {fieldSelector} from '../store/reducers.js'
 import {fieldActions} from '../store/actions.js'
 import Field from '../components/Field/index.js'
-import Team from './Team.js'
-import SelectedItems from './SelectedItems.js'
+import Team from '../components/Team/'
+import SelectedItems from '../components/SelectedItems/'
 import mouseToSvgCoordinates from '../utils/mouseToSvgCoordinates.js'
 
 const WIDTH = 90

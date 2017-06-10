@@ -159,7 +159,7 @@ export const leftBarActions = (dispatch) => ({
 })
 
 export const teamActions = {
-  selectPlayer
+  onSelectPlayer: selectPlayer,
 }
 
 export const selectTeamRowActions = (dispatch) => ({

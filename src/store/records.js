@@ -4,6 +4,7 @@ import range from 'lodash/range.js'
 export const Player = Record({
   id: undefined,
   angle: 0,
+  scale: 0.08,
   team: "a",
   x: 0,
   y: 0,

@@ -46,7 +46,6 @@ Transform.propTypes = {
   y: T.number,
   angle: T.number,
   scale: T.number,
-  forceUpdate: T.any,
 }
 
 Transform.defaultProps = {
@@ -58,5 +57,4 @@ export default onlyUpdateForKeys([
   'y',
   'angle',
   'scale',
-  'forceUpdate',
 ])(Transform)
