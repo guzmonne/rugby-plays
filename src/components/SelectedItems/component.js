@@ -8,7 +8,8 @@
 import React from 'react'
 import throttle from 'lodash/throttle.js'
 import {onlyUpdateForKeys} from 'recompose'
-import PlayerTransform from '../Field/PlayerTransform.js'
+import Transform from '../common/Transform.js'
+import Player from '../common/Player.js'
 import BoundingBox from '../common/BoundingBox.js'
 import RotateHandler from '../common/RotateHandler.js'
 import propTypes, {ISelectedItemsProps} from './interface.js'
@@ -137,7 +138,19 @@ class SelectedItems extends React.Component {
         <g className="SelectedItems__Container"
           ref={svg => this.svg = svg}>
         {player &&
-          <PlayerTransform player={player} />
+          <Transform
+            x={player.x}
+            y={player.y}
+            forceUpdate={player}
+            scale={player.scale}
+            angle={player.angle}>
+            <Player 
+              bodyFill={player.bodyFill}
+              neckFill={player.neckFill}
+              headFill={player.headFill}
+              bodyStroke={player.bodyStroke}
+            />
+          </Transform>
         }
         </g>
       {this.shouldShowTools() &&

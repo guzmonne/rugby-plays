@@ -1,6 +1,6 @@
 import React from "react"
 import Post from './Post.js'
-import {shouldUpdate} from 'recompose'
+import {pure} from 'recompose'
 
 const Posts = () => (
   <g className="posts">
@@ -9,4 +9,8 @@ const Posts = () => (
   </g>
 )
 
-export default shouldUpdate(() => true)(Posts)
+const PurePosts = pure(Posts)
+
+PurePosts.displayName = 'PurePosts'
+
+export default PurePosts

@@ -1,6 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
-import {onlyUpdateForKeys} from 'recompose'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const Post = ({x, y, scale}) => (
   <g className="post" transform={`translate(${x}, ${y}) scale(${scale})`}>
@@ -34,4 +34,8 @@ Post.defaultProps = {
   scale: 0.9,
 }
 
-export default onlyUpdateForKeys(['x', 'y', 'scale'])(Post)
+const PurePost = onlyUpdateForPropTypes(Post)
+
+PurePost.displayName = 'PurePost'
+
+export default PurePost

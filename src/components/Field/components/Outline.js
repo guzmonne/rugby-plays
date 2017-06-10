@@ -1,6 +1,6 @@
 import React from 'react'
 import T from 'prop-types'
-import {shouldUpdate} from 'recompose'
+import {pure} from 'recompose'
 
 const Outline = ({onClick}) => (
   <g className="outline" 
@@ -20,4 +20,8 @@ Outline.defaultProps = {
   onClick: () => {},
 }
 
-export default shouldUpdate(() => true)(Outline)
+const PureOutline = pure(Outline)
+
+PureOutline.displayName = 'PureOutline'
+
+export default PureOutline

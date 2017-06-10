@@ -14,6 +14,7 @@ const Team = ({className, onSelectPlayer, players}) => (
       }}
       x={player.x}
       y={player.y}
+      forceUpdate={player}
       scale={player.scale}
       angle={player.angle}>
       <Player 

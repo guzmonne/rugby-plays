@@ -1,6 +1,6 @@
 import React from "react"
 import T from "prop-types"
-import {onlyUpdateForKeys} from 'recompose'
+import {onlyUpdateForPropTypes} from 'recompose'
 
 const Lines = ({stroke}) => (
   <g className="lines" style={{stroke}}>
@@ -56,4 +56,8 @@ Lines.defaultProps = {
   stroke: '#fff',
 }
 
-export default onlyUpdateForKeys(['stroke'])(Lines)
+const PureLines = onlyUpdateForPropTypes(Lines)
+
+PureLines.displayName = 'PureLines'
+
+export default PureLines

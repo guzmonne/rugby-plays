@@ -8,7 +8,6 @@ class Transform extends React.Component {
   }
 
   componentDidMount() {
-  //console.log('transform mounted')
     this.setState({svg: this.svg})
   }
 
@@ -46,6 +45,8 @@ Transform.propTypes = {
   y: T.number,
   angle: T.number,
   scale: T.number,
+  // This prop is a hack to improve the performance of the app.
+  forceUpdate: T.any,
 }
 
 Transform.defaultProps = {
@@ -57,4 +58,5 @@ export default onlyUpdateForKeys([
   'y',
   'angle',
   'scale',
+  'forceUpdate',
 ])(Transform)
