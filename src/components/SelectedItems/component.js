@@ -8,10 +8,10 @@
 import React from 'react'
 import throttle from 'lodash/throttle.js'
 import {onlyUpdateForKeys} from 'recompose'
-import Transform from '../common/Transform.js'
-import Player from '../common/Player.js'
-import BoundingBox from '../common/BoundingBox.js'
-import RotateHandler from '../common/RotateHandler.js'
+import Transform from '../common/Transform/'
+import Player from '../common/Player/'
+import BoundingBox from '../common/BoundingBox/'
+import RotateHandler from '../common/RotateHandler/'
 import propTypes, {ISelectedItemsProps} from './interface.js'
 
 const LEFT_BUTTON = 0

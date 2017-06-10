@@ -1,4 +1,4 @@
-.row {
+.Row {
   font-size: 0.7em;
   display: flex;
   padding: 0.3em 1em;
@@ -10,6 +10,6 @@
   min-height: 3em;
 }
 
-.row button {
+.Row button {
   margin-top: 0.3em;
 }

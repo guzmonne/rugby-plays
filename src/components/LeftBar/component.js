@@ -1,9 +1,9 @@
 import './_style.css';
 import React from 'react'
 import {onlyUpdateForKeys} from 'recompose'
-import Row from '../common/Row.js'
-import Button from '../common/ButtonDark.js'
-import Icon from '../common/Icon.js'
+import Row from '../common/Row/'
+import Button from '../common/Button/'
+import Icon from '../common/Icon/'
 import SelectTeamRow from '../SelectTeamRow/'
 import propTypes, {ILeftBarProps} from './interface.js'
 

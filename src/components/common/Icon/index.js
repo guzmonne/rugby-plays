@@ -1,8 +1,8 @@
-import '../../_styles/Icon.css'
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 import {Plus, Cross} from './Icons.js'
-import {onlyUpdateForPropTypes} from 'recompose'
+import {pure} from 'recompose'
 
 const icons = {
   'plus': <Plus />,
@@ -28,4 +28,8 @@ Icon.defaultProps = {
   type: 'plus'
 }
 
-export default onlyUpdateForPropTypes(Icon)
+const PureIcon = pure(Icon)
+
+PureIcon.displayName = 'PureIcon'
+
+export default PureIcon

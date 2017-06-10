@@ -1,6 +1,6 @@
 import React from "react"
-import T from "prop-types"
-import {onlyUpdateForPropTypes} from 'recompose'
+import IPlayer from './interface.js'
+import {pure} from 'recompose'
 
 const Player = ({neckFill, bodyFill, headFill, bodyStroke}) => (
   <g className="Player">
@@ -24,20 +24,10 @@ const Player = ({neckFill, bodyFill, headFill, bodyStroke}) => (
   </g>
 )
 
-export const IPlayer = {
-  neckFill: T.string,
-  bodyFill: T.string,
-  headFill: T.string,
-  bodyStroke: T.string,
-}
-
 Player.propTypes = IPlayer
 
-Player.defaultProps = {
-  neckFill: '#000',
-  bodyFill: '#fff',
-  headFill: '#000',
-  bodyStroke: '#000',
-}
+const PurePlayer = pure(Player)
 
-export default onlyUpdateForPropTypes(Player)
+PurePlayer.displayName = 'PurePlayer'
+
+export default PurePlayer

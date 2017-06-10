@@ -1,4 +1,4 @@
-import '../../_styles/Sliders.css'
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 import uniqueId from 'lodash/uniqueId.js'

@@ -1,8 +1,8 @@
 import React from 'react'
 import {onlyUpdateForKeys} from 'recompose'
-import Slider from '../common/SliderThin.js'
-import Row from '../common/Row.js'
-import ColorPicker from '../common/ColorPicker.js'
+import Slider from '../common/SliderThin/'
+import Row from '../common/Row/'
+import ColorPicker from '../common/ColorPicker/'
 import propTypes, {ISelectTeamRowProps} from './interface.js'
 
 const SelectTeamRow = ({

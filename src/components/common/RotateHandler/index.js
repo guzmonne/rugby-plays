@@ -1,4 +1,4 @@
-import '../../_styles/RotateHandler.css'
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 

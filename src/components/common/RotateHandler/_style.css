@@ -13,7 +13,7 @@
 
 .RotateHandler circle.transparent:hover,
 .RotateHandler circle:hover {
-  cursor: url(./_images/redo.svg), auto;
+  cursor: url(./redo.svg), auto;
 }
 
 .RotateHandler circle.transparent {

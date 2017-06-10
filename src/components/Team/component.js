@@ -1,8 +1,8 @@
 import React from 'react'
 import {onlyUpdateForKeys} from 'recompose'
 import propTypes, {ITeamProps} from './interface.js'
-import Transform from '../common/Transform.js'
-import Player from '../common/Player.js'
+import Transform from '../common/Transform/'
+import Player from '../common/Player/'
 
 const Team = ({className, onSelectPlayer, players}) => (
   <g className={className}>

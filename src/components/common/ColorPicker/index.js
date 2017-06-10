@@ -1,8 +1,8 @@
-import '../../_styles/ColorPicker.css'
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 import ChromePicker from 'react-color'
-import {onlyUpdateForPropTypes} from 'recompose'
+import {pure} from 'recompose'
 
 const ColorPicker = ({open, color, onClick, onClose, onColorChange}) => (
   <span className="ColorPicker">
@@ -30,4 +30,8 @@ ColorPicker.defaultProps = {
   color: '#fff',
 }
 
-export default onlyUpdateForPropTypes(ColorPicker)
+const PureColorPicker = pure(ColorPicker)
+
+PureColorPicker.displayName = 'PureColorPicker'
+
+export default PureColorPicker

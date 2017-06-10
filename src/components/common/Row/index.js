@@ -1,10 +1,10 @@
-import '../../_styles/Row.css'
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
 
 const Row = ({className, children, alignItems, justifyContent, ...props}) => (
-  <div className={cn('row', className)}
+  <div className={cn('Row', className)}
     style={{
       ...(justifyContent ? {justifyContent} : {}),
       ...(alignItems ? {alignItems} : {}),

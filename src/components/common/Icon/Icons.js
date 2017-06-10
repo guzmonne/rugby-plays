@@ -1,4 +1,4 @@
-import '../../_styles/Icon.css'
+import './_style.css'
 import React from 'react'
 
 export const Plus = () => (

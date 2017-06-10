@@ -1,10 +1,10 @@
-import '../../_styles/ButtonDark.css'
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 import cn from 'classnames'
-import {onlyUpdateForPropTypes} from 'recompose'
+import {pure} from 'recompose'
 
-const ButtonDark = ({
+const Button = ({
   className,
   children,
   active,
@@ -30,7 +30,7 @@ const ButtonDark = ({
   </button>
 )
 
-ButtonDark.propTypes = {
+Button.propTypes = {
   className: T.string,
   disabled: T.bool,
   active: T.bool,
@@ -38,8 +38,12 @@ ButtonDark.propTypes = {
   type: T.oneOf(['success', 'danger']),
 }
 
-ButtonDark.defaultTypes = {
+Button.defaultTypes = {
   type: 'success',
 }
 
-export default onlyUpdateForPropTypes(ButtonDark)
+const PureButton = pure(Button)
+
+PureButton.displayName = 'PureButton'
+
+export default PureButton
