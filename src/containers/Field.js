@@ -117,7 +117,11 @@ FieldContainer.propTypes = {
   updatePlayer: T.func,
 }
 
-export default connect(
+const ConnectedFieldConatiner = connect(
   fieldSelector,
   fieldActions
 )(FieldContainer)
+
+ConnectedFieldConatiner.displayName = 'FieldContainer'
+
+export default ConnectedFieldConatiner

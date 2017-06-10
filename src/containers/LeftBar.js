@@ -23,12 +23,18 @@ class LeftBarContainer extends React.Component {
 
 LeftBarContainer.propTypes = ILeftBar
 
+const PureLeftBarContainer = onlyUpdateForKeys(
+  Object.keys(ILeftBarProps)
+)(LeftBarContainer)
+
+PureLeftBarContainer.displayName = 'PureLeftBarContainer'
+
 const ConnectedLeftBarContainer = (
   connect(leftBarSelector, leftBarActions)(
-    onlyUpdateForKeys(Object.keys(ILeftBarProps))(LeftBarContainer)
+    PureLeftBarContainer
   )
 )
 
-ConnectedLeftBarContainer.displayName = 'LeftBarContainer'
+ConnectedLeftBarContainer.displayName = 'ConnectedLeftBarContainer'
 
 export default ConnectedLeftBarContainer

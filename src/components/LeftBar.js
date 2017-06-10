@@ -57,6 +57,6 @@ const PureLeftBar = onlyUpdateForKeys(
   Object.keys(ILeftBarProps)
 )(LeftBar)
 
-PureLeftBar.displayName = 'LeftBar'
+PureLeftBar.displayName = 'PureLeftBar'
 
 export default PureLeftBar
