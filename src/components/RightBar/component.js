@@ -10,8 +10,7 @@ const RightBar = ({player, onChangeFactory}) => (
     <div className="RightBar">  
       <Row className="PlayersRow__title" 
         justifyContent="center" 
-        alignItems="center"
-        thin={true}>
+        alignItems="center">
         <h3 className="PlayersRow__title">
           Jugador #{player.id} - Team {player.team.toUpperCase()}
         </h3>
