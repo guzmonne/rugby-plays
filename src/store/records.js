@@ -8,6 +8,7 @@ export const Player = Record({
   team: "a",
   x: 0,
   y: 0,
+  number: 1,
   neckFill: '#000',
   bodyFill: '#fff',
   headFill: '#000',
@@ -22,6 +23,7 @@ const players = (team, bodyFill) => range(0, 12).reduce((acc, index) => (
     team,
     x: 5 + Math.random() * 80,
     y: 5 + Math.random() * 120,
+    number: index + 1,
     bodyFill,
   }))
 ), ImmutableMap({}))

@@ -4,7 +4,7 @@ import {Provider} from 'react-redux'
 import configureStore from '../store/configureStore.js'
 import Field from './Field/'
 import LeftBar from './LeftBar/'
-import {RightBar} from './RightBar/'
+import RightBar from './RightBar/'
 
 const store = configureStore()
 

@@ -1,8 +1,14 @@
-//import T from 'prop-types'
+import T from 'prop-types'
+import {Player} from '../../store/records.js'
 
-export const IRightBarProps = {}
+export const IRightBarProps = {
+  player: T.instanceOf(Player)
+}
 
-export const IRightBarActions = {}
+export const IRightBarActions = {
+  updatePlayer: T.func,
+  onChangeFactory: T.func,
+}
 
 export const IRightBar = {
   ...IRightBarProps,

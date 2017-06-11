@@ -146,6 +146,10 @@ export const leftBarSelector = createStructuredSelector({
   canRemovePlayers: flagsCanRemovePlayers,
 })
 
+export const rightBarSelector = createStructuredSelector({
+  player: selectedPlayer,
+})
+
 export const fieldSelector = createStructuredSelector({
   isAddingPlayers: flagsIsAddingPlayerSelector,
   aPlayers: playersASelector,

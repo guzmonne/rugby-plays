@@ -15,10 +15,11 @@ export const addPlayer = (x, y) => (dispatch, getState) => {
   if (list.size === 15) return
   const angle = team === 'a' ? 0 : 180
   const id = uniqueId(`team${team}player`)
+  const number = list.size + 1
   dispatch({
     type: ADD_PLAYER,
     entity: 'players',
-    model: new Player({id, team, angle, x, y, bodyFill}),
+    model: new Player({id, team, angle, x, y, bodyFill, number}),
   })
 }
 /**
@@ -157,6 +158,10 @@ export const leftBarActions = (dispatch) => ({
   },
   removeSelectedPlayer: (...args) => dispatch(removeSelectedPlayer(...args)),
 })
+
+export const rightBarActions = {
+  updatePlayer,
+}
 
 export const teamActions = {
   onSelectPlayer: selectPlayer,
