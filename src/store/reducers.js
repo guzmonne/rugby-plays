@@ -6,28 +6,38 @@ import {
   Entities,
 } from './records.js'
 import * as ActionTypes from './actions.js'
-
+/**
+ * Redux entities reducer.
+ * @param {Immutable Record} state Current entities state.
+ * @param {Redux Action} action Redux action object.
+ * @return {Redux Action}The next entities state.
+ */
 const entities = (state=new Entities(), action) => {
-
+  // Only move forward if the action has an entity value.
   if (action.hasOwnProperty('entity') === false) {
     return state
   }
-
+  // General ADD action
   if (/^ADD_/.test(action.type) === true) return (
     state.updateIn([action.entity], (entity) => (
       entity.set(action.model.id, action.model)
     ))
   )
-
+  // General UPDATE action
   if (/^UPDATE_/.test(action.type) === true) return (
     state.updateIn([action.entity], (entity) => (
       entity.merge(action.update)
     ))
   )
-
+  // Default state
   return state
 }
-
+/**
+ * Redux players reducer.
+ * @param {Immutable Record} state Current players state.
+ * @param {Redux Action} action Redux action object.
+ * @return {Redux Action}The next players state.
+ */
 const players = (state=new Players(), action) => {
   switch (action.type) {
     case ActionTypes.DESELECT_PLAYER:
@@ -51,7 +61,12 @@ const players = (state=new Players(), action) => {
     default: return state
   }
 }
-
+/**
+ * Redux flags reducer.
+ * @param {Immutable Record} state Current flags state.
+ * @param {Redux Action} action Redux action object.
+ * @return {Redux Action}The next flags state.
+ */
 const flags = (state=new Flags(), action) => {
   if (
     action.type !== ActionTypes.TOGGLE_FLAG ||
@@ -62,7 +77,6 @@ const flags = (state=new Flags(), action) => {
   }
   return state.set(action.flag, !state.get(action.flag))
 }
-
 /**
  * Export main reducer.
  */
@@ -72,7 +86,7 @@ export default combineReducers({
   flags,
 })
 /**
- * Export mapStateToProps functions
+ * SELECTORS
  */
 const playersEntities = (state) => state.getIn(['entities', 'players'])
 
