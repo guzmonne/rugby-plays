@@ -127,10 +127,16 @@ const flagsIsOpenTeamBColorPicker = state => (
   state.getIn(['flags', 'isOpenTeamBColorPicker'])
 )
 
-const flagsIsAddingPlayers = state => state.getIn(['flags', 'isAddingPlayers'])
+const flagsIsAddingPlayers = state => (
+  state.getIn(['flags', 'isAddingPlayers'])
+)
 
 const flagsCanRemovePlayers = state => (
   state.getIn(['players', 'selected']) !== undefined
+)
+
+const flagsIsSelectingItemsSelector = state => (
+  state.getIn(['flags', 'isSelectingItems'])
 )
 
 export const selectTeamRowSelector = createStructuredSelector({
@@ -158,4 +164,8 @@ export const fieldSelector = createStructuredSelector({
 
 export const selectedItemsSelector = createStructuredSelector({
   player: selectedPlayer,
+})
+
+export const selectBoxSelector = createStructuredSelector({
+  isSelectingItems: flagsIsSelectingItemsSelector,
 })

@@ -41,6 +41,7 @@ export const Flags = Record({
   isOpenTeamAColorPicker: false,
   isOpenTeamBColorPicker: false,
   isPlayerDraggable: false,
+  isSelectingItems: true,
 }, 'Flags')
 
 export const Players = Record({
