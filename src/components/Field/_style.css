@@ -4,6 +4,10 @@
   background-color: #7bb756;
 }
 
+.Field * {
+  user-select: none;
+}
+
 .Field .line {
   fill: transparent;
   stroke: white;

@@ -1,5 +1,6 @@
 .SelectBox {
-  fill: transparent;
+  fill: steelblue;
+  fill-opacity: 0.1;
   stroke: steelblue;
   stroke-width: 0.3;
   stroke-dasharray: 0.5, 0.5;

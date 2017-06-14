@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux-immutable'
+import {List} from 'immutable'
 import {createSelector, createStructuredSelector} from 'reselect'
 import {
   Players,
@@ -41,9 +42,9 @@ const entities = (state=new Entities(), action) => {
 const players = (state=new Players(), action) => {
   switch (action.type) {
     case ActionTypes.DESELECT_PLAYER:
-      return state.set('selected', undefined)
+      return state.set('selected', List())
     case ActionTypes.SELECT_PLAYER:
-      return state.set('selected', action.playerId)
+      return state.set('selected', List([action.playerId]))
     case ActionTypes.CHANGE_TEAM_COLOR:
       return state.set(`team${action.team.toUpperCase()}Color`, action.color)
     case ActionTypes.TOGGLE_TEAM:
@@ -122,10 +123,19 @@ const playersBSelector = createSelector([
   playersEntities,
 ], idsToPlayers)
 
+const selectedPlayers = createSelector([
+  playersSelectedSelector,
+  playersEntities,
+], (selected, players) => (
+  selected.map(id => players.get(id))
+))
+
 const selectedPlayer = createSelector([
   playersSelectedSelector,
   playersEntities,
-], (selected, players, aColor, bColor) => players.get(selected))
+], (selected, players) => (
+  selected.size === 1 ? players.get(selected.first()) : undefined
+))
 
 const playersTeamSelector = state => state.getIn(['players', 'team'])
 
@@ -146,11 +156,15 @@ const flagsIsAddingPlayers = state => (
 )
 
 const flagsCanRemovePlayers = state => (
-  state.getIn(['players', 'selected']) !== undefined
+  state.getIn(['players', 'selected']).size === 0
 )
 
 const flagsIsSelectingItemsSelector = state => (
   state.getIn(['flags', 'isSelectingItems'])
+)
+
+const flagsHasSelectedItemsSelector = state => (
+  state.getIn(['players', 'selected']).size > 0
 )
 
 export const selectTeamRowSelector = createStructuredSelector({
@@ -177,7 +191,7 @@ export const fieldSelector = createStructuredSelector({
 })
 
 export const selectedItemsSelector = createStructuredSelector({
-  player: selectedPlayer,
+  players: selectedPlayers,
 })
 
 export const selectBoxSelector = createStructuredSelector({

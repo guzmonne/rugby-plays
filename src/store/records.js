@@ -19,7 +19,7 @@ const players = (team, bodyFill) => range(0, 12).reduce((acc, index) => (
   acc.set(`${team}${index}`, new Player({
     id: `${team}${index}`,
     //angle: 0,
-    angle: Math.random() * 180 * (Math.random() > 0.5 ? 1 : -1),
+    angle: Math.random() * 360,
     team,
     x: 5 + Math.random() * 80,
     y: 5 + Math.random() * 120,
@@ -45,7 +45,7 @@ export const Flags = Record({
 }, 'Flags')
 
 export const Players = Record({
-  selected: undefined,
+  selected: List(),
   a: playersId('a'),
   b: playersId('b'),
   team: 'a',

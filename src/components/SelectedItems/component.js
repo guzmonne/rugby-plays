@@ -17,12 +17,17 @@ import propTypes, {ISelectedItemsProps} from './interface.js'
 const LEFT_BUTTON = 0
 const WIDTH = 90
 const HEIGHT = 130
+const MIN_DIFF = 0.3
+const FPS = 24
 
 class SelectedItems extends React.Component {
+  xDiff = 0
+  yDiff = 0
+
   state = {
+    angle: 0,
     length: 0,
     svg: undefined,
-    rotating: false,
     x0: undefined,
     y0: undefined,
     cx: undefined,
@@ -35,6 +40,26 @@ class SelectedItems extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    console.log('unmounted')
+  }
+
+  componentWillReceiveProps({players:nextPlayers}) {
+    const {players:prevPlayers} = this.props
+    if (nextPlayers !== prevPlayers) {
+      this.setState({
+        angle: nextPlayers.reduce((acc, player) => (
+          acc + player.angle
+        ), 0) / nextPlayers.size
+      })
+    }
+  }
+
+  calculateRotateHandlerLength = () => {
+    const {width, height} = this.svg.getBBox()
+    return Math.max(width, height)
+  }
+
   handleRotateOnMouseDown = (e) => {
     if (e.button !== LEFT_BUTTON) return
     e.stopPropagation()
@@ -45,30 +70,31 @@ class SelectedItems extends React.Component {
   }
 
   onRotate = (e) => {
-    const {player} = this.props
-    if (!player) return
-    let angle = player.angle
     const {x, y} = this.props.mouseToSvgCoordinates(e)
     const {cx, cy} = this.state
+    let {angle} = this.state
     const a = Math.abs(cy - y) // Cateto opuesto
     const b = Math.abs(cx - x) // Cateto adyacente
     const alpha = Math.atan(a / b) * 180 / Math.PI // Angulo tangente
     if (x === cx) {
       angle = y < cy ? 0 : 180
     } else if (y === cy) {
-      angle = x < cx ? -90 : 90
+      angle = x < cx ? 270 : 90
     } else if (x < cx) {
-      angle = y < cy ? alpha - 90 : -alpha - 90
+      angle = y < cy ? 270 + alpha : 270 - alpha
     } else if (x > cx) {
       angle = y < cy ? 90 - alpha : alpha + 90
     }
     this.setState(() => ({
+      angle,
       length: Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)),
     }))
-    this.props.updatePlayer(player.id, {angle})
+    this.props.players.forEach(player => (
+      this.props.updatePlayer(player.id, {angle})
+    ))
   }
 
-  throttledOnRotate = throttle(this.onRotate, 16)
+  throttledOnRotate = throttle(this.onRotate, 1000 / FPS)
 
   handleRotateMouseMove = (e) => {
     e.stopPropagation()
@@ -79,7 +105,9 @@ class SelectedItems extends React.Component {
     e.stopPropagation()
     document.removeEventListener('mousemove', this.handleRotateMouseMove)
     document.removeEventListener('mouseup', this.handleRotateMouseUp)
-    this.setState(() => ({length: 0, rotating: false}))
+    this.setState({
+      length: this.calculateRotateHandlerLength()
+    })
   }
 
   handleDragOnMouseDown = (e) => {
@@ -87,32 +115,32 @@ class SelectedItems extends React.Component {
     e.stopPropagation()
     document.addEventListener('mousemove', this.handleDragMouseMove)
     document.addEventListener('mouseup', this.handleDragMouseUp)
-    const {x, y} = this.props.mouseToSvgCoordinates(e)
-    const {player} = this.props
-    this.setState(() => ({
-      x0: Math.sign(player.x - x) * Math.abs(player.x - x),
-      y0: Math.sign(player.y - y) * Math.abs(player.y - y),
-    }))
+    const {x:x0, y:y0} = this.props.mouseToSvgCoordinates(e)
+    this.x0 = x0
+    this.y0 = y0
   }
 
   onDrag = (e) => {
-    const {player} = this.props
-    if (!player) return
-    let {x:mX, y:mY} = this.props.mouseToSvgCoordinates(e)
-    const {x0, y0} = this.state
-    // Move new coordinates to main point
-    mX += x0
-    mY += y0
-    // Limits
-    if (mX < 0)      {mX = 0}
-    if (mX > WIDTH)  {mX = WIDTH}
-    if (mY < 0)      {mY = 0}
-    if (mY > HEIGHT) {mY = HEIGHT}
-    // Update
-    this.props.updatePlayer(player.id, {x: mX, y: mY})
+    const {players, mouseToSvgCoordinates} = this.props
+    const {x0, y0} = this
+    console.log(x0, y0)
+    const {x:x1, y:y1} = mouseToSvgCoordinates(e)
+    let xDiff = x1 - x0
+    let yDiff = y1 - y0
+    players.forEach(player => {
+      let x = player.x + xDiff
+      let y = player.y + yDiff
+      if (x < 0)      {x = 0}
+      if (x > WIDTH)  {x = WIDTH}
+      if (y < 0)      {y = 0}
+      if (y > HEIGHT) {y = HEIGHT}
+      this.props.updatePlayer(player.id, {x, y})
+    })
+    this.x0 += xDiff
+    this.y0 += yDiff
   }
 
-  throttledOnDrag = throttle(this.onDrag, 16)
+  throttledOnDrag = throttle(this.onDrag, 1000 / FPS)
 
   handleDragMouseMove = (e) => {
     e.stopPropagation()
@@ -123,22 +151,25 @@ class SelectedItems extends React.Component {
     e.stopPropagation()
     document.removeEventListener('mousemove', this.handleDragMouseMove)
     document.removeEventListener('mouseup', this.handleDragMouseUp)
+    this.xDiff = 0
+    this.yDiff = 0
   }
 
   shouldShowTools = () => (
     this.state.svg && 
-    this.props.player
+    this.props.players &&
+    this.props.players.size > 0
   )
 
   render = () => {
-    const {rotating, svg, length} = this.state
-    const {player} = this.props
+    const {svg, length, angle} = this.state
+    const {players} = this.props
     return (
       <g className="SelectedItems" onClick={e => e.stopPropagation()}>
         <g className="SelectedItems__Container"
           ref={svg => this.svg = svg}>
-        {player &&
-          <Transform
+        {players.size > 0 && players.map(player => (
+          <Transform key={player.id}
             x={player.x}
             y={player.y}
             forceUpdate={player}
@@ -151,7 +182,7 @@ class SelectedItems extends React.Component {
               bodyStroke={player.bodyStroke}
             />
           </Transform>
-        }
+        ))}
         </g>
       {this.shouldShowTools() &&
         <g className="SelectedItems__Tools">
@@ -159,8 +190,8 @@ class SelectedItems extends React.Component {
             onMouseDown={this.handleRotateOnMouseDown}>
             <RotateHandler 
               svg={svg}
-              angle={player.angle} 
-              length={rotating ? length : 0}
+              angle={angle} 
+              length={length}
             />
           </g>
           <g className="SelectedItems__Tools__BoundingBox"
