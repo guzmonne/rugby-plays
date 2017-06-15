@@ -23,9 +23,15 @@ class SelectedItems extends React.Component {
   xDiff = 0
   yDiff = 0
 
+  defaultBox = {x: 0, y:0, width: 0, height: 0}
+
   state = {
     angle: 0,
     length: 0,
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
     svg: undefined,
     x0: undefined,
     y0: undefined,
@@ -33,12 +39,11 @@ class SelectedItems extends React.Component {
     cy: undefined,
   }
 
-  componentDidMount() {
-    if (this.svg) {
-      this.setState({
-        svg: this.svg,
-        angle: this.calculateHandlerAngle(this.props.players),
-      })
+  componentDidUpdate(prevProps) {
+    if (!this.props.players.equals(prevProps.players)) {
+      console.log('Different players')
+      const {x, y, width, height} = this.svg.getBBox()
+      this.setState({x, y, width, height})
     }
   }
 
@@ -159,18 +164,19 @@ class SelectedItems extends React.Component {
   }
 
   shouldShowTools = () => (
-    this.state.svg && 
+    this.svg && 
     this.props.players &&
     this.props.players.size > 0
   )
 
   render = () => {
-    const {svg, length, angle} = this.state
+    const {length, angle, x, y, width, height} = this.state
     const {players} = this.props
+
     return (
       <g className="SelectedItems" onClick={e => e.stopPropagation()}>
         <g className="SelectedItems__Container"
-          ref={svg => this.svg = svg}>
+          ref={svg => !this.svg && (this.svg = svg)}>
         {players.size > 0 && players.map(player => (
           <Transform key={player.id}
             x={player.x}
@@ -192,14 +198,22 @@ class SelectedItems extends React.Component {
           <g className="SelectedItems__Tools__RotateHandler"
             onMouseDown={this.handleRotateOnMouseDown}>
             <RotateHandler 
-              svg={svg}
+              x={x}
+              y={y}
+              width={width}
+              height={height}
               angle={angle} 
               length={length}
             />
           </g>
           <g className="SelectedItems__Tools__BoundingBox"
             onMouseDown={this.handleDragOnMouseDown}>
-            <BoundingBox svg={svg} />
+            <BoundingBox
+              x={x}
+              y={y}
+              width={width}
+              height={height}
+            />
           </g>
         </g>
       }
