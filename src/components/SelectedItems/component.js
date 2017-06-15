@@ -37,13 +37,22 @@ class SelectedItems extends React.Component {
     y0: undefined,
     cx: undefined,
     cy: undefined,
+    rotating: false,
   }
 
   componentDidUpdate(prevProps) {
     if (!this.props.players.equals(prevProps.players)) {
       console.log('Different players')
       const {x, y, width, height} = this.svg.getBBox()
-      this.setState({x, y, width, height})
+      this.setState(({rotating, length}) => ({
+        x,
+        y,
+        width,
+        height,
+        length: rotating === true 
+          ? length
+          : this.calculateRotateHandlerLength(width, height)
+      }))
     }
   }
 
@@ -64,10 +73,7 @@ class SelectedItems extends React.Component {
     })
   }
 
-  calculateRotateHandlerLength = () => {
-    const {width, height} = this.svg.getBBox()
-    return Math.max(width, height)
-  }
+  calculateRotateHandlerLength = (width, height) => Math.max(width, height)
 
   handleRotateOnMouseDown = (e) => {
     if (e.button !== LEFT_BUTTON) return
@@ -96,7 +102,10 @@ class SelectedItems extends React.Component {
     }
     this.setState(() => ({
       angle,
-      length: Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)),
+      length: +Math.sqrt(
+        Math.pow(+a.toFixed(2), 2) + 
+        Math.pow(+b.toFixed(2), 2)
+      ).toFixed(2),
     }))
     this.props.players.forEach(player => (
       this.props.updatePlayer(player.id, {angle})
@@ -114,9 +123,10 @@ class SelectedItems extends React.Component {
     e.stopPropagation()
     document.removeEventListener('mousemove', this.handleRotateMouseMove)
     document.removeEventListener('mouseup', this.handleRotateMouseUp)
-    this.setState({
-      length: this.calculateRotateHandlerLength()
-    })
+    this.setState(({width, height}) => ({
+      rotating: false,
+      length: this.calculateRotateHandlerLength(width, height)
+    }))
   }
 
   handleDragOnMouseDown = (e) => {
@@ -170,7 +180,7 @@ class SelectedItems extends React.Component {
   )
 
   render = () => {
-    const {length, angle, x, y, width, height} = this.state
+    const {length, angle, x, y, width, height, rotating} = this.state
     const {players} = this.props
 
     return (
@@ -204,6 +214,7 @@ class SelectedItems extends React.Component {
               height={height}
               angle={angle} 
               length={length}
+              rotating={rotating}
             />
           </g>
           <g className="SelectedItems__Tools__BoundingBox"

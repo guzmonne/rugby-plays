@@ -1,3 +1,4 @@
+import './_style.css'
 import React from 'react'
 import T from 'prop-types'
 import {onlyUpdateForKeys} from 'recompose'
@@ -31,7 +32,8 @@ class Transform extends React.Component {
   }
   
   render = () => (
-    <g transform={this.transform()}
+    <g className="Transform" 
+      transform={this.transform()}
       onClick={this.props.onClick}
       ref={svg => this.svg = svg}>
       {this.props.children} 
