@@ -85,6 +85,7 @@ class Field extends React.Component {
         onMouseDown={this.handleOnMouseDown}
         onMouseMove={this.handleOnMouseMove}
         onMouseUp={this.handleOnMouseUp}
+        onMouseLeave={this.handleOnMouseUp}
         onClick={this.handleOnClick}>
         <Stripes />
         <Outline onClick={(e) => this.onAddPlayer(e, svg, pt)} />

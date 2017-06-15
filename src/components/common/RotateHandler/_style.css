@@ -1,13 +1,13 @@
 .RotateHandler > path {
-  stroke: steelblue;
+  stroke: white;
   fill: transparent;
   stroke-width: 0.1;
   stroke-dasharray: 0.2, 0.2;
 }
 
 .RotateHandler circle {
-  fill: white;
-  stroke: steelblue;
+  fill: whitesmoke;
+  stroke: white;
   stroke-width: 0.2;
 }
 

@@ -1,6 +1,7 @@
 .BoundingBox .BoundingBox__Rect {
-  stroke: steelblue;
-  fill: transparent;
-  stroke-width: 0.1;
+  stroke: white;
+  fill: black;
+  fill-opacity: 0.05;
+  stroke-width: 0.2;
   stroke-dasharray: 0.2, 0.2;
 }
