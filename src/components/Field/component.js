@@ -16,6 +16,7 @@ class Field extends React.Component {
   pt = undefined
 
   state = {
+    canDrawRect: false,
     selecting: false,
     a: {x: 50, y: 23},
     b: {x: 3, y: 17},
@@ -23,6 +24,7 @@ class Field extends React.Component {
 
   componentDidMount() {
     this.pt = this.svg.createSVGPoint()
+    this.forceUpdate()
   }
 
   mouseToSvgCoordinates = (e) => {
@@ -42,29 +44,39 @@ class Field extends React.Component {
 
   handleOnMouseDown = (e) => {
     const {x, y} = mouseToSvgCoordinates(e, this.svg, this.pt)
-    this.setState({
+    this.setState(() => ({
+      selecting: true,
       a: {x, y},
       b: {x, y},
-      selecting: true,
-    })
+    }))
   }
 
   handleOnMouseMove = (e) => {
-    if (this.state.selecting === false) return
+    if (this.state.selecting === true && this.state.canDrawRect === false) {
+      this.setState(() => ({canDrawRect: true}))
+    }
     const {x, y} = mouseToSvgCoordinates(e, this.svg, this.pt)
     this.setState({b: {x, y}})
   }
   
   handleOnMouseUp = (e) => {
-    this.setState({
-      selecting: false,
-    })
+    if (this.state.canDrawRect === true && this.state.selecting === true) {
+      this.props.selectItemsBetweenPoints(this.state.a, this.state.b)
+    }
+    this.setState(() => ({selecting: false}))
+  }
+
+  handleOnClick = (e) => {
+    if (this.state.canDrawRect === true) {
+      this.setState(() => ({canDrawRect: false}))
+    } else {
+      this.props.deselectPlayer()
+    }
   }
 
   render = () => {
     const {svg, pt} = this
-    const {deselectPlayer} = this.props
-
+    const {selecting, canDrawRect, a, b} = this.state
     return (
       <svg className="Field" 
         viewBox="0 0 90 130" 
@@ -73,7 +85,7 @@ class Field extends React.Component {
         onMouseDown={this.handleOnMouseDown}
         onMouseMove={this.handleOnMouseMove}
         onMouseUp={this.handleOnMouseUp}
-        onClick={deselectPlayer}>
+        onClick={this.handleOnClick}>
         <Stripes />
         <Outline onClick={(e) => this.onAddPlayer(e, svg, pt)} />
         <Lines />
@@ -83,8 +95,8 @@ class Field extends React.Component {
       {this.svg && this.pt &&
         <SelectedItems mouseToSvgCoordinates={this.mouseToSvgCoordinates}/>
       }
-      {this.state.selecting &&
-        <SelectBox a={this.state.a} b={this.state.b}/>
+      {selecting && canDrawRect &&
+        <SelectBox a={a} b={b}/>
       }
       </svg>
     )

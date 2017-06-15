@@ -11,6 +11,7 @@ export const IFieldActions = {
   updatePlayer: T.func,
   deselectPlayer: T.func,
   onAddPlayer: T.func,
+  selectItemsBetweenPoints: T.func,
 }
 
 export default {

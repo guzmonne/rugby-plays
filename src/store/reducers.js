@@ -45,6 +45,8 @@ const players = (state=new Players(), action) => {
       return state.set('selected', List())
     case ActionTypes.SELECT_PLAYER:
       return state.set('selected', List([action.playerId]))
+    case ActionTypes.SELECT_PLAYERS_BETWEEN_POINTS:
+      return state.set('selected', action.players)
     case ActionTypes.CHANGE_TEAM_COLOR:
       return state.set(`team${action.team.toUpperCase()}Color`, action.color)
     case ActionTypes.TOGGLE_TEAM:
@@ -99,7 +101,7 @@ const playersTeamBIdsSelector = state => state.getIn(['players', 'b'])
 
 const idsToPlayers = (selected, ids, players) => (
   ids
-  .filter(id => id !== selected)
+  .filter(id => !selected.includes(id))
   .map(id => players.get(id))
 )
 
@@ -161,10 +163,6 @@ const flagsCanRemovePlayers = state => (
 
 const flagsIsSelectingItemsSelector = state => (
   state.getIn(['flags', 'isSelectingItems'])
-)
-
-const flagsHasSelectedItemsSelector = state => (
-  state.getIn(['players', 'selected']).size > 0
 )
 
 export const selectTeamRowSelector = createStructuredSelector({

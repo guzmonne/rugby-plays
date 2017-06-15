@@ -72,10 +72,39 @@ export const selectPlayer = (playerId) => (dispatch, getState) =>  {
     playerId: playerId === currentPlayerId ? undefined : playerId,
   })
 }
-
+/**
+ * Deselect Player
+ */
 export const deselectPlayer = () => ({
   type: DESELECT_PLAYER,
 })
+/**
+ * Select items between points
+ */
+export const SELECT_PLAYERS_BETWEEN_POINTS = 'SELECTED_PLAYERS_BETWEEN_POINTS'
+
+export const selectPlayersBetweenPoints = (a, b) => (dispatch, getState) => {
+  const state = getState()
+  const entities = state.getIn(['entities', 'players'])
+  const activePlayerIds = (
+    state.getIn(['players', 'a']).concat(state.getIn(['players', 'b']))
+  )
+  const players = (
+    activePlayerIds
+    .map(id => entities.get(id))
+    .filter(player => (
+      player.x > Math.min(a.x, b.x) &&
+      player.x < Math.max(a.x, b.x) &&
+      player.y > Math.min(a.y, b.y) &&
+      player.y < Math.max(a.y, b.y)
+    ))
+    .map(player => player.id)
+  ) 
+  dispatch({
+    type: SELECT_PLAYERS_BETWEEN_POINTS,
+    players,
+  })
+}
 /**
  * Update Player
  */
@@ -149,6 +178,7 @@ export const fieldActions = {
   addPlayer,
   updatePlayer,
   deselectPlayer,
+  selectItemsBetweenPoints: selectPlayersBetweenPoints,
 }
 
 export const leftBarActions = (dispatch) => ({

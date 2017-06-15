@@ -17,7 +17,6 @@ import propTypes, {ISelectedItemsProps} from './interface.js'
 const LEFT_BUTTON = 0
 const WIDTH = 90
 const HEIGHT = 130
-const MIN_DIFF = 0.3
 const FPS = 24
 
 class SelectedItems extends React.Component {
@@ -36,23 +35,28 @@ class SelectedItems extends React.Component {
 
   componentDidMount() {
     if (this.svg) {
-      this.setState({svg: this.svg})
+      this.setState({
+        svg: this.svg,
+        angle: this.calculateHandlerAngle(this.props.players),
+      })
     }
-  }
-
-  componentWillUnmount() {
-    console.log('unmounted')
   }
 
   componentWillReceiveProps({players:nextPlayers}) {
     const {players:prevPlayers} = this.props
     if (nextPlayers !== prevPlayers) {
-      this.setState({
-        angle: nextPlayers.reduce((acc, player) => (
-          acc + player.angle
-        ), 0) / nextPlayers.size
-      })
+      this.setHandlerAngle(nextPlayers)
     }
+  }
+
+  calculateHandlerAngle = (players) => players.reduce((acc, player) => (
+    acc + player.angle
+  ), 0) / players.size
+
+  setHandlerAngle = (players) => {
+    this.setState({
+      angle: this.calculateHandlerAngle(players)
+    })
   }
 
   calculateRotateHandlerLength = () => {
@@ -123,7 +127,6 @@ class SelectedItems extends React.Component {
   onDrag = (e) => {
     const {players, mouseToSvgCoordinates} = this.props
     const {x0, y0} = this
-    console.log(x0, y0)
     const {x:x1, y:y1} = mouseToSvgCoordinates(e)
     let xDiff = x1 - x0
     let yDiff = y1 - y0

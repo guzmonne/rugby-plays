@@ -5,8 +5,8 @@ import T from 'prop-types'
 const RotateHandler = ({svg, angle, length}) => {
   if (!svg) return <none />
   const {x, y, width, height} = svg.getBBox()
-  const x0 = x + width/2
-  const y0 = y + height/2
+  const x0 = x + width / 2
+  const y0 = y + height / 2
   const y1 = y - (length === 0 ? 2 * height : length)
   return (
     <g className="RotateHandler"
