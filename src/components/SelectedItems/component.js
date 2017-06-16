@@ -43,7 +43,6 @@ class SelectedItems extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!this.props.players.equals(prevProps.players)) {
-      console.log('Different players')
       const {x, y, width, height} = this.svg.getBBox()
       this.setState({
         x,
@@ -52,6 +51,16 @@ class SelectedItems extends React.Component {
         height,
         xDiff: 0,
         yDiff: 0,
+      })
+    }
+  }
+
+  componentWillReceiveProps({players}) {
+    if (!players.equals(this.props.players)) {
+      this.setState({
+        angle: players.size === 1
+          ? players.get(0).angle
+          : 0,
       })
     }
   }
@@ -149,7 +158,7 @@ class SelectedItems extends React.Component {
     document.removeEventListener('mousemove', this.handleDragMouseMove)
     document.removeEventListener('mouseup', this.handleDragMouseUp)
     this.setState(({xDiff, yDiff}) => {
-      console.log('always second')
+      
       this.props.players.forEach(player => {
         let x = player.x + xDiff
         let y = player.y + yDiff
@@ -199,6 +208,7 @@ class SelectedItems extends React.Component {
         </g>
       {this.shouldShowTools() &&
         <g className="SelectedItems__Tools">
+        {players.size === 1 &&
           <g className="SelectedItems__Tools__RotateHandler"
             onMouseDown={this.handleRotateOnMouseDown}>
             <RotateHandler 
@@ -211,6 +221,7 @@ class SelectedItems extends React.Component {
               rotating={rotating}
             />
           </g>
+        }  
           <g className="SelectedItems__Tools__BoundingBox"
             onMouseDown={this.handleDragOnMouseDown}>
             <BoundingBox
