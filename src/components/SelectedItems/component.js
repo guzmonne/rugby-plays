@@ -38,42 +38,23 @@ class SelectedItems extends React.Component {
     cx: undefined,
     cy: undefined,
     rotating: false,
+    dragging: false,
   }
 
   componentDidUpdate(prevProps) {
     if (!this.props.players.equals(prevProps.players)) {
       console.log('Different players')
       const {x, y, width, height} = this.svg.getBBox()
-      this.setState(({rotating, length}) => ({
+      this.setState({
         x,
         y,
         width,
         height,
-        length: rotating === true 
-          ? length
-          : this.calculateRotateHandlerLength(width, height)
-      }))
+        xDiff: 0,
+        yDiff: 0,
+      })
     }
   }
-
-  componentWillReceiveProps({players:nextPlayers}) {
-    const {players:prevPlayers} = this.props
-    if (nextPlayers !== prevPlayers) {
-      this.setHandlerAngle(nextPlayers)
-    }
-  }
-
-  calculateHandlerAngle = (players) => players.reduce((acc, player) => (
-    acc + player.angle
-  ), 0) / players.size
-
-  setHandlerAngle = (players) => {
-    this.setState({
-      angle: this.calculateHandlerAngle(players)
-    })
-  }
-
-  calculateRotateHandlerLength = (width, height) => Math.max(width, height)
 
   handleRotateOnMouseDown = (e) => {
     if (e.button !== LEFT_BUTTON) return
@@ -102,14 +83,7 @@ class SelectedItems extends React.Component {
     }
     this.setState(() => ({
       angle,
-      length: +Math.sqrt(
-        Math.pow(+a.toFixed(2), 2) + 
-        Math.pow(+b.toFixed(2), 2)
-      ).toFixed(2),
     }))
-    this.props.players.forEach(player => (
-      this.props.updatePlayer(player.id, {angle})
-    ))
   }
 
   throttledOnRotate = throttle(this.onRotate, 1000 / FPS)
@@ -121,41 +95,46 @@ class SelectedItems extends React.Component {
 
   handleRotateMouseUp = (e) => {
     e.stopPropagation()
+    const {angle} = this.state
     document.removeEventListener('mousemove', this.handleRotateMouseMove)
     document.removeEventListener('mouseup', this.handleRotateMouseUp)
-    this.setState(({width, height}) => ({
+    this.props.players.forEach(player => (
+      this.props.updatePlayer(player.id, {angle})
+    ))
+    this.setState({
       rotating: false,
-      length: this.calculateRotateHandlerLength(width, height)
-    }))
+    })
   }
 
   handleDragOnMouseDown = (e) => {
-    if (e.button !== LEFT_BUTTON) return
+    if (e.button !== LEFT_BUTTON || this.state.dragging === true) return
     e.stopPropagation()
     document.addEventListener('mousemove', this.handleDragMouseMove)
     document.addEventListener('mouseup', this.handleDragMouseUp)
     const {x:x0, y:y0} = this.props.mouseToSvgCoordinates(e)
     this.x0 = x0
     this.y0 = y0
+    this.setState({dragging: true})
   }
 
   onDrag = (e) => {
-    const {players, mouseToSvgCoordinates} = this.props
+    const {mouseToSvgCoordinates} = this.props
+    // Point of pressure
     const {x0, y0} = this
+    // Current mouse point
     const {x:x1, y:y1} = mouseToSvgCoordinates(e)
-    let xDiff = x1 - x0
-    let yDiff = y1 - y0
-    players.forEach(player => {
-      let x = player.x + xDiff
-      let y = player.y + yDiff
-      if (x < 0)      {x = 0}
-      if (x > WIDTH)  {x = WIDTH}
-      if (y < 0)      {y = 0}
-      if (y > HEIGHT) {y = HEIGHT}
-      this.props.updatePlayer(player.id, {x, y})
+    // Difference between center and current mouse point
+    const xDiff = x1 - x0
+    const yDiff = y1 - y0
+    this.setState(({x, y, dragging, xDiff:xDiff0, yDiff:yDiff0}) => {
+      if (dragging === false) return
+      return {
+        x: x + xDiff - xDiff0,
+        y: y + yDiff - yDiff0,
+        xDiff,
+        yDiff,
+      }
     })
-    this.x0 += xDiff
-    this.y0 += yDiff
   }
 
   throttledOnDrag = throttle(this.onDrag, 1000 / FPS)
@@ -169,8 +148,23 @@ class SelectedItems extends React.Component {
     e.stopPropagation()
     document.removeEventListener('mousemove', this.handleDragMouseMove)
     document.removeEventListener('mouseup', this.handleDragMouseUp)
-    this.xDiff = 0
-    this.yDiff = 0
+    this.setState(({xDiff, yDiff}) => {
+      console.log('always second')
+      this.props.players.forEach(player => {
+        let x = player.x + xDiff
+        let y = player.y + yDiff
+        if (x < 0)      {x = 0}
+        if (x > WIDTH)  {x = WIDTH}
+        if (y < 0)      {y = 0}
+        if (y > HEIGHT) {y = HEIGHT}
+        this.props.updatePlayer(player.id, {x, y})
+      })
+      return {
+        xDiff: 0,
+        yDiff: 0,
+        dragging: false,
+      }
+    })
   }
 
   shouldShowTools = () => (
@@ -212,7 +206,7 @@ class SelectedItems extends React.Component {
               y={y}
               width={width}
               height={height}
-              angle={angle} 
+              angle={angle}
               length={length}
               rotating={rotating}
             />
@@ -224,6 +218,7 @@ class SelectedItems extends React.Component {
               y={y}
               width={width}
               height={height}
+              angle={angle}
             />
           </g>
         </g>

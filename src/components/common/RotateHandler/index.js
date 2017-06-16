@@ -4,6 +4,8 @@ import T from 'prop-types'
 import {pure} from 'recompose'
 
 const ROTATING_RADIUS = 3
+const OFFSET = 2
+const {sqrt, pow} = Math
 
 const RotateHandler = ({
   x,
@@ -11,12 +13,12 @@ const RotateHandler = ({
   width,
   height,
   angle,
-  length,
   rotating,
 }) => {
   const x0 = x + width / 2
   const y0 = y + height / 2
-  const y1 = y - length
+  const radius = sqrt(pow(width, 2) + pow(height, 2)) / 2
+  const y1 = y0 - radius - OFFSET
   return (
     <g className="RotateHandler"
       transform={`rotate(${angle}, ${x0}, ${y0})`}>

@@ -3,21 +3,19 @@ import React from 'react'
 import T from 'prop-types'
 import {pure} from 'recompose'
 
-const BoundingBox = ({x, y, width, height, offset}) => {
-  x -= offset
-  y -= offset
-  width += 2 * offset
-  height += 2 * offset
+const OFFSET = 1
 
-  console.log(x, y, width, height)
+const BoundingBox = ({x, y, width, height, angle}) => {
+  const x0 = x + width / 2
+  const y0 = y + height / 2
 
   return (
-    <g className="BoundingBox">
+    <g className="BoundingBox" transform={`rotate(${angle}, ${x0}, ${y0})`}>
       <rect className="BoundingBox__Rect"
-        x={x}
-        y={y}
-        width={width}
-        height={height}
+        x={x - OFFSET}
+        y={y - OFFSET}
+        width={width + 2 * OFFSET}
+        height={height + 2 * OFFSET}
       />
     </g>
   )
@@ -28,11 +26,11 @@ BoundingBox.propTypes = {
   y: T.number,
   width: T.number,
   height: T.number,
-  offset: T.number,
+  angle: T.number,
 }
 
 BoundingBox.defaultProps = {
-  offset: 1,
+  offset: 0,
 }
 
 const PureBoundingBox = pure(BoundingBox)
