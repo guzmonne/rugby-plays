@@ -6,39 +6,25 @@
  * This is why the names used inside the component might seem out of place.
  */
 import React from 'react'
-import throttle from 'lodash/throttle.js'
 import {onlyUpdateForKeys} from 'recompose'
 import Transform from '../common/Transform/'
 import Player from '../common/Player/'
-import BoundingBox from '../common/BoundingBox/'
-import RotateHandler from '../common/RotateHandler/'
+import RotateHandler from '../RotateHandler/'
+import DraggingBox from '../DraggingBox/'
 import propTypes, {ISelectedItemsProps} from './interface.js'
 
-const LEFT_BUTTON = 0
 const WIDTH = 90
 const HEIGHT = 130
-const FPS = 24
 
 class SelectedItems extends React.Component {
-  xDiff = 0
-  yDiff = 0
-
-  defaultBox = {x: 0, y:0, width: 0, height: 0}
-
   state = {
-    angle: 0,
-    length: 0,
+    svg: undefined,
+    cx: undefined,
+    cy: undefined,
     x: 0,
     y: 0,
     width: 0,
     height: 0,
-    svg: undefined,
-    x0: undefined,
-    y0: undefined,
-    cx: undefined,
-    cy: undefined,
-    rotating: false,
-    dragging: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -55,125 +41,31 @@ class SelectedItems extends React.Component {
     }
   }
 
-  componentWillReceiveProps({players}) {
-    if (!players.equals(this.props.players)) {
-      this.setState({
-        angle: players.size === 1
-          ? players.get(0).angle
-          : 0,
-      })
-    }
-  }
-
-  handleRotateOnMouseDown = (e) => {
-    if (e.button !== LEFT_BUTTON) return
-    e.stopPropagation()
-    document.addEventListener('mousemove', this.handleRotateMouseMove)
-    document.addEventListener('mouseup', this.handleRotateMouseUp)
-    const {x:cx, y:cy} = this.svg.getBBox()
-    this.setState(() => ({cx, cy, rotating: true}))
-  }
-
-  onRotate = (e) => {
-    const {x, y} = this.props.mouseToSvgCoordinates(e)
-    const {cx, cy} = this.state
-    let {angle} = this.state
-    const a = Math.abs(cy - y) // Cateto opuesto
-    const b = Math.abs(cx - x) // Cateto adyacente
-    const alpha = Math.atan(a / b) * 180 / Math.PI // Angulo tangente
-    if (x === cx) {
-      angle = y < cy ? 0 : 180
-    } else if (y === cy) {
-      angle = x < cx ? 270 : 90
-    } else if (x < cx) {
-      angle = y < cy ? 270 + alpha : 270 - alpha
-    } else if (x > cx) {
-      angle = y < cy ? 90 - alpha : alpha + 90
-    }
-    this.setState(() => ({
-      angle,
-    }))
-  }
-
-  throttledOnRotate = throttle(this.onRotate, 1000 / FPS)
-
-  handleRotateMouseMove = (e) => {
-    e.stopPropagation()
-    this.throttledOnRotate(e)
-  }
-
-  handleRotateMouseUp = (e) => {
-    e.stopPropagation()
-    const {angle} = this.state
-    document.removeEventListener('mousemove', this.handleRotateMouseMove)
-    document.removeEventListener('mouseup', this.handleRotateMouseUp)
+  onRotateUpdate = (angle) => {
     this.props.players.forEach(player => (
       this.props.updatePlayer(player.id, {angle})
     ))
-    this.setState({
-      rotating: false,
+  }
+
+  onDragUpdate = (xDiff, yDiff) => {
+    this.props.players.forEach(player => {
+      let x = player.x + xDiff
+      let y = player.y + yDiff
+      if (x < 0)      {x = 0}
+      if (x > WIDTH)  {x = WIDTH}
+      if (y < 0)      {y = 0}
+      if (y > HEIGHT) {y = HEIGHT}
+      this.props.updatePlayer(player.id, {x, y})
     })
   }
 
-  handleDragOnMouseDown = (e) => {
-    if (e.button !== LEFT_BUTTON || this.state.dragging === true) return
-    e.stopPropagation()
-    document.addEventListener('mousemove', this.handleDragMouseMove)
-    document.addEventListener('mouseup', this.handleDragMouseUp)
-    const {x:x0, y:y0} = this.props.mouseToSvgCoordinates(e)
-    this.x0 = x0
-    this.y0 = y0
-    this.setState({dragging: true})
-  }
-
-  onDrag = (e) => {
-    const {mouseToSvgCoordinates} = this.props
-    // Point of pressure
-    const {x0, y0} = this
-    // Current mouse point
-    const {x:x1, y:y1} = mouseToSvgCoordinates(e)
-    // Difference between center and current mouse point
-    const xDiff = x1 - x0
-    const yDiff = y1 - y0
-    this.setState(({x, y, dragging, xDiff:xDiff0, yDiff:yDiff0}) => {
-      if (dragging === false) return
-      return {
-        x: x + xDiff - xDiff0,
-        y: y + yDiff - yDiff0,
-        xDiff,
-        yDiff,
-      }
-    })
-  }
-
-  throttledOnDrag = throttle(this.onDrag, 1000 / FPS)
-
-  handleDragMouseMove = (e) => {
-    e.stopPropagation()
-    this.throttledOnDrag(e)
-  }
-
-  handleDragMouseUp = (e) => {
-    e.stopPropagation()
-    document.removeEventListener('mousemove', this.handleDragMouseMove)
-    document.removeEventListener('mouseup', this.handleDragMouseUp)
-    this.setState(({xDiff, yDiff}) => {
-      
-      this.props.players.forEach(player => {
-        let x = player.x + xDiff
-        let y = player.y + yDiff
-        if (x < 0)      {x = 0}
-        if (x > WIDTH)  {x = WIDTH}
-        if (y < 0)      {y = 0}
-        if (y > HEIGHT) {y = HEIGHT}
-        this.props.updatePlayer(player.id, {x, y})
-      })
-      return {
-        xDiff: 0,
-        yDiff: 0,
-        dragging: false,
-      }
-    })
+  getBoundingBoxCenter = () => {
+    if (!this.svg) return {cx: 0, cy: 0}
+    const {x, y, width, height} = this.svg.getBBox()
+    return {
+      cx: x + width / 2,
+      cy: y + height / 2,
+    }
   }
 
   shouldShowTools = () => (
@@ -183,7 +75,8 @@ class SelectedItems extends React.Component {
   )
 
   render = () => {
-    const {length, angle, x, y, width, height, rotating} = this.state
+    const {cx, cy} = this.getBoundingBoxCenter()
+    const {x, y, width, height} = this.state
     const {players} = this.props
 
     return (
@@ -209,29 +102,26 @@ class SelectedItems extends React.Component {
       {this.shouldShowTools() &&
         <g className="SelectedItems__Tools">
         {players.size === 1 &&
-          <g className="SelectedItems__Tools__RotateHandler"
-            onMouseDown={this.handleRotateOnMouseDown}>
-            <RotateHandler 
-              x={x}
-              y={y}
-              width={width}
-              height={height}
-              angle={angle}
-              length={length}
-              rotating={rotating}
-            />
-          </g>
+          <RotateHandler
+            onUpdate={this.onRotateUpdate}
+            mouseToSvgCoordinates={this.props.mouseToSvgCoordinates}
+            angle={players.get(0).angle}
+            cx={cx}
+            cy={cy}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+          />
         }  
-          <g className="SelectedItems__Tools__BoundingBox"
-            onMouseDown={this.handleDragOnMouseDown}>
-            <BoundingBox
-              x={x}
-              y={y}
-              width={width}
-              height={height}
-              angle={angle}
-            />
-          </g>
+          <DraggingBox
+            onUpdate={this.onDragUpdate}
+            mouseToSvgCoordinates={this.props.mouseToSvgCoordinates}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+          />
         </g>
       }
       </g>

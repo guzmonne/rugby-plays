@@ -5,9 +5,10 @@ import {pure} from 'recompose'
 
 const ROTATING_RADIUS = 3
 const OFFSET = 2
+const MULTIPLIER = 100
 const {sqrt, pow} = Math
 
-const RotateHandler = ({
+const Handler = ({
   x,
   y,
   width,
@@ -20,19 +21,19 @@ const RotateHandler = ({
   const radius = sqrt(pow(width, 2) + pow(height, 2)) / 2
   const y1 = y0 - radius - OFFSET
   return (
-    <g className="RotateHandler"
+    <g className="Handler"
       transform={`rotate(${angle}, ${x0}, ${y0})`}>
       <path d={`M${x0},${y0} ${x0},${y1}Z`} />
       <circle cx={x0} cy={y1} r={0.5}/>
       <circle className="transparent"
         cx={x0}
         cy={y1}
-        r={rotating ? ROTATING_RADIUS * 10 : ROTATING_RADIUS }/>
+        r={rotating ? ROTATING_RADIUS * MULTIPLIER : ROTATING_RADIUS }/>
     </g>
   )
 }
 
-RotateHandler.propTypes = {
+Handler.propTypes = {
   x: T.number,
   y: T.number,
   width: T.number,
@@ -42,13 +43,13 @@ RotateHandler.propTypes = {
   rotating: T.bool,
 }
 
-RotateHandler.defaultProps = {
+Handler.defaultProps = {
   angle: 0,
   length: 3,
 }
 
-const PureRotateHandler = pure(RotateHandler)
+const PureHandler = pure(Handler)
 
-PureRotateHandler.displayName = 'PureRotateHandler'
+PureHandler.displayName = 'PureHandler'
 
-export default PureRotateHandler
+export default PureHandler
