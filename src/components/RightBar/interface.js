@@ -1,14 +1,10 @@
 import T from 'prop-types'
-import {Player} from '../../store/records.js'
 
 export const IRightBarProps = {
-  player: T.instanceOf(Player)
+  areSelectedItems: T.bool,
 }
 
-export const IRightBarActions = {
-  updatePlayer: T.func,
-  onChangeFactory: T.func,
-}
+export const IRightBarActions = {}
 
 export const IRightBar = {
   ...IRightBarProps,

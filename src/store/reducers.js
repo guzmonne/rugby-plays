@@ -139,6 +139,12 @@ const selectedPlayer = createSelector([
   selected.size === 1 ? players.get(selected.first()) : undefined
 ))
 
+const flagsAreSelectedItems = createSelector([
+  selectedPlayers,
+], (selected) => (
+  selected.size > 0
+))
+
 const playersTeamSelector = state => state.getIn(['players', 'team'])
 
 const flagsIsAddingPlayerSelector = state => (
@@ -179,7 +185,7 @@ export const leftBarSelector = createStructuredSelector({
 })
 
 export const rightBarSelector = createStructuredSelector({
-  player: selectedPlayer,
+  areSelectedItems: flagsAreSelectedItems,
 })
 
 export const fieldSelector = createStructuredSelector({
@@ -194,4 +200,8 @@ export const selectedItemsSelector = createStructuredSelector({
 
 export const selectBoxSelector = createStructuredSelector({
   isSelectingItems: flagsIsSelectingItemsSelector,
+})
+
+export const selectedItemsBoxSelector = createStructuredSelector({
+  player: selectedPlayer,
 })

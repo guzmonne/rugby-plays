@@ -189,7 +189,7 @@ export const leftBarActions = (dispatch) => ({
   removeSelectedPlayer: (...args) => dispatch(removeSelectedPlayer(...args)),
 })
 
-export const rightBarActions = {
+export const selectedItemsBoxActions = {
   updatePlayer,
 }
 
