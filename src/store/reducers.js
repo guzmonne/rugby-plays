@@ -132,13 +132,6 @@ const selectedPlayers = createSelector([
   selected.map(id => players.get(id))
 ))
 
-const selectedPlayer = createSelector([
-  playersSelectedSelector,
-  playersEntities,
-], (selected, players) => (
-  selected.size === 1 ? players.get(selected.first()) : undefined
-))
-
 const flagsAreSelectedItems = createSelector([
   selectedPlayers,
 ], (selected) => (
@@ -203,5 +196,5 @@ export const selectBoxSelector = createStructuredSelector({
 })
 
 export const selectedItemsBoxSelector = createStructuredSelector({
-  player: selectedPlayer,
+  items: selectedPlayers,
 })

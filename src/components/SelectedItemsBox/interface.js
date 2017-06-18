@@ -1,8 +1,10 @@
 import T from 'prop-types'
-import {Player} from '../../store/records.js'
+import {List} from 'immutable'
 
 export const ISelectedItemsBoxProps = {
-  player: T.instanceOf(Player)
+  title: T.string,
+  items: T.instanceOf(List),
+  item: T.object,
 }
 
 export const ISelectedItemsBoxActions = {
